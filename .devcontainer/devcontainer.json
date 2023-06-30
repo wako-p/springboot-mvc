@@ -1,0 +1,28 @@
+{
+    "name": "SpringBoot MVC Development Environment",
+    "dockerComposeFile": "../docker-compose.yml",
+    "service": "app",
+    "workspaceFolder": "/home/app",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash",
+                "java.compile.nullAnalysis.mode": "automatic",
+                "java.configuration.updateBuildConfiguration": "interactive",
+                "gradle.nestedProjects": true
+            },
+            "extensions": [
+                // Java
+                "vscjava.vscode-java-pack",
+                "vmware.vscode-boot-dev-pack",
+                "juhahinkula.thymeleaf",
+                // Gradle
+                "richardwillis.vscode-gradle-extension-pack",
+                // Git
+                "donjayamanne.githistory",
+                "mhutchie.git-graph",
+                "eamodio.gitlens"
+            ]
+        }
+    }
+}

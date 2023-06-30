@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  app:
+    container_name: app
+    build:
+      dockerfile: ./docker/app/Dockerfile
+      context: .
+    volumes:
+      - type: bind
+        source: ./
+        target: /home/app
+    ports:
+      - 18080:8080
+    tty: true

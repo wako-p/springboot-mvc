@@ -1,0 +1,18 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Hello Thymeleaf</title>
+    </head>
+    <body>
+        <form th:action="@{/task}" method="post">
+            <p>title: <input type="text" name="title"/></p>
+            <p><input type="submit" value="add" /></p>
+        </form>
+        <div th:each="task : ${tasks}">
+            <span th:text="${task.id}"></span>
+            <span th:text="${task.title}"></span>
+            <span th:text="${task.done}"></span>
+        </div>
+    </body>
+</html>
