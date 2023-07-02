@@ -30,4 +30,14 @@ public final class InMemoryTaskRepository implements ITaskRepository {
         this.tasks.removeIf(task -> task.getId().equals(id));
     }
 
+    public Task findBy(final String id) {
+
+        var foundTask = this.tasks
+            .stream()
+            .filter(task -> task.getId().equals(id))
+            .findFirst();
+
+        return foundTask.get();
+    }
+
 }

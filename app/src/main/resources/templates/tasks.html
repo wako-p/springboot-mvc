@@ -11,7 +11,7 @@
         </form>
         <div>
             <article th:each="task : ${tasks}">
-                <span th:text="|${task.title} ${task.done}|"></span>
+                <a th:href="@{/tasks/{id}(id=${task.id})}" th:text="${task.title}"></a><span th:text="${task.done}"></span>
                 <form th:action="@{/tasks/{id}(id=${task.id})}" th:method="delete">
                     <input type="submit" value="x" />
                 </form>

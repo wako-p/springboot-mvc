@@ -1,0 +1,13 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Hello Thymeleaf</title>
+    </head>
+    <body>
+        <div>
+            <span th:text="|${task.title} ${task.done}|"></span>
+        </div>
+        <a th:href="@{/tasks}">return</a>
+    </body>
+</html>

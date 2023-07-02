@@ -13,6 +13,8 @@ import jp.wako.demo.springbootmvc.usecase.task.add.AddTaskRequest;
 import jp.wako.demo.springbootmvc.usecase.task.add.AddTaskUseCase;
 import jp.wako.demo.springbootmvc.usecase.task.delete.DeleteTaskRequest;
 import jp.wako.demo.springbootmvc.usecase.task.delete.DeleteTaskUseCase;
+import jp.wako.demo.springbootmvc.usecase.task.get.GetTaskRequest;
+import jp.wako.demo.springbootmvc.usecase.task.get.GetTaskUseCase;
 import jp.wako.demo.springbootmvc.usecase.task.getall.GetAllTaskRequest;
 import jp.wako.demo.springbootmvc.usecase.task.getall.GetAllTaskUseCase;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ public class TaskController {
     private final GetAllTaskUseCase getAllTaskUseCase;
     private final AddTaskUseCase addTaskUseCase;
     private final DeleteTaskUseCase deleteTaskUseCase;
+    private final GetTaskUseCase getTaskUseCase;
 
     @GetMapping("/tasks")
     public String get(final Model model) {
@@ -56,6 +59,17 @@ public class TaskController {
         return "redirect:/tasks";
     }
 
+    @GetMapping("/tasks/{id}")
+    public String get(final Model model, @PathVariable final String id) {
+
+        var request = new GetTaskRequest(id);
+        var response = this.getTaskUseCase.execute(request);
+
+        var task = new TaskModel(response.getId(), response.getTitle(), response.isDone());
+        model.addAttribute("task", task);
+
+        return "/task";
+    }
 }
 
 // presen | infra
