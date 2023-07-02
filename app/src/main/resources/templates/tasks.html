@@ -13,9 +13,7 @@
         </form>
         <div th:each="task : ${tasks}">
             <article>
-                <span th:text="${task.id}"></span>
-                <span th:text="${task.title}"></span>
-                <span th:text="${task.done}"></span>
+                <span th:text="|${task.id} ${task.title} ${task.done}|"></span>
             </article>
         </div>
     </body>
