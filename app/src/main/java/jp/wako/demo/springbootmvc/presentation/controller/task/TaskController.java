@@ -81,11 +81,13 @@ public class TaskController {
         var request = new UpdateTaskRequest(id, comment);
         var response = this.updateTaskUseCase.execute(request);
 
-        // TODO: redirectのがよさげ？
         var task = new TaskModel(response.getId(), response.getTitle(), response.getComment(), response.isDone());
         model.addAttribute("task", task);
 
         return "/task";
+
+        // NOTE: forwardでもできるっぽい？
+        // return "forward:/tasks/" + id;
     }
 }
 
