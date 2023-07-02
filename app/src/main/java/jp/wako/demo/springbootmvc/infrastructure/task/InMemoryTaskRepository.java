@@ -11,6 +11,7 @@ import jp.wako.demo.springbootmvc.domain.task.Task;
 @Repository
 public final class InMemoryTaskRepository implements ITaskRepository {
 
+    // TODO: Setにする
     private final List<Task> tasks = new ArrayList<>() {{
         add(Task.create("test1"));
         add(Task.create("test2"));
@@ -23,6 +24,10 @@ public final class InMemoryTaskRepository implements ITaskRepository {
 
     public void insert(final Task task) {
         this.tasks.add(task);
+    }
+
+    public void deleteBy(final String id) {
+        this.tasks.removeIf(task -> task.getId().equals(id));
     }
 
 }

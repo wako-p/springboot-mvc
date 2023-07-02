@@ -5,15 +5,16 @@
         <title>Hello Thymeleaf</title>
     </head>
     <body>
-        <form th:action="@{/task}" method="post">
-            <div>
-                <input type="text" name="title"/>
-                <input type="submit" value="add"/>
-            </div>
+        <form th:action="@{/tasks}" method="post">
+            <input type="text" name="title" />
+            <input type="submit" value="add" />
         </form>
-        <div th:each="task : ${tasks}">
-            <article>
-                <span th:text="|${task.id} ${task.title} ${task.done}|"></span>
+        <div>
+            <article th:each="task : ${tasks}">
+                <span th:text="|${task.title} ${task.done}|"></span>
+                <form th:action="@{/tasks/{id}(id=${task.id})}" th:method="delete">
+                    <input type="submit" value="x" />
+                </form>
             </article>
         </div>
     </body>
