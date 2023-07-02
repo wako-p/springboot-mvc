@@ -34,9 +34,9 @@ public class TaskController {
     }
 
     @PostMapping("/task")
-    public String post(final Model model, final TaskForm form) {
+    public String post(final Model model, final String title) {
 
-        var request = new AddTaskRequest(form.getTitle());
+        var request = new AddTaskRequest(title);
         this.addTaskUseCase.execute(request);
 
         return "redirect:tasks";
