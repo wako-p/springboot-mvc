@@ -14,7 +14,7 @@ public final class Task {
     private final String id;
     private final String title;
     private String comment;
-    private final boolean done;
+    private final boolean done; // TODO: Enumで状態クラス作成する
 
     public static Task create(final String title) {
         return new Task(UUID.randomUUID().toString(), title, "No description provided.", false);
@@ -23,4 +23,5 @@ public final class Task {
     public void updateComment(final String comment) {
         this.comment = comment;
     }
+
 }
