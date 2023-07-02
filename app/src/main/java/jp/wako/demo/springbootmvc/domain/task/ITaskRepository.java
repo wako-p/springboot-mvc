@@ -7,4 +7,5 @@ public interface ITaskRepository {
     void insert(final Task task);
     void deleteBy(final String id);
     Task findBy(final String id);
+    void save(final Task task);
 }

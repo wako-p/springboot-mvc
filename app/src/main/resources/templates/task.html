@@ -6,9 +6,12 @@
     </head>
     <body>
         <div>
-            <h1 th:text="${task.title}"></h1>
-            <div th:text="${task.comment}"></div>
-            <div th:text="${task.done}"></div>
+            <form th:action="@{/tasks/{id}(id=${task.id})}" th:method="put">
+                <h1 th:text="${task.title}"></h1>
+                <textarea th:text="${task.comment}" name="comment"></textarea>
+                <div th:text="${task.done}"></div>
+                <input type="submit" value="save" />
+            </form>
         </div>
         <a th:href="@{/tasks}">return</a>
     </body>

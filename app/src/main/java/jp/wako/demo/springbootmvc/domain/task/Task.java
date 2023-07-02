@@ -20,4 +20,7 @@ public final class Task {
         return new Task(UUID.randomUUID().toString(), title, "No description provided.", false);
     }
 
+    public void updateComment(final String comment) {
+        this.comment = comment;
+    }
 }

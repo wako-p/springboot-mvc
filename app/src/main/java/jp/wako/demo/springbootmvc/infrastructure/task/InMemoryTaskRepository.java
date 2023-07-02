@@ -40,4 +40,13 @@ public final class InMemoryTaskRepository implements ITaskRepository {
         return foundTask.get();
     }
 
+    public void save(final Task newTask) {
+        this.tasks.replaceAll((task) -> {
+            if (task.getId().equals(newTask.getId())) {
+                return newTask;
+            }
+            return task;
+        });
+    }
+
 }
