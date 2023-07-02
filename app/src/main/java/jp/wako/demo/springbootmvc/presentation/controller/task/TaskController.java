@@ -34,7 +34,7 @@ public class TaskController {
         var response = this.getAllTaskUseCase.execute(new GetAllTaskRequest());
         var tasks = response.getTasks()
             .stream()
-            .map(task -> new TaskModel(task.getId(), task.getTitle(), task.isDone()))
+            .map(task -> new TaskModel(task.getId(), task.getTitle(), task.getComment(), task.isDone()))
             .collect(Collectors.toList());
 
         model.addAttribute("tasks", tasks);
@@ -65,7 +65,7 @@ public class TaskController {
         var request = new GetTaskRequest(id);
         var response = this.getTaskUseCase.execute(request);
 
-        var task = new TaskModel(response.getId(), response.getTitle(), response.isDone());
+        var task = new TaskModel(response.getId(), response.getTitle(), response.getComment(), response.isDone());
         model.addAttribute("task", task);
 
         return "/task";

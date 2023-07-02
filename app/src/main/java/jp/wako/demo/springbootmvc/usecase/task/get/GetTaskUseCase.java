@@ -13,7 +13,7 @@ public final class GetTaskUseCase {
 
     public GetTaskResponse execute(GetTaskRequest request) {
         var task = this.repository.findBy(request.getId());
-        var response = new GetTaskResponse(task.getId(), task.getTitle(), task.isDone());
+        var response = new GetTaskResponse(task.getId(), task.getTitle(), task.getComment(), task.isDone());
         return response;
     }
 }

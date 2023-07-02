@@ -6,7 +6,9 @@
     </head>
     <body>
         <div>
-            <span th:text="|${task.title} ${task.done}|"></span>
+            <h1 th:text="${task.title}"></h1>
+            <div th:text="${task.comment}"></div>
+            <div th:text="${task.done}"></div>
         </div>
         <a th:href="@{/tasks}">return</a>
     </body>
