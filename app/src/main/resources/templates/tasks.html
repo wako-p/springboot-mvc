@@ -5,7 +5,7 @@
         <title>Hello Thymeleaf</title>
     </head>
     <body>
-        <form th:action="@{/tasks}" method="post">
+        <form th:action="@{/tasks}" th:method="post">
             <input type="text" name="title" />
             <input type="submit" value="add" />
         </form>
