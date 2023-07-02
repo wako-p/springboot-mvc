@@ -6,13 +6,17 @@
     </head>
     <body>
         <form th:action="@{/task}" method="post">
-            <p>title: <input type="text" name="title"/></p>
-            <p><input type="submit" value="add" /></p>
+            <div>
+                <input type="text" name="title"/>
+                <input type="submit" value="add"/>
+            </div>
         </form>
         <div th:each="task : ${tasks}">
-            <span th:text="${task.id}"></span>
-            <span th:text="${task.title}"></span>
-            <span th:text="${task.done}"></span>
+            <article>
+                <span th:text="${task.id}"></span>
+                <span th:text="${task.title}"></span>
+                <span th:text="${task.done}"></span>
+            </article>
         </div>
     </body>
 </html>
