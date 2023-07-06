@@ -33,7 +33,7 @@ public class TaskController {
     private final UpdateTaskUseCase updateTaskUseCase;
 
     @GetMapping("/tasks")
-    public String get(final Model model) {
+    public String getAll(final Model model) {
 
         var response = this.getAllTaskUseCase.execute(new GetAllTaskRequest());
         var tasks = response.getTasks()
@@ -46,7 +46,7 @@ public class TaskController {
     }
 
     @PostMapping("/tasks")
-    public String post(final String title) {
+    public String create(final String title) {
 
         var request = new AddTaskRequest(title);
         this.addTaskUseCase.execute(request);
@@ -64,7 +64,7 @@ public class TaskController {
     }
 
     @GetMapping("/tasks/{id}")
-    public String get(final Model model, @PathVariable final String id) {
+    public String getBy(final Model model, @PathVariable final String id) {
 
         var request = new GetTaskRequest(id);
         var response = this.getTaskUseCase.execute(request);
@@ -76,7 +76,7 @@ public class TaskController {
     }
 
     @PutMapping("/tasks/{id}")
-    public String put(final Model model, @PathVariable final String id, final String comment) {
+    public String update(final Model model, @PathVariable final String id, final String comment) {
 
         var request = new UpdateTaskRequest(id, comment);
         var response = this.updateTaskUseCase.execute(request);
