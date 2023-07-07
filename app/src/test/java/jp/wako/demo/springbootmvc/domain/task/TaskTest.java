@@ -11,7 +11,7 @@ public final class TaskTest {
     @Nested
     class CreateTest {
         @Test
-        @DisplayName("引数にタイトルを指定して生成することができ、タイトルにはその値が使用される")
+        @DisplayName("引数にタイトルを指定して生成することができ、その値が属性として使用される")
         void test1() {
             // when:
             var task = Task.create("test1");
@@ -41,5 +41,19 @@ public final class TaskTest {
         }
     }
 
+    @Nested
+    class ReconstructTest {
+        @Test
+        @DisplayName("引数にID、タイトル、説明などを指定して復元することができ、その値が属性として使用される")
+        void test1() {
+            // when:
+            var task = Task.reconstruct("999", "Task1", "This is test description.", false);
 
+            // then:
+            assertEquals("999", task.getId());
+            assertEquals("Task1", task.getTitle());
+            assertEquals("This is test description.", task.getDescription());
+            assertEquals(false, task.isDone());
+        }
+    }
 }

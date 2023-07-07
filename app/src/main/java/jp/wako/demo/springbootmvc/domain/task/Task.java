@@ -20,6 +20,18 @@ public final class Task {
         return new Task(UUID.randomUUID().toString(), title, "No description provided.", false);
     }
 
+    /**
+     * インフラ層からタスクを復元するためのファクトリメソッド
+     * @param id
+     * @param title
+     * @param description
+     * @param done
+     * @return
+     */
+    public static Task reconstruct(final String id, final String title, final String description, final boolean done) {
+        return new Task(id, title, description, done);
+    }
+
     public void updateDescription(final String description) {
         this.description = description;
     }

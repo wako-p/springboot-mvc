@@ -13,9 +13,9 @@ public final class InMemoryTaskRepository implements ITaskRepository {
 
     // TODO: Setにする
     private final List<Task> tasks = new ArrayList<>() {{
-        add(Task.create("test1"));
-        add(Task.create("test2"));
-        add(Task.create("test3"));
+        add(Task.reconstruct("1", "Task1", "This is a task added for testing purposes.", false));
+        add(Task.reconstruct("2", "Task2", "This is a task added for testing purposes.", false));
+        add(Task.reconstruct("3", "Task3", "This is a task added for testing purposes.", false));
     }};
 
     public List<Task> findAll() {
