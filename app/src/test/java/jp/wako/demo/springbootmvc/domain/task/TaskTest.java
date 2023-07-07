@@ -21,13 +21,13 @@ public final class TaskTest {
         }
 
         @Test
-        @DisplayName("コメントは「No description provided.」が設定される")
+        @DisplayName("説明には「No description provided.」が設定される")
         void test2() {
             // when:
             var task = Task.create("test1");
 
             // then:
-            assertEquals("No description provided.", task.getComment());
+            assertEquals("No description provided.", task.getDescription());
         }
 
         @Test

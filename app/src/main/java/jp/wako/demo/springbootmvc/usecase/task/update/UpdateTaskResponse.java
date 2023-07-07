@@ -8,6 +8,6 @@ import lombok.RequiredArgsConstructor;
 public final class UpdateTaskResponse {
     private final String id;
     private final String title;
-    private final String comment;
+    private final String description;
     private final boolean done;
 }

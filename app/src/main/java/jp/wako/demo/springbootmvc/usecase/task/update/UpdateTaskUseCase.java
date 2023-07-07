@@ -14,10 +14,10 @@ public final class UpdateTaskUseCase {
     public UpdateTaskResponse execute(UpdateTaskRequest request) {
         var task = this.repository.findBy(request.getId());
 
-        task.updateComment(request.getComment());
+        task.updateDescription(request.getDescription());
         this.repository.save(task);
 
-        var response = new UpdateTaskResponse(task.getId(), task.getTitle(), task.getComment(), task.isDone());
+        var response = new UpdateTaskResponse(task.getId(), task.getTitle(), task.getDescription(), task.isDone());
         return response;
     }
 }

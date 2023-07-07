@@ -38,7 +38,7 @@ public class TaskController {
         var response = this.getAllTaskUseCase.execute(new GetAllTaskRequest());
         var tasks = response.getTasks()
             .stream()
-            .map(task -> new TaskModel(task.getId(), task.getTitle(), task.getComment(), task.isDone()))
+            .map(task -> new TaskModel(task.getId(), task.getTitle(), task.getDescription(), task.isDone()))
             .collect(Collectors.toList());
 
         model.addAttribute("tasks", tasks);
@@ -69,19 +69,19 @@ public class TaskController {
         var request = new GetTaskRequest(id);
         var response = this.getTaskUseCase.execute(request);
 
-        var task = new TaskModel(response.getId(), response.getTitle(), response.getComment(), response.isDone());
+        var task = new TaskModel(response.getId(), response.getTitle(), response.getDescription(), response.isDone());
         model.addAttribute("task", task);
 
         return "/task";
     }
 
     @PutMapping("/tasks/{id}")
-    public String update(final Model model, @PathVariable final String id, final String comment) {
+    public String update(final Model model, @PathVariable final String id, final String description) {
 
-        var request = new UpdateTaskRequest(id, comment);
+        var request = new UpdateTaskRequest(id, description);
         var response = this.updateTaskUseCase.execute(request);
 
-        var task = new TaskModel(response.getId(), response.getTitle(), response.getComment(), response.isDone());
+        var task = new TaskModel(response.getId(), response.getTitle(), response.getDescription(), response.isDone());
         model.addAttribute("task", task);
 
         return "/task";
