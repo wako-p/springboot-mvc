@@ -1,10 +1,14 @@
 package jp.wako.demo.springbootmvc.presentation.controller.task.model.list;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
 
-@RequiredArgsConstructor
-@Getter
+@Data
 public final class TaskCreateFormVM {
-    private final String title;
+
+    private String title;
+
+    public TaskCreateFormVM() {
+        this.title = "";
+    }
+
 }

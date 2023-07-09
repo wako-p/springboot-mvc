@@ -1,6 +1,5 @@
 package jp.wako.demo.springbootmvc.presentation.controller.task;
 
-import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import jp.wako.demo.springbootmvc.presentation.controller.task.model.TaskVM;
 import jp.wako.demo.springbootmvc.presentation.controller.task.model.detail.TaskDetailVM;
-import jp.wako.demo.springbootmvc.presentation.controller.task.model.list.TaskCreateFormVM;
 import jp.wako.demo.springbootmvc.presentation.controller.task.model.list.TaskListVM;
 import jp.wako.demo.springbootmvc.usecase.task.add.AddTaskRequest;
 import jp.wako.demo.springbootmvc.usecase.task.add.AddTaskUseCase;
@@ -39,9 +37,7 @@ public class TaskController {
 
     @ModelAttribute("taskListVM")
     private TaskListVM initializeTaskListVM() {
-        var form = new TaskCreateFormVM("No title");
-        var tasks = new ArrayList<TaskVM>();
-        return new TaskListVM(form, tasks);
+        return new TaskListVM();
     }
 
     @GetMapping("/tasks")
@@ -53,16 +49,16 @@ public class TaskController {
             .map(task -> new TaskVM(task.getId(), task.getTitle(), task.getDescription(), task.isDone()))
             .collect(Collectors.toList());
 
-        vm.setForm(new TaskCreateFormVM(""));
         vm.setTasks(tasks);
 
         return "/task/task-list";
     }
 
     @PostMapping("/tasks")
-    public String create(final String title) {
+    public String create(@ModelAttribute("taskListVM") final TaskListVM vm) {
 
-        var request = new AddTaskRequest(title);
+        var form = vm.getForm();
+        var request = new AddTaskRequest(form.getTitle());
         this.addTaskUseCase.execute(request);
 
         return "redirect:/tasks";
