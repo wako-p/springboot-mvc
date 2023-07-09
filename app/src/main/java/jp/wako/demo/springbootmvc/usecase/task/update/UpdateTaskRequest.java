@@ -7,5 +7,6 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public final class UpdateTaskRequest {
     private final String id;
+    private final String title;
     private final String description;
 }

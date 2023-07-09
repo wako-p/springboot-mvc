@@ -12,7 +12,7 @@ import lombok.ToString;
 public final class Task {
 
     private final String id;
-    private final String title;
+    private String title;
     private String description;
     private final boolean done; // TODO: Enumで状態クラス作成する
 
@@ -30,6 +30,10 @@ public final class Task {
      */
     public static Task reconstruct(final String id, final String title, final String description, final boolean done) {
         return new Task(id, title, description, done);
+    }
+
+    public void updateTitle(final String title) {
+        this.title = title;
     }
 
     public void updateDescription(final String description) {

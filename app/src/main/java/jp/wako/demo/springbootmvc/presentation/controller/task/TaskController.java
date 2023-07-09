@@ -110,7 +110,7 @@ public class TaskController {
     public String update(@PathVariable final String id, @ModelAttribute("taskDetailVM") final TaskDetailVM vm) {
 
         var form = vm.getForm();
-        var request = new UpdateTaskRequest(id, form.getDescription());
+        var request = new UpdateTaskRequest(id, form.getTitle(), form.getDescription());
         var response = this.updateTaskUseCase.execute(request);
 
         form.setId(response.getId());

@@ -14,6 +14,7 @@ public final class UpdateTaskUseCase {
     public UpdateTaskResponse execute(UpdateTaskRequest request) {
         var task = this.repository.findBy(request.getId());
 
+        task.updateTitle(request.getTitle());
         task.updateDescription(request.getDescription());
         this.repository.save(task);
 
