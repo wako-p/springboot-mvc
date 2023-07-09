@@ -72,7 +72,7 @@ public class TaskController {
     }
 
     @GetMapping("/tasks/{id}")
-    public String getBy(final Model model, @PathVariable final String id) {
+    public String get(final Model model, @PathVariable final String id) {
 
         var request = new GetTaskRequest(id);
         var response = this.getTaskUseCase.execute(request);
