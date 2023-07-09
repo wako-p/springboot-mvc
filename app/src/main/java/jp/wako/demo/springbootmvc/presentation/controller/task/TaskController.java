@@ -102,7 +102,6 @@ public class TaskController {
         form.setTitle(response.getTitle());
         form.setDescription(response.getDescription());
         form.setDone(response.isDone());
-        vm.setForm(form);
 
         return "/task/task-detail";
     }
@@ -118,7 +117,6 @@ public class TaskController {
         form.setTitle(response.getTitle());
         form.setDescription(response.getDescription());
         form.setDone(response.isDone());
-        vm.setForm(form);
 
         // NOTE: redirect:/tasks/{id}でもいける
         return "/task/task-detail";
