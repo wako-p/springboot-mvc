@@ -73,14 +73,13 @@ public class TaskController {
         return "redirect:/tasks";
     }
 
-
     @ModelAttribute("taskDetailVM")
     private TaskDetailVM initializeTaskDetailVM() {
         return new TaskDetailVM();
     }
 
     @GetMapping("/tasks/{id}")
-    public String get(@PathVariable final String id, final @ModelAttribute("taskDetailVM") TaskDetailVM vm) {
+    public String get(@PathVariable final String id, @ModelAttribute("taskDetailVM") final TaskDetailVM vm) {
 
         var request = new GetTaskRequest(id);
         var response = this.getTaskUseCase.execute(request);
@@ -96,7 +95,7 @@ public class TaskController {
     }
 
     @PutMapping("/tasks/{id}")
-    public String update(@PathVariable final String id, final @ModelAttribute("taskDetailVM") TaskDetailVM vm) {
+    public String update(@PathVariable final String id, @ModelAttribute("taskDetailVM") final TaskDetailVM vm) {
 
         var form = vm.getForm();
         var request = new UpdateTaskRequest(id, form.getDescription());
@@ -108,14 +107,7 @@ public class TaskController {
         form.setDone(response.isDone());
         vm.setForm(form);
 
-        return "/task/task-detail";
-
         // NOTE: redirect:/tasks/{id}でもいける
+        return "/task/task-detail";
     }
 }
-
-// presen | infra
-// ↓
-// usecase
-// ↓
-// domain
