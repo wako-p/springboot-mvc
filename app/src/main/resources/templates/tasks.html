@@ -27,7 +27,6 @@
                             <h5 class="card-title">
                                 <a th:href="@{/tasks/{id}(id=${task.id})}" th:text="${task.title}" class="card-link"></a>
                             </h5>
-                            <p class="card-text" th:text="${task.description}"></p>
                             <form th:action="@{/tasks/{id}(id=${task.id})}" th:method="delete" class="p-0 text-end">
                                 <input type="submit" class="btn btn-danger btn-sm" value="delete" />
                             </form>
