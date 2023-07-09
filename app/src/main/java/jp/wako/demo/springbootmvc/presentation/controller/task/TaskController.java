@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import jp.wako.demo.springbootmvc.presentation.controller.task.model.TaskVM;
+import jp.wako.demo.springbootmvc.presentation.controller.task.model.list.TaskCreateFormVM;
+import jp.wako.demo.springbootmvc.presentation.controller.task.model.list.TaskListVM;
 import jp.wako.demo.springbootmvc.usecase.task.add.AddTaskRequest;
 import jp.wako.demo.springbootmvc.usecase.task.add.AddTaskUseCase;
 import jp.wako.demo.springbootmvc.usecase.task.delete.DeleteTaskRequest;
@@ -38,11 +41,14 @@ public class TaskController {
         var response = this.getAllTaskUseCase.execute(new GetAllTaskRequest());
         var tasks = response.getTasks()
             .stream()
-            .map(task -> new TaskModel(task.getId(), task.getTitle(), task.getDescription(), task.isDone()))
+            .map(task -> new TaskVM(task.getId(), task.getTitle(), task.getDescription(), task.isDone()))
             .collect(Collectors.toList());
 
-        model.addAttribute("tasks", tasks);
-        return "tasks";
+        var form = new TaskCreateFormVM("");
+        var vm = new TaskListVM(form, tasks);
+
+        model.addAttribute("vm", vm);
+        return "/task/task-list";
     }
 
     @PostMapping("/tasks")
