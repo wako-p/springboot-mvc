@@ -110,8 +110,7 @@ public class TaskController {
 
         return "/task/task-detail";
 
-        // NOTE: forwardでもできるっぽい？
-        // return "forward:/tasks/" + id;
+        // NOTE: redirect:/tasks/{id}でもいける
     }
 }
 
