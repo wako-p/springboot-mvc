@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import jp.wako.demo.springbootmvc.presentation.controller.task.model.TaskVM;
+import jp.wako.demo.springbootmvc.presentation.controller.task.model.detail.TaskDetailVM;
+import jp.wako.demo.springbootmvc.presentation.controller.task.model.detail.TaskUpdateFormVM;
 import jp.wako.demo.springbootmvc.presentation.controller.task.model.list.TaskCreateFormVM;
 import jp.wako.demo.springbootmvc.presentation.controller.task.model.list.TaskListVM;
 import jp.wako.demo.springbootmvc.usecase.task.add.AddTaskRequest;
@@ -75,10 +77,11 @@ public class TaskController {
         var request = new GetTaskRequest(id);
         var response = this.getTaskUseCase.execute(request);
 
-        var task = new TaskModel(response.getId(), response.getTitle(), response.getDescription(), response.isDone());
-        model.addAttribute("task", task);
+        var form = new TaskUpdateFormVM(response.getId(), response.getTitle(), response.getDescription(), response.isDone());
+        var vm = new TaskDetailVM(form);
+        model.addAttribute("vm", vm);
 
-        return "/task";
+        return "/task/task-detail";
     }
 
     @PutMapping("/tasks/{id}")
@@ -87,10 +90,11 @@ public class TaskController {
         var request = new UpdateTaskRequest(id, description);
         var response = this.updateTaskUseCase.execute(request);
 
-        var task = new TaskModel(response.getId(), response.getTitle(), response.getDescription(), response.isDone());
-        model.addAttribute("task", task);
+        var form = new TaskUpdateFormVM(response.getId(), response.getTitle(), response.getDescription(), response.isDone());
+        var vm = new TaskDetailVM(form);
+        model.addAttribute("vm", vm);
 
-        return "/task";
+        return "/task/task-detail";
 
         // NOTE: forwardでもできるっぽい？
         // return "forward:/tasks/" + id;
