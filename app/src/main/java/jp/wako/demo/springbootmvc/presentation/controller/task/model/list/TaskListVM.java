@@ -9,11 +9,11 @@ import lombok.Data;
 @Data
 public final class TaskListVM {
 
-    private TaskCreateFormVM form;
+    private TaskAddFormVM form;
     private List<TaskVM> tasks;
 
     public TaskListVM() {
-        this.form = new TaskCreateFormVM();
+        this.form = new TaskAddFormVM();
         this.tasks = new ArrayList<TaskVM>();
     }
 
