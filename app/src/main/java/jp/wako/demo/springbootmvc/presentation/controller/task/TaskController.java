@@ -3,6 +3,8 @@ package jp.wako.demo.springbootmvc.presentation.controller.task;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,7 +26,9 @@ import jp.wako.demo.springbootmvc.usecase.task.getall.GetAllTaskUseCase;
 import jp.wako.demo.springbootmvc.usecase.task.update.UpdateTaskRequest;
 import jp.wako.demo.springbootmvc.usecase.task.update.UpdateTaskUseCase;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @RequiredArgsConstructor
 @Controller
 public class TaskController {
@@ -55,9 +59,18 @@ public class TaskController {
     }
 
     @PostMapping("/tasks")
-    public String create(@ModelAttribute("taskListVM") final TaskListVM vm) {
+    public String create(@ModelAttribute("taskListVM") @Validated final TaskListVM vm, final BindingResult result) {
 
         var form = vm.getForm();
+
+        if (result.hasErrors()) {
+            log.info("validation error");
+            // NOTE: フォワード先のURLがPostMappingと同じなのでStackOverflowになる
+            // return "forward:/tasks";
+            return "redirect:/tasks";
+        }
+        log.info("not validation error");
+
         var request = new AddTaskRequest(form.getTitle());
         this.addTaskUseCase.execute(request);
 
