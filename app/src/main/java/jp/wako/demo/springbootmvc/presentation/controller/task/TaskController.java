@@ -1,9 +1,9 @@
 package jp.wako.demo.springbootmvc.presentation.controller.task;
 
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -37,8 +37,15 @@ public class TaskController {
     private final GetTaskUseCase getTaskUseCase;
     private final UpdateTaskUseCase updateTaskUseCase;
 
+    @ModelAttribute("taskListVM")
+    private TaskListVM initializeTaskListVM() {
+        var form = new TaskCreateFormVM("No title");
+        var tasks = new ArrayList<TaskVM>();
+        return new TaskListVM(form, tasks);
+    }
+
     @GetMapping("/tasks")
-    public String getAll(final Model model) {
+    public String getAll(@ModelAttribute("taskListVM") final TaskListVM vm) {
 
         var response = this.getAllTaskUseCase.execute(new GetAllTaskRequest());
         var tasks = response.getTasks()
@@ -46,10 +53,9 @@ public class TaskController {
             .map(task -> new TaskVM(task.getId(), task.getTitle(), task.getDescription(), task.isDone()))
             .collect(Collectors.toList());
 
-        var form = new TaskCreateFormVM("");
-        var vm = new TaskListVM(form, tasks);
+        vm.setForm(new TaskCreateFormVM(""));
+        vm.setTasks(tasks);
 
-        model.addAttribute("vm", vm);
         return "/task/task-list";
     }
 

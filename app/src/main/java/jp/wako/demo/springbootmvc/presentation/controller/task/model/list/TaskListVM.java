@@ -3,12 +3,12 @@ package jp.wako.demo.springbootmvc.presentation.controller.task.model.list;
 import java.util.List;
 
 import jp.wako.demo.springbootmvc.presentation.controller.task.model.TaskVM;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-@RequiredArgsConstructor
-@Getter
+@Data
+@AllArgsConstructor
 public final class TaskListVM {
-    private final TaskCreateFormVM form;
-    private final List<TaskVM> tasks;
+    private TaskCreateFormVM form;
+    private List<TaskVM> tasks;
 }

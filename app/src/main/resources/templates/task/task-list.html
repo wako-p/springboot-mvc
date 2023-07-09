@@ -14,7 +14,7 @@
                     <form th:action="@{/tasks}" th:method="post"class="p-0">
                         <div class="form-group mb-3">
                             <!-- <label for="title" class="form-label">Title</label> -->
-                            <input type="text" class="form-control" name="title" th:value="${vm.form.title}" placeholder="Task title" />
+                            <input type="text" class="form-control" name="title" th:value="${taskListVM.form.title}" placeholder="Task title" />
                         </div>
                         <div class="d-grid gap-2">
                             <input type="submit" class="btn btn-primary btn-block" value="add" />
@@ -22,7 +22,7 @@
                     </form>
                 </div>
                 <div class="row p-3">
-                    <article th:each="task : ${vm.tasks}" class="card mb-3">
+                    <article th:each="task : ${taskListVM.tasks}" class="card mb-3">
                         <div class="card-body">
                             <h5 class="card-title">
                                 <a th:href="@{/tasks/{id}(id=${task.id})}" th:text="${task.title}" class="card-link"></a>
