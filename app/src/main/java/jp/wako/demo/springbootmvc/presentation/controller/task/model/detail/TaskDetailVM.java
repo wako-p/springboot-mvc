@@ -1,10 +1,14 @@
 package jp.wako.demo.springbootmvc.presentation.controller.task.model.detail;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
 
-@RequiredArgsConstructor
-@Getter
+@Data
 public final class TaskDetailVM {
-    private final TaskUpdateFormVM form;
+
+    private TaskUpdateFormVM form;
+
+    public TaskDetailVM() {
+        this.form = new TaskUpdateFormVM();
+    }
+
 }

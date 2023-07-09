@@ -6,13 +6,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import jp.wako.demo.springbootmvc.presentation.controller.task.model.TaskVM;
 import jp.wako.demo.springbootmvc.presentation.controller.task.model.detail.TaskDetailVM;
-import jp.wako.demo.springbootmvc.presentation.controller.task.model.detail.TaskUpdateFormVM;
 import jp.wako.demo.springbootmvc.presentation.controller.task.model.list.TaskCreateFormVM;
 import jp.wako.demo.springbootmvc.presentation.controller.task.model.list.TaskListVM;
 import jp.wako.demo.springbootmvc.usecase.task.add.AddTaskRequest;
@@ -71,28 +71,36 @@ public class TaskController {
         return "redirect:/tasks";
     }
 
+
+    @ModelAttribute("taskDetailVM")
+    private TaskDetailVM initializeTaskDetailVM() {
+        return new TaskDetailVM();
+    }
+
     @GetMapping("/tasks/{id}")
-    public String get(final Model model, @PathVariable final String id) {
+    public String get(@PathVariable final String id, final @ModelAttribute("taskDetailVM") TaskDetailVM vm) {
 
         var request = new GetTaskRequest(id);
         var response = this.getTaskUseCase.execute(request);
 
-        var form = new TaskUpdateFormVM(response.getId(), response.getTitle(), response.getDescription(), response.isDone());
-        var vm = new TaskDetailVM(form);
-        model.addAttribute("vm", vm);
+        var form = vm.getForm();
+        form.setId(response.getId());
+        form.setTitle(response.getTitle());
+        form.setDescription(response.getDescription());
+        form.setDone(response.isDone());
+        vm.setForm(form);
 
         return "/task/task-detail";
     }
 
     @PutMapping("/tasks/{id}")
-    public String update(final Model model, @PathVariable final String id, final String description) {
+    public String update(@PathVariable final String id, final @ModelAttribute("taskDetailVM") TaskDetailVM vm) {
 
-        var request = new UpdateTaskRequest(id, description);
+        var form = vm.getForm();
+        var request = new UpdateTaskRequest(id, form.getDescription());
         var response = this.updateTaskUseCase.execute(request);
 
-        var form = new TaskUpdateFormVM(response.getId(), response.getTitle(), response.getDescription(), response.isDone());
-        var vm = new TaskDetailVM(form);
-        model.addAttribute("vm", vm);
+        form.setDescription(response.getDescription());
 
         return "/task/task-detail";
 

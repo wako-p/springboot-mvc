@@ -6,10 +6,15 @@
     </head>
     <body>
         <div>
-            <h1 th:text="${vm.form.title}"></h1>
-            <form th:action="@{/tasks/{id}(id=${vm.form.id})}" th:method="put">
-                <textarea th:text="${vm.form.description}" name="description"></textarea>
-                <div th:text="${vm.form.done}"></div>
+            <form th:object="${taskDetailVM}" th:action="@{/tasks/{id}(id=*{form.id})}" th:method="put">
+                <h1 th:text="*{form.title}"></h1>
+                <textarea th:field="*{form.description}"></textarea>
+                <div th:text="*{form.done}"></div>
+                <!-- th:objectでバインドしたオブジェクトのクラスのフィールドに対応する
+                    プロパティがPOST/PUT/PATCHに含まれていないと＠ModelAttributeで初期化したオブジェクトの値が使用されるっぽい -->
+                <input type="hidden" th:field="*{form.id}" />
+                <input type="hidden" th:field="*{form.title}" />
+                <input type="hidden" th:field="*{form.done}" />
                 <input type="submit" value="update" />
             </form>
         </div>
