@@ -102,7 +102,11 @@ public class TaskController {
         var request = new UpdateTaskRequest(id, form.getDescription());
         var response = this.updateTaskUseCase.execute(request);
 
+        form.setId(response.getId());
+        form.setTitle(response.getTitle());
         form.setDescription(response.getDescription());
+        form.setDone(response.isDone());
+        vm.setForm(form);
 
         return "/task/task-detail";
 

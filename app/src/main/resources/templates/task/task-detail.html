@@ -12,9 +12,6 @@
                 <div th:text="*{form.done}"></div>
                 <!-- th:objectでバインドしたオブジェクトのクラスのフィールドに対応する
                     プロパティがPOST/PUT/PATCHに含まれていないと＠ModelAttributeで初期化したオブジェクトの値が使用されるっぽい -->
-                <input type="hidden" th:field="*{form.id}" />
-                <input type="hidden" th:field="*{form.title}" />
-                <input type="hidden" th:field="*{form.done}" />
                 <input type="submit" value="update" />
             </form>
         </div>
