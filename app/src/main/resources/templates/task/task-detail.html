@@ -13,11 +13,11 @@
                     <form th:object="${taskDetailVM}" th:action="@{/tasks/{id}(id=*{form.id})}" th:method="put">
                         <div class="form-group mb-3">
                             <label for="form.title" class="form-label">Title</label>
-                            <input type="text" class="form-control" th:field="*{form.title}" placeholder="Task title" />
+                            <input type="text" class="form-control" th:field="*{form.title}" placeholder="Enter a title" />
                         </div>
                         <div class="mb-3">
                             <label for="form.description" class="form-label">Description</label>
-                            <textarea class="form-control" th:field="*{form.description}" rows="6"></textarea>
+                            <textarea class="form-control" th:field="*{form.description}" rows="6" placeholder="Leave a description"></textarea>
                         </div>
                         <!-- 一覧でチェックできた方がよくない？ -->
                         <!-- <div th:text="*{form.done}"></div> -->

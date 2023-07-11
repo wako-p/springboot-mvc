@@ -14,7 +14,7 @@
                     <form th:object="${taskListVM}" th:action="@{/tasks}" th:method="post" class="p-0">
                         <div class="form-group mb-3">
                             <!-- <label for="title" class="form-label">Title</label> -->
-                            <input type="text" class="form-control" th:field="*{form.title}" placeholder="Task title" />
+                            <input type="text" class="form-control" th:field="*{form.title}" placeholder="Enter a title" />
                             <span th:if="${#fields.hasErrors('form.title')}" th:errors="*{form.title}" style="color: red"></span>
                         </div>
                         <div class="d-grid gap-2">
