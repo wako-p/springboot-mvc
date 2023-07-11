@@ -113,12 +113,6 @@ public class TaskController {
         var request = new UpdateTaskRequest(id, form.getTitle(), form.getDescription());
         var response = this.updateTaskUseCase.execute(request);
 
-        form.setId(response.getId());
-        form.setTitle(response.getTitle());
-        form.setDescription(response.getDescription());
-        form.setDone(response.isDone());
-
-        // NOTE: redirect:/tasks/{id}でもいける
-        return "/task/task-detail";
+        return "redirect:/tasks/" + response.getId();
     }
 }

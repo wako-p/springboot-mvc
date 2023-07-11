@@ -18,7 +18,7 @@ public final class UpdateTaskUseCase {
         task.updateDescription(request.getDescription());
         this.repository.save(task);
 
-        var response = new UpdateTaskResponse(task.getId(), task.getTitle(), task.getDescription(), task.isDone());
+        var response = new UpdateTaskResponse(task.getId());
         return response;
     }
 }
