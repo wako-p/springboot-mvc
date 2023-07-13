@@ -1,4 +1,4 @@
-package jp.wako.demo.springbootmvc.presentation.controller.tasks.model.detail;
+package jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.detail;
 
 import lombok.Data;
 

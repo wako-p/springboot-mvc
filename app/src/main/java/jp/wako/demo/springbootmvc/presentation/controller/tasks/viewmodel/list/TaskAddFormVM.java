@@ -1,4 +1,4 @@
-package jp.wako.demo.springbootmvc.presentation.controller.tasks.model.list;
+package jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.list;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

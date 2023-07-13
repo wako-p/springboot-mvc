@@ -1,10 +1,10 @@
-package jp.wako.demo.springbootmvc.presentation.controller.tasks.model.list;
+package jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.list;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.validation.Valid;
-import jp.wako.demo.springbootmvc.presentation.controller.tasks.model.TaskVM;
+import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.TaskVM;
 import lombok.Data;
 
 @Data
