@@ -15,9 +15,8 @@
                         <div class="form-group mb-3">
                             <!-- <label for="title" class="form-label">Title</label> -->
                             <input type="text" class="form-control" th:field="*{form.title}" placeholder="Enter a title" />
-                            <span th:if="${#fields.hasErrors('form.title')}" th:errors="*{form.title}" style="color: red"></span>
+                            <div th:if="${#fields.hasErrors('form.title')}" th:errors="*{form.title}"></div>
                         </div>
-                        <p th:if="${error}" th:text="${error}"></p>
                         <div class="d-grid gap-2">
                             <input type="submit" class="btn btn-primary btn-block" value="add" />
                         </div>

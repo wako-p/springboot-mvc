@@ -3,7 +3,6 @@ package jp.wako.demo.springbootmvc.presentation.controller.tasks;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,6 +32,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @RequiredArgsConstructor
 @Controller
+// @SessionAttributes({ "taskListVM" })
 public class TaskController {
 
     private final GetAllTaskUseCase getAllTaskUseCase;
@@ -48,14 +48,7 @@ public class TaskController {
 
     @GetMapping("/tasks")
     public String getAll(
-        @ModelAttribute("taskListVM") final TaskListVM vm,
-        final Model model,
-        final RedirectAttributes redirectAttributes) {
-
-        if (redirectAttributes.containsAttribute("error")) {
-            var error = (String) redirectAttributes.getFlashAttributes().get("error");
-            model.addAttribute("error", error);
-        }
+        @ModelAttribute("taskListVM") final TaskListVM vm) {
 
         var response = this.getAllTaskUseCase.execute(new GetAllTaskRequest());
         var tasks = response.getTasks()
@@ -74,18 +67,14 @@ public class TaskController {
         final BindingResult result,
         final RedirectAttributes redirectAttributes) {
 
-        var form = vm.getForm();
-
         if (result.hasErrors()) {
-            log.info("validation error");
-            // NOTE: フォワード先のURLがPostMappingと同じなのでStackOverflowになる
-            // return "forward:/tasks";
-            redirectAttributes.addFlashAttribute("error", "Please enter a title for the task");
-            // redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + Conventions.getVariableName(vm), result);
+            // NOTE: リダイレクト先のThymleafでBindingResultを(th:errorsとかで)参照できない
+            redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "taskListVM", result);
+            redirectAttributes.addFlashAttribute("taskListVM", vm);
             return "redirect:/tasks";
         }
-        log.info("not validation error");
 
+        var form = vm.getForm();
         var request = new AddTaskRequest(form.getTitle());
         this.addTaskUseCase.execute(request);
 
