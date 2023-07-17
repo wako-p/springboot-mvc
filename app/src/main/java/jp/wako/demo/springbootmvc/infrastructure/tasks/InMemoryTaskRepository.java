@@ -26,7 +26,7 @@ public final class InMemoryTaskRepository implements ITaskRepository {
         this.tasks.add(task);
     }
 
-    public void deleteBy(final String id) {
+    public void delete(final String id) {
         this.tasks.removeIf(task -> task.getId().equals(id));
     }
 
