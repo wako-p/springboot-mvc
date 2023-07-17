@@ -3,6 +3,7 @@ package jp.wako.demo.springbootmvc.presentation.controller.tasks;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.TaskVM;
 import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.detail.TaskDetailVM;
@@ -45,7 +47,15 @@ public class TaskController {
     }
 
     @GetMapping("/tasks")
-    public String getAll(@ModelAttribute("taskListVM") final TaskListVM vm) {
+    public String getAll(
+        @ModelAttribute("taskListVM") final TaskListVM vm,
+        final Model model,
+        final RedirectAttributes redirectAttributes) {
+
+        if (redirectAttributes.containsAttribute("error")) {
+            var error = (String) redirectAttributes.getFlashAttributes().get("error");
+            model.addAttribute("error", error);
+        }
 
         var response = this.getAllTaskUseCase.execute(new GetAllTaskRequest());
         var tasks = response.getTasks()
@@ -59,7 +69,10 @@ public class TaskController {
     }
 
     @PostMapping("/tasks")
-    public String create(@ModelAttribute("taskListVM") @Validated final TaskListVM vm, final BindingResult result) {
+    public String create(
+        @ModelAttribute("taskListVM") @Validated final TaskListVM vm,
+        final BindingResult result,
+        final RedirectAttributes redirectAttributes) {
 
         var form = vm.getForm();
 
@@ -67,6 +80,8 @@ public class TaskController {
             log.info("validation error");
             // NOTE: フォワード先のURLがPostMappingと同じなのでStackOverflowになる
             // return "forward:/tasks";
+            redirectAttributes.addFlashAttribute("error", "Please enter a title for the task");
+            // redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + Conventions.getVariableName(vm), result);
             return "redirect:/tasks";
         }
         log.info("not validation error");
