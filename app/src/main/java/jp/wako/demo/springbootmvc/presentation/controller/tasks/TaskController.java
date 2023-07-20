@@ -3,7 +3,6 @@ package jp.wako.demo.springbootmvc.presentation.controller.tasks;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.TaskVM;
 import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.detail.TaskDetailVM;
@@ -28,12 +26,9 @@ import jp.wako.demo.springbootmvc.usecase.tasks.getall.GetAllTaskUseCase;
 import jp.wako.demo.springbootmvc.usecase.tasks.update.UpdateTaskRequest;
 import jp.wako.demo.springbootmvc.usecase.tasks.update.UpdateTaskUseCase;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 
-@Log4j2
 @RequiredArgsConstructor
 @Controller
-// @SessionAttributes({ "taskListVM" })
 public class TaskController {
 
     private final GetAllTaskUseCase getAllTaskUseCase;
@@ -49,8 +44,7 @@ public class TaskController {
 
     @GetMapping("/tasks")
     public String getAll(
-        @ModelAttribute("taskListVM") final TaskListVM vm,
-        final Model model) {
+        @ModelAttribute("taskListVM") final TaskListVM vm) {
 
         var response = this.getAllTaskUseCase.execute(new GetAllTaskRequest());
         var tasks = response.getTasks()
@@ -65,15 +59,10 @@ public class TaskController {
 
     @PostMapping("/tasks")
     public String create(
-        @ModelAttribute("taskListVM") @Validated final TaskListVM vm,
-        final BindingResult result,
-        final RedirectAttributes redirectAttributes) {
+        @ModelAttribute("taskListVM") @Validated final TaskListVM vm, final BindingResult result) {
 
         if (result.hasErrors()) {
-            // NOTE: リダイレクト先のThymleafでBindingResultを(th:errorsとかで)参照できない
-            redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "taskListVM", result);
-            redirectAttributes.addFlashAttribute("taskListVM", vm);
-            return "redirect:/tasks";
+            return getAll(vm);
         }
 
         var form = vm.getForm();
