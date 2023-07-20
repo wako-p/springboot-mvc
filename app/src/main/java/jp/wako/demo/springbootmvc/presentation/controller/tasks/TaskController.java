@@ -3,6 +3,7 @@ package jp.wako.demo.springbootmvc.presentation.controller.tasks;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -48,7 +49,8 @@ public class TaskController {
 
     @GetMapping("/tasks")
     public String getAll(
-        @ModelAttribute("taskListVM") final TaskListVM vm) {
+        @ModelAttribute("taskListVM") final TaskListVM vm,
+        final Model model) {
 
         var response = this.getAllTaskUseCase.execute(new GetAllTaskRequest());
         var tasks = response.getTasks()
