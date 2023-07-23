@@ -121,11 +121,9 @@ public class TaskController {
         var request = new GetTaskRequest(id);
         var response = this.getTaskUseCase.execute(request);
 
-        var form = vm.getForm();
-        form.setId(response.getId());
-        form.setTitle(response.getTitle());
-        form.setDescription(response.getDescription());
-        form.setDone(response.isDone());
+        vm.setId(response.getId());
+        vm.setTitle(response.getTitle());
+        vm.setDescription(response.getDescription());
 
         return "/tasks/task-edit";
     }
@@ -140,8 +138,7 @@ public class TaskController {
             return "/tasks/task-edit";
         }
 
-        var form = vm.getForm();
-        var request = new UpdateTaskRequest(id, form.getTitle(), form.getDescription());
+        var request = new UpdateTaskRequest(id, vm.getTitle(), vm.getDescription());
         var response = this.updateTaskUseCase.execute(request);
 
         return "redirect:/tasks/" + response.getId() + "/view";

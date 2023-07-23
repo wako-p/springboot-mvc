@@ -1,16 +1,22 @@
 package jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.edit;
 
-import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public final class TaskEditVM {
 
-    @Valid
-    private TaskUpdateFormVM form;
+    private String id;
+
+    @NotBlank(message = "Please enter a title for the task")
+    private String title;
+
+    private String description;
 
     public TaskEditVM() {
-        this.form = new TaskUpdateFormVM();
+        this.id = "";
+        this.title = "";
+        this.description = "";
     }
 
 }
