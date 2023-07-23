@@ -49,7 +49,12 @@ public class TaskController {
         var response = this.getAllTaskUseCase.execute(new GetAllTaskRequest());
         var tasks = response.getTasks()
             .stream()
-            .map(task -> new TaskVM(task.getId(), task.getTitle(), task.getDescription(), task.isDone(), task.getCreateAt().toString()))
+            .map(task -> new TaskVM(
+                task.getId(),
+                task.getTitle(),
+                task.getDescription(),
+                task.isDone(),
+                task.getCreateAt().toString()))
             .collect(Collectors.toList());
 
         vm.setTasks(tasks);
@@ -59,7 +64,8 @@ public class TaskController {
 
     @PostMapping("/tasks")
     public String create(
-        @ModelAttribute("taskListVM") @Validated final TaskListVM vm, final BindingResult result) {
+        @ModelAttribute("taskListVM") @Validated final TaskListVM vm,
+        final BindingResult result) {
 
         if (result.hasErrors()) {
             return getAll(vm);
@@ -87,7 +93,9 @@ public class TaskController {
     }
 
     @GetMapping("/tasks/{id}")
-    public String get(@PathVariable final String id, @ModelAttribute("taskDetailVM") final TaskDetailVM vm) {
+    public String get(
+        @PathVariable final String id,
+        @ModelAttribute("taskDetailVM") final TaskDetailVM vm) {
 
         var request = new GetTaskRequest(id);
         var response = this.getTaskUseCase.execute(request);
@@ -102,7 +110,10 @@ public class TaskController {
     }
 
     @PutMapping("/tasks/{id}")
-    public String update(@PathVariable final String id, @ModelAttribute("taskDetailVM") @Validated final TaskDetailVM vm, final BindingResult result) {
+    public String update(
+        @PathVariable final String id,
+        @ModelAttribute("taskDetailVM") @Validated final TaskDetailVM vm,
+        final BindingResult result) {
 
         if (result.hasErrors()) {
             return "/tasks/task-detail";
