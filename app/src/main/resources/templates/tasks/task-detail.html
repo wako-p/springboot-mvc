@@ -19,14 +19,11 @@
                             <label for="form.description" class="form-label">Description</label>
                             <textarea class="form-control" th:field="*{form.description}" rows="6" placeholder="Leave a description"></textarea>
                         </div>
-                        <!-- 一覧でチェックできた方がよくない？ -->
-                        <!-- <div th:text="*{form.done}"></div> -->
-                        <div class="d-grid gap-2">
-                            <input type="submit" class="btn btn-primary btn-block" value="update" />
+                        <div class="d-grid gap-2 d-flex justify-content-start">
+                            <button type="submit" class="btn btn-primary">update</button>
+                            <a th:href="@{/tasks}" class="btn btn-outline-primary">return</a>
                         </div>
                     </form>
-                    <a th:href="@{/tasks}">return</a>
-                    <!-- ブラウザバックあるからいらなくない？ -->
                 </div>
                 <div class="col"></div>
             </div>
