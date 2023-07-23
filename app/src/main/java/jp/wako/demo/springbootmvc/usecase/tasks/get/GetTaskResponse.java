@@ -9,5 +9,4 @@ public final class GetTaskResponse {
     private final String id;
     private final String title;
     private final String description;
-    private final boolean done;
 }

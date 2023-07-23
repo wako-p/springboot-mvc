@@ -9,6 +9,5 @@ public class TaskVM {
     private final String id;
     private final String title;
     private final String description;
-    private final boolean done;
     private final String createAt;
 }

@@ -54,7 +54,6 @@ public class TaskController {
                 task.getId(),
                 task.getTitle(),
                 task.getDescription(),
-                task.isDone(),
                 task.getCreateAt().toString()))
             .collect(Collectors.toList());
 
