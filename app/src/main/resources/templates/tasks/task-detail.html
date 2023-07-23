@@ -16,7 +16,7 @@
                             <input type="text" class="form-control" th:field="*{form.title}" placeholder="Enter a title" />
                             <div class="text-danger" th:if="${#fields.hasErrors('form.title')}" th:errors="*{form.title}"></div>
                         </div>
-                        <div class="mb-3">
+                        <div class="form-group mb-3">
                             <label for="form.description" class="form-label">Description</label>
                             <textarea class="form-control" th:field="*{form.description}" rows="6" placeholder="Leave a description"></textarea>
                         </div>
