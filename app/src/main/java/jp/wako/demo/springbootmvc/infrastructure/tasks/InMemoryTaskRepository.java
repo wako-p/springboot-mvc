@@ -24,14 +24,14 @@ public final class InMemoryTaskRepository implements ITaskRepository {
     }
 
     public void delete(final String id) {
-        this.tasks.removeIf(task -> task.getId().equals(id));
+        this.tasks.removeIf(addedTask -> addedTask.getId().equals(id));
     }
 
     public Task findBy(final String id) {
 
         var foundTask = this.tasks
             .stream()
-            .filter(task -> task.getId().equals(id))
+            .filter(addedTask -> addedTask.getId().equals(id))
             .findFirst();
 
         return foundTask.get();
