@@ -19,8 +19,8 @@
                             <p class="">Description</p>
                             <p class="" th:text="*{description}"><p>
                         </div>
-                        <div class="">
-                            <a th:href="@{/tasks/{id}/edit(id=*{id})}" class="btn btn-primary">edit</button>
+                        <div class="d-flex">
+                            <a th:href="@{/tasks/{id}/edit(id=*{id})}" class="btn btn-primary me-2">edit</button>
                             <a th:href="@{/tasks}" class="btn btn-outline-primary">return</a>
                         </div>
                     </div>
