@@ -2,6 +2,8 @@ package jp.wako.demo.springbootmvc.domain.task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -49,13 +51,14 @@ public final class TaskTest {
         @DisplayName("引数にID、タイトル、説明などを指定して復元することができ、その値が属性として使用される")
         void test1() {
             // when:
-            var task = Task.reconstruct("999", "Task1", "This is test description.", false);
+            var task = Task.reconstruct("999", "Task1", "This is test description.", false, LocalDateTime.of(2023, 07, 23, 10, 00));
 
             // then:
             assertEquals("999", task.getId());
             assertEquals("Task1", task.getTitle());
             assertEquals("This is test description.", task.getDescription());
             assertEquals(false, task.isDone());
+            assertEquals(LocalDateTime.of(2023, 07, 23, 10, 00), task.getCreateAt());
         }
     }
 }

@@ -1,5 +1,6 @@
 package jp.wako.demo.springbootmvc.infrastructure.tasks;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +14,9 @@ public final class InMemoryTaskRepository implements ITaskRepository {
 
     // TODO: Setにする
     private final List<Task> tasks = new ArrayList<>() {{
-        add(Task.reconstruct("1", "#3245 Replace InMemory repository with Postgres", "This is a task added for testing purposes.", false));
-        add(Task.reconstruct("2", "#3246 Change the structure of the VM for a presentation layer task", "This is a task added for testing purposes.", false));
-        add(Task.reconstruct("3", "#3247 Hide task card description", "This is a task added for testing purposes.", true));
+        add(Task.reconstruct("1", "#3245 Replace InMemory repository with Postgres", "This is a task added for testing purposes.", false, LocalDateTime.of(2023, 07, 23, 10, 00)));
+        add(Task.reconstruct("2", "#3246 Change the structure of the VM for a presentation layer task", "This is a task added for testing purposes.", false, LocalDateTime.of(2023, 07, 23, 10, 30)));
+        add(Task.reconstruct("3", "#3247 Hide task card description", "This is a task added for testing purposes.", true, LocalDateTime.of(2023, 07, 23, 11, 00)));
     }};
 
     public List<Task> findAll() {

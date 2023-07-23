@@ -1,5 +1,6 @@
 package jp.wako.demo.springbootmvc.domain.tasks;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -15,9 +16,10 @@ public final class Task {
     private String title;
     private String description;
     private final boolean done; // TODO: Enumで状態クラス作成する
+    private final LocalDateTime createAt;
 
     public static Task create(final String title) {
-        return new Task(UUID.randomUUID().toString(), title, "No description provided.", false);
+        return new Task(UUID.randomUUID().toString(), title, "No description provided.", false, LocalDateTime.now());
     }
 
     /**
@@ -28,8 +30,8 @@ public final class Task {
      * @param done
      * @return
      */
-    public static Task reconstruct(final String id, final String title, final String description, final boolean done) {
-        return new Task(id, title, description, done);
+    public static Task reconstruct(final String id, final String title, final String description, final boolean done, final LocalDateTime createAt) {
+        return new Task(id, title, description, done, createAt);
     }
 
     public void updateTitle(final String title) {

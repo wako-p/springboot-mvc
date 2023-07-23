@@ -49,7 +49,7 @@ public class TaskController {
         var response = this.getAllTaskUseCase.execute(new GetAllTaskRequest());
         var tasks = response.getTasks()
             .stream()
-            .map(task -> new TaskVM(task.getId(), task.getTitle(), task.getDescription(), task.isDone()))
+            .map(task -> new TaskVM(task.getId(), task.getTitle(), task.getDescription(), task.isDone(), task.getCreateAt().toString()))
             .collect(Collectors.toList());
 
         vm.setTasks(tasks);
