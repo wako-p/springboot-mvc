@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.TaskVM;
 import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.detail.TaskDetailVM;
 import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.list.TaskListVM;
+import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.view.TaskViewVM;
 import jp.wako.demo.springbootmvc.usecase.tasks.add.AddTaskRequest;
 import jp.wako.demo.springbootmvc.usecase.tasks.add.AddTaskUseCase;
 import jp.wako.demo.springbootmvc.usecase.tasks.delete.DeleteTaskRequest;
@@ -92,19 +93,22 @@ public class TaskController {
         return new TaskDetailVM();
     }
 
+    @ModelAttribute("taskViewVM")
+    private TaskViewVM initializeTaskViewVM() {
+        return new TaskViewVM();
+    }
+
     @GetMapping("/tasks/{id}/view")
     public String view(
         @PathVariable final String id,
-        @ModelAttribute("taskDetailVM") final TaskDetailVM vm) {
+        @ModelAttribute("taskViewVM") final TaskViewVM vm) {
 
         var request = new GetTaskRequest(id);
         var response = this.getTaskUseCase.execute(request);
 
-        var form = vm.getForm();
-        form.setId(response.getId());
-        form.setTitle(response.getTitle());
-        form.setDescription(response.getDescription());
-        form.setDone(response.isDone());
+        vm.setId(response.getId());
+        vm.setTitle(response.getTitle());
+        vm.setDescription(response.getDescription());
 
         return "/tasks/task-view";
     }
