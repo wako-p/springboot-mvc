@@ -25,7 +25,7 @@
                     <article th:each="task : ${taskListVM.tasks}" class="card mb-3">
                         <div class="card-body d-flex justify-content-between pe-0">
                             <h5 class="card-title">
-                                <a th:href="@{/tasks/{id}(id=${task.id})}" th:text="${task.title}" class="card-link align-middle"></a>
+                                <a th:href="@{/tasks/{id}/view(id=${task.id})}" th:text="${task.title}" class="card-link align-middle"></a>
                             </h5>
                             <form th:action="@{/tasks/{id}(id=${task.id})}" th:method="delete">
                                 <button type="submit" class="btn btn-sm" value="delete">

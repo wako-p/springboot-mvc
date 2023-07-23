@@ -92,8 +92,8 @@ public class TaskController {
         return new TaskDetailVM();
     }
 
-    @GetMapping("/tasks/{id}")
-    public String get(
+    @GetMapping("/tasks/{id}/view")
+    public String view(
         @PathVariable final String id,
         @ModelAttribute("taskDetailVM") final TaskDetailVM vm) {
 
@@ -106,7 +106,7 @@ public class TaskController {
         form.setDescription(response.getDescription());
         form.setDone(response.isDone());
 
-        return "/tasks/task-detail";
+        return "/tasks/task-view";
     }
 
     @PutMapping("/tasks/{id}")
