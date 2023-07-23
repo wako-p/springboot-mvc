@@ -23,10 +23,6 @@ public final class InMemoryTaskRepository implements ITaskRepository {
         return this.tasks;
     }
 
-    public void insert(final Task task) {
-        this.tasks.add(task);
-    }
-
     public void delete(final String id) {
         this.tasks.removeIf(task -> task.getId().equals(id));
     }
@@ -41,14 +37,27 @@ public final class InMemoryTaskRepository implements ITaskRepository {
         return foundTask.get();
     }
 
-    public void save(final Task newTask) {
-        // TODO: 追加も更新もsave()に統一する
-        this.tasks.replaceAll((task) -> {
-            if (task.getId().equals(newTask.getId())) {
-                return newTask;
+    public void save(final Task task) {
+
+        // 保存しようとしているタスクが存在しているかチェック
+        var exists = this.tasks
+            .stream()
+            .anyMatch(addedTask -> addedTask.getId().equals(task.getId()));
+
+        // 存在しない場合はそのまま追加
+        if (!exists) {
+            this.tasks.add(task);
+            return;
+        }
+
+        // 存在する場合は置き換える
+        this.tasks.replaceAll((addedTask) -> {
+            if (addedTask.getId().equals(task.getId())) {
+                return task;
             }
-            return task;
+            return addedTask;
         });
+
     }
 
 }

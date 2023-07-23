@@ -15,7 +15,7 @@ public final class AddTaskUseCase {
     public AddTaskResponse execute(final AddTaskRequest request) {
 
         var task = Task.create(request.getTitle());
-        this.repository.insert(task);
+        this.repository.save(task);
 
         return new AddTaskResponse();
     }
