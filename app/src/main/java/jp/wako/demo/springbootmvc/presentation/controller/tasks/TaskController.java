@@ -109,6 +109,23 @@ public class TaskController {
         return "/tasks/task-view";
     }
 
+    @GetMapping("/tasks/{id}/edit")
+    public String edit(
+        @PathVariable final String id,
+        @ModelAttribute("taskDetailVM") final TaskDetailVM vm) {
+
+        var request = new GetTaskRequest(id);
+        var response = this.getTaskUseCase.execute(request);
+
+        var form = vm.getForm();
+        form.setId(response.getId());
+        form.setTitle(response.getTitle());
+        form.setDescription(response.getDescription());
+        form.setDone(response.isDone());
+
+        return "/tasks/task-edit";
+    }
+
     @PutMapping("/tasks/{id}")
     public String update(
         @PathVariable final String id,
@@ -116,13 +133,13 @@ public class TaskController {
         final BindingResult result) {
 
         if (result.hasErrors()) {
-            return "/tasks/task-detail";
+            return "/tasks/task-edit";
         }
 
         var form = vm.getForm();
         var request = new UpdateTaskRequest(id, form.getTitle(), form.getDescription());
         var response = this.updateTaskUseCase.execute(request);
 
-        return "redirect:/tasks/" + response.getId();
+        return "redirect:/tasks/" + response.getId() + "/view";
     }
 }

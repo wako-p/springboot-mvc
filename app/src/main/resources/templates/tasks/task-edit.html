@@ -26,7 +26,7 @@
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">update</button>
-                            <a th:href="@{/tasks}" class="btn btn-outline-primary">return</a>
+                            <a th:href="@{/tasks/{id}/view(id=*{form.id})}" class="btn btn-outline-primary">cancel</a>
                         </div>
                     </form>
                 </div>
