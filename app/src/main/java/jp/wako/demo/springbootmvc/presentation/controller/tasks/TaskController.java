@@ -79,20 +79,6 @@ public class TaskController {
         return "redirect:/tasks";
     }
 
-    @DeleteMapping("/tasks/{id}")
-    public String delete(@PathVariable final String id) {
-
-        var request = new DeleteTaskRequest(id);
-        this.deleteTaskUseCase.execute(request);
-
-        return "redirect:/tasks";
-    }
-
-    @ModelAttribute("taskEditVM")
-    private TaskEditVM initializeTaskEditVM() {
-        return new TaskEditVM();
-    }
-
     @ModelAttribute("taskViewVM")
     private TaskViewVM initializeTaskViewVM() {
         return new TaskViewVM();
@@ -111,6 +97,11 @@ public class TaskController {
         vm.setDescription(response.getDescription());
 
         return "/tasks/task-view";
+    }
+
+    @ModelAttribute("taskEditVM")
+    private TaskEditVM initializeTaskEditVM() {
+        return new TaskEditVM();
     }
 
     @GetMapping("/tasks/{id}/edit")
@@ -143,4 +134,14 @@ public class TaskController {
 
         return "redirect:/tasks/" + response.getId() + "/view";
     }
+
+    @DeleteMapping("/tasks/{id}")
+    public String delete(@PathVariable final String id) {
+
+        var request = new DeleteTaskRequest(id);
+        this.deleteTaskUseCase.execute(request);
+
+        return "redirect:/tasks";
+    }
+
 }
