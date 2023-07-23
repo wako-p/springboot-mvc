@@ -3,6 +3,7 @@ package jp.wako.demo.springbootmvc.infrastructure.tasks;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -27,14 +28,14 @@ public final class InMemoryTaskRepository implements ITaskRepository {
         this.tasks.removeIf(addedTask -> addedTask.getId().equals(id));
     }
 
-    public Task findBy(final String id) {
+    public Optional<Task> findBy(final String id) {
 
         var foundTask = this.tasks
             .stream()
             .filter(addedTask -> addedTask.getId().equals(id))
             .findFirst();
 
-        return foundTask.get();
+        return foundTask;
     }
 
     public void save(final Task task) {
