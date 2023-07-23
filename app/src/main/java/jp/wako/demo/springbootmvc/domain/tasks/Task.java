@@ -18,7 +18,7 @@ public final class Task {
     private final LocalDateTime createAt;
 
     public static Task create(final String title) {
-        return new Task(UUID.randomUUID().toString(), title, "No description provided.", LocalDateTime.now());
+        return new Task(UUID.randomUUID().toString(), title, "", LocalDateTime.now());
     }
 
     /**
