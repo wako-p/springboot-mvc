@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.TaskVM;
-import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.detail.TaskDetailVM;
+import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.edit.TaskEditVM;
 import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.list.TaskListVM;
 import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.view.TaskViewVM;
 import jp.wako.demo.springbootmvc.usecase.tasks.add.AddTaskRequest;
@@ -88,9 +88,9 @@ public class TaskController {
         return "redirect:/tasks";
     }
 
-    @ModelAttribute("taskDetailVM")
-    private TaskDetailVM initializeTaskDetailVM() {
-        return new TaskDetailVM();
+    @ModelAttribute("taskEditVM")
+    private TaskEditVM initializeTaskEditVM() {
+        return new TaskEditVM();
     }
 
     @ModelAttribute("taskViewVM")
@@ -116,7 +116,7 @@ public class TaskController {
     @GetMapping("/tasks/{id}/edit")
     public String edit(
         @PathVariable final String id,
-        @ModelAttribute("taskDetailVM") final TaskDetailVM vm) {
+        @ModelAttribute("taskEditVM") final TaskEditVM vm) {
 
         var request = new GetTaskRequest(id);
         var response = this.getTaskUseCase.execute(request);
@@ -133,7 +133,7 @@ public class TaskController {
     @PutMapping("/tasks/{id}")
     public String update(
         @PathVariable final String id,
-        @ModelAttribute("taskDetailVM") @Validated final TaskDetailVM vm,
+        @ModelAttribute("taskEditVM") @Validated final TaskEditVM vm,
         final BindingResult result) {
 
         if (result.hasErrors()) {
