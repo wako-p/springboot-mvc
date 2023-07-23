@@ -12,12 +12,12 @@
                 <div class="row my-3">
                     <div th:object="${taskViewVM}">
                         <div class="mb-3">
-                            <p class="">Title</p>
-                            <p class="" th:text="*{title}"></p>
+                            <p class="mb-2">Title</p>
+                            <p class="mb-1" th:text="*{title}"></p>
                         </div>
                         <div class="mb-3">
-                            <p class="">Description</p>
-                            <p class="" th:text="*{description}"><p>
+                            <p class="mb-2">Description</p>
+                            <p class="mb-1" th:text="*{description}"><p>
                         </div>
                         <div class="d-flex">
                             <a th:href="@{/tasks/{id}/edit(id=*{id})}" class="btn btn-primary me-2">edit</button>
