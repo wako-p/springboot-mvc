@@ -7,13 +7,11 @@
 </head>
 <body>
     <div class="container">
-        <div class="row">
-            <div class="col"></div>
-            <div class="col-6 py-3">
-                <div class="row p-3">
+        <div class="row justify-content-center">
+            <div class="w-50">
+                <div class="row my-3">
                     <form th:object="${taskListVM}" th:action="@{/tasks}" th:method="post" class="p-0">
                         <div class="form-group mb-3">
-                            <!-- <label for="title" class="form-label">Title</label> -->
                             <input type="text" class="form-control mb-1" th:field="*{form.title}" placeholder="Enter a title" />
                             <div class="text-danger" th:if="${#fields.hasErrors('form.title')}" th:errors="*{form.title}"></div>
                         </div>
@@ -22,7 +20,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="row p-3">
+                <div class="row my-3">
                     <article th:each="task : ${taskListVM.tasks}" class="card mb-3">
                         <div class="card-body">
                             <h5 class="card-title">
@@ -35,7 +33,6 @@
                     </article>
                 </div>
             </div>
-            <div class="col"></div>
         </div>
     </div>
 </body>
