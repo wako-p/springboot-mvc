@@ -1,12 +1,16 @@
 package jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.detail;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public final class TaskUpdateFormVM {
 
     private String id;
+
+    @NotBlank(message = "Please enter a title for the task")
     private String title;
+
     private String description;
     private boolean done;
 

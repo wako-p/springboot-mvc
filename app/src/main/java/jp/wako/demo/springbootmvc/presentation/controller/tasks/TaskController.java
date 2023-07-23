@@ -102,7 +102,11 @@ public class TaskController {
     }
 
     @PutMapping("/tasks/{id}")
-    public String update(@PathVariable final String id, @ModelAttribute("taskDetailVM") final TaskDetailVM vm) {
+    public String update(@PathVariable final String id, @ModelAttribute("taskDetailVM") @Validated final TaskDetailVM vm, final BindingResult result) {
+
+        if (result.hasErrors()) {
+            return "/tasks/task-detail";
+        }
 
         var form = vm.getForm();
         var request = new UpdateTaskRequest(id, form.getTitle(), form.getDescription());
