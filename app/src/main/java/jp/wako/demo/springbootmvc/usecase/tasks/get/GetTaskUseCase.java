@@ -12,7 +12,7 @@ public final class GetTaskUseCase {
 
     private final ITaskRepository repository;
 
-    public GetTaskResponse execute(GetTaskRequest request) {
+    public GetTaskResponse execute(final GetTaskRequest request) {
 
         var maybeTask = this.repository.findBy(request.getId());
         var foundTask = maybeTask.orElseThrow(() -> {
