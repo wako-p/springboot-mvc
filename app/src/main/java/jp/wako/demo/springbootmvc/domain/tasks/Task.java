@@ -18,26 +18,30 @@ public final class Task {
     private final LocalDateTime createAt;
 
     public static Task create(final String title) {
-
-        if (title == null || title.isEmpty()) {
+        if (!isValidTitle(title)) {
             throw new IllegalArgumentException();
         }
-
         return new Task(UUID.randomUUID().toString(), title, "", LocalDateTime.now());
+    }
+
+    private static boolean isValidTitle(final String title) {
+        if (title == null || title.isEmpty()) {
+            return false;
+        }
+        return true;
     }
 
     /**
      * インフラ層からタスクを復元するためのファクトリメソッド
-     * @param id
-     * @param title
-     * @param description
-     * @return
      */
     public static Task reconstruct(final String id, final String title, final String description, final LocalDateTime createAt) {
         return new Task(id, title, description, createAt);
     }
 
     public void updateTitle(final String title) {
+        if (!isValidTitle(title)) {
+            throw new IllegalArgumentException();
+        }
         this.title = title;
     }
 

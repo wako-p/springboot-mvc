@@ -64,4 +64,37 @@ public final class TaskTest {
             assertEquals(LocalDateTime.of(2023, 07, 23, 10, 00), task.getCreateAt());
         }
     }
+
+    @Nested
+    class UpdateTitleTest {
+
+        @Test
+        @DisplayName("引数に指定したタイトルに更新することができる")
+        void test1() {
+            // given:
+            var task = Task.reconstruct("999", "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00));
+
+            // when:
+            task.updateTitle("Task2");
+
+            // then:
+            assertEquals("Task2", task.getTitle());
+        }
+
+        @Test
+        @DisplayName("引数に指定したタイトルがnullまたは空文字の場合は例外がスローされる")
+        void test2() {
+            // given:
+            var task = Task.reconstruct("999", "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00));
+
+            // when/then:
+            assertThrows(IllegalArgumentException.class, () -> {
+                task.updateTitle(null);
+            });
+            assertThrows(IllegalArgumentException.class, () -> {
+                task.updateTitle("");
+            });
+        }
+
+    }
 }
