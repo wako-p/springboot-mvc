@@ -1,6 +1,7 @@
 package jp.wako.demo.springbootmvc.domain.task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDateTime;
 
@@ -25,8 +26,20 @@ public final class TaskTest {
         }
 
         @Test
-        @DisplayName("説明は空文字となる")
+        @DisplayName("引数に指定したタイトルがnullまたは空文字の場合は例外がスローされる")
         void test2() {
+            // when/then:
+            assertThrows(IllegalArgumentException.class, () -> {
+                Task.create(null);
+            });
+            assertThrows(IllegalArgumentException.class, () -> {
+                Task.create("");
+            });
+        }
+
+        @Test
+        @DisplayName("説明は空文字となる")
+        void test3() {
             // when:
             var task = Task.create("test1");
 

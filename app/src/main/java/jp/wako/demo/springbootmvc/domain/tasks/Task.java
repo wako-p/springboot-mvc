@@ -18,6 +18,11 @@ public final class Task {
     private final LocalDateTime createAt;
 
     public static Task create(final String title) {
+
+        if (title == null || title.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+
         return new Task(UUID.randomUUID().toString(), title, "", LocalDateTime.now());
     }
 
