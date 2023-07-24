@@ -40,10 +40,10 @@ public final class InMemoryTaskRepository implements ITaskRepository {
 
     private Task convertEntityToDomain(final TaskEntity taskEntity) {
         return Task.reconstruct(
-                taskEntity.getId(),
-                taskEntity.getTitle(),
-                taskEntity.getDescription(),
-                taskEntity.getCreateAt());
+            taskEntity.getId(),
+            taskEntity.getTitle(),
+            taskEntity.getDescription(),
+            taskEntity.getCreateAt());
     }
 
     public void save(final Task task) {
