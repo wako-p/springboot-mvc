@@ -24,11 +24,7 @@ public final class InMemoryTaskRepository implements ITaskRepository {
         var foundTaskEntities = this.dao.findAll();
         var foundTasks = foundTaskEntities
             .stream()
-            .map(founTaskEntity -> Task.reconstruct(
-                founTaskEntity.getId(),
-                founTaskEntity.getTitle(),
-                founTaskEntity.getDescription(),
-                founTaskEntity.getCreateAt()))
+            .map(this::convertEntityToDomain)
             .collect(Collectors.toList());
 
         return foundTasks;
@@ -37,24 +33,30 @@ public final class InMemoryTaskRepository implements ITaskRepository {
     public Optional<Task> findBy(final String id) {
 
         var maybeTaskEntity = this.dao.findBy(id);
-        var maybeTask = maybeTaskEntity.map(foundTaskEntity -> Task.reconstruct(
-                foundTaskEntity.getId(),
-                foundTaskEntity.getTitle(),
-                foundTaskEntity.getDescription(),
-                foundTaskEntity.getCreateAt()));
+        var maybeTask = maybeTaskEntity.map(this::convertEntityToDomain);
 
         return maybeTask;
     }
 
-    public void save(final Task task) {
+    private Task convertEntityToDomain(final TaskEntity taskEntity) {
+        return Task.reconstruct(
+                taskEntity.getId(),
+                taskEntity.getTitle(),
+                taskEntity.getDescription(),
+                taskEntity.getCreateAt());
+    }
 
-        var taskEntity = new TaskEntity(
+    public void save(final Task task) {
+        var taskEntity = convertDomainToEntity(task);
+        this.dao.save(taskEntity);
+    }
+
+    private TaskEntity convertDomainToEntity(final Task task) {
+        return new TaskEntity(
             task.getId(),
             task.getTitle(),
             task.getDescription(),
             task.getCreateAt());
-
-        this.dao.save(taskEntity);
     }
 
     public void delete(final String id) {
