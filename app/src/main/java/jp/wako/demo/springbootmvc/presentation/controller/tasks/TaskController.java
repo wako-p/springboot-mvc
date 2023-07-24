@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
-import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.TaskVM;
 import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.edit.TaskEditVM;
 import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.list.TaskListVM;
+import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.list.TaskVM;
 import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.view.TaskViewVM;
 import jp.wako.demo.springbootmvc.usecase.tasks.add.AddTaskRequest;
 import jp.wako.demo.springbootmvc.usecase.tasks.add.AddTaskUseCase;

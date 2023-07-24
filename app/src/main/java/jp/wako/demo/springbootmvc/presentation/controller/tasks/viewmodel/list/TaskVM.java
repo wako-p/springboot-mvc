@@ -1,4 +1,4 @@
-package jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel;
+package jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.list;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

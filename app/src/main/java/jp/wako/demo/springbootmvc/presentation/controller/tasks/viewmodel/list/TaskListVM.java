@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.validation.Valid;
-import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.TaskVM;
 import lombok.Data;
 
 @Data
