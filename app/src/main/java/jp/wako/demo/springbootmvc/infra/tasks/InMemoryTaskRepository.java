@@ -1,4 +1,4 @@
-package jp.wako.demo.springbootmvc.infrastructure.tasks;
+package jp.wako.demo.springbootmvc.infra.tasks;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
