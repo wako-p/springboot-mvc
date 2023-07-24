@@ -15,4 +15,8 @@ public final class TaskViewVM {
         this.description = "";
     }
 
+    public String getDescription() {
+        return this.description.replaceAll(System.lineSeparator(), "<br/>");
+    }
+
 }
