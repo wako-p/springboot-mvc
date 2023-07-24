@@ -25,13 +25,13 @@ public final class TaskTest {
         }
 
         @Test
-        @DisplayName("説明には「No description provided.」が設定される")
+        @DisplayName("説明は空文字となる")
         void test2() {
             // when:
             var task = Task.create("test1");
 
             // then:
-            assertEquals("No description provided.", task.getDescription());
+            assertEquals("", task.getDescription());
         }
 
     }
