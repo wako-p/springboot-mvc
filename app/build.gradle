@@ -25,9 +25,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation "org.seasar.doma:doma:2.20.0"
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor "org.seasar.doma:doma:2.20.0"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
