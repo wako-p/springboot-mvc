@@ -1,12 +1,20 @@
 package jp.wako.demo.springbootmvc.infra.tasks.dao;
 
 import java.time.LocalDateTime;
-import lombok.Data;
 
-@Data
+import org.seasar.doma.Entity;
+import org.seasar.doma.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
+@Entity(immutable = true)
+@Table(name = "tasks")
 public final class TaskEntity {
-    private final String id;
-    private final String title;
-    private final String description;
-    private final LocalDateTime createAt;
+    public int id;
+    public String title;
+    public String description;
+    public LocalDateTime createAt;
 }

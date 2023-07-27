@@ -9,9 +9,15 @@ import org.springframework.stereotype.Repository;
 
 import jp.wako.demo.springbootmvc.domain.tasks.ITaskRepository;
 import jp.wako.demo.springbootmvc.domain.tasks.Task;
+import jp.wako.demo.springbootmvc.infra.tasks.dao.ITaskEntityDao;
+import jp.wako.demo.springbootmvc.infra.tasks.dao.TaskEntity;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Repository
-public final class InMemoryTaskRepository implements ITaskRepository {
+public class InMemoryTaskRepository implements ITaskRepository {
+
+    private final ITaskEntityDao dao;
 
     // TODO: Setにする
     private final List<Task> tasks = new ArrayList<>() {{
@@ -30,12 +36,24 @@ public final class InMemoryTaskRepository implements ITaskRepository {
 
     public Optional<Task> findBy(final String id) {
 
+        // var maybeTaskEntity = this.dao.findBy(Integer.parseInt(id));
+        // var maybeTask = maybeTaskEntity.map(this::convertEntityToDomain);
+        // return maybeTask;
+
         var foundTask = this.tasks
             .stream()
             .filter(addedTask -> addedTask.getId().equals(id))
             .findFirst();
 
         return foundTask;
+    }
+
+    private Task convertEntityToDomain(final TaskEntity taskEntity) {
+        return Task.reconstruct(
+            String.valueOf(taskEntity.getId()),
+            taskEntity.getTitle(),
+            taskEntity.getDescription(),
+            taskEntity.getCreateAt());
     }
 
     public void save(final Task task) {

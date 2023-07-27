@@ -11,6 +11,47 @@ java {
     sourceCompatibility = '17'
 }
 
+// テンポラリディレクトリのパスを定義する
+ext.domaResourcesDir = "${buildDir}/tmp/doma-resources"
+
+// domaが注釈処理で参照するリソースをテンポラリディレクトリに抽出
+task extractDomaResources(type: Copy, dependsOn: processResources)  {
+    from processResources.destinationDir
+    include 'doma.compile.config'
+    include 'META-INF/**/*.sql'
+    include 'META-INF/**/*.script'
+    into domaResourcesDir
+}
+
+// テンポラリディレクトリ内のリソースをcompileJavaタスクの出力先ディレクトリにコピーする
+task copyDomaResources(type: Copy, dependsOn: extractDomaResources)  {
+    from domaResourcesDir
+    into compileJava.destinationDir
+}
+
+compileJava {
+    // 上述のタスクに依存させる
+    dependsOn copyDomaResources
+    // テンポラリディレクトリをcompileJavaタスクの入力ディレクトリに設定する
+    inputs.dir domaResourcesDir
+    options.encoding = 'UTF-8'
+    // options.compilerArgs = ['-Adoma.dao.subpackage=impl', '-Adoma.dao.suffix=Impl']
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
+    // テストの実行時は注釈処理を無効にする
+    options.compilerArgs = ['-proc:none']
+}
+
+bootJar {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -25,11 +66,21 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation "org.seasar.doma:doma:2.20.0"
-    compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // lombok
+    compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    annotationProcessor "org.seasar.doma:doma:2.20.0"
+
+    // doma
+    implementation 'org.seasar.doma.boot:doma-spring-boot-starter:1.7.0'
+    implementation 'org.seasar.doma:doma-core:2.54.0'
+    annotationProcessor 'org.seasar.doma:doma-processor:2.54.0'
+
+    // postgres
+    runtimeOnly 'org.postgresql:postgresql'
+
+    // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
