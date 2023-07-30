@@ -2,7 +2,7 @@ package jp.wako.demo.springbootmvc.usecase.tasks.add;
 
 import org.springframework.stereotype.Service;
 
-import jp.wako.demo.springbootmvc.domain.tasks.ITaskRepository;
+import jp.wako.demo.springbootmvc.domain.tasks.TaskRepository;
 import jp.wako.demo.springbootmvc.domain.tasks.Task;
 import lombok.RequiredArgsConstructor;
 
@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public final class AddTaskUseCase {
 
-    private final ITaskRepository repository;
+    private final TaskRepository repository;
 
     public AddTaskResponse execute(final AddTaskRequest request) {
 

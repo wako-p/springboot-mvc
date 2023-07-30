@@ -11,7 +11,7 @@ import org.seasar.doma.boot.ConfigAutowireable;
 // これ外したらBean見つからないって怒られた
 @ConfigAutowireable
 @Dao
-public interface ITaskEntityDao {
+public interface TaskEntityDao {
     // @Select
     // List<TaskEntity> findAll();
 

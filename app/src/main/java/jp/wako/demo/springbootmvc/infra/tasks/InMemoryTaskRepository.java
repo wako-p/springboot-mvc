@@ -7,17 +7,17 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
-import jp.wako.demo.springbootmvc.domain.tasks.ITaskRepository;
+import jp.wako.demo.springbootmvc.domain.tasks.TaskRepository;
 import jp.wako.demo.springbootmvc.domain.tasks.Task;
-import jp.wako.demo.springbootmvc.infra.tasks.dao.ITaskEntityDao;
+import jp.wako.demo.springbootmvc.infra.tasks.dao.TaskEntityDao;
 import jp.wako.demo.springbootmvc.infra.tasks.dao.TaskEntity;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Repository
-public class InMemoryTaskRepository implements ITaskRepository {
+public class InMemoryTaskRepository implements TaskRepository {
 
-    private final ITaskEntityDao dao;
+    private final TaskEntityDao dao;
 
     // TODO: Setにする
     private final List<Task> tasks = new ArrayList<>() {{
