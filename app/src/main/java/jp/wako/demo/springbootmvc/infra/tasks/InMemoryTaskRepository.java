@@ -36,16 +36,17 @@ public class InMemoryTaskRepository implements ITaskRepository {
 
     public Optional<Task> findBy(final String id) {
 
-        // var maybeTaskEntity = this.dao.findBy(Integer.parseInt(id));
-        // var maybeTask = maybeTaskEntity.map(this::convertEntityToDomain);
-        // return maybeTask;
+        // NOTE: DAO使えるかのお試し
+        var maybeTaskEntity = this.dao.findBy(Integer.parseInt(id));
+        var maybeTask = maybeTaskEntity.map(this::convertEntityToDomain);
+        return maybeTask;
 
-        var foundTask = this.tasks
-            .stream()
-            .filter(addedTask -> addedTask.getId().equals(id))
-            .findFirst();
+        // var foundTask = this.tasks
+        //     .stream()
+        //     .filter(addedTask -> addedTask.getId().equals(id))
+        //     .findFirst();
 
-        return foundTask;
+        // return foundTask;
     }
 
     private Task convertEntityToDomain(final TaskEntity taskEntity) {

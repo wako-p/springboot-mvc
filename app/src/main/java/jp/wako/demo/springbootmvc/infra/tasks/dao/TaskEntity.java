@@ -2,6 +2,7 @@ package jp.wako.demo.springbootmvc.infra.tasks.dao;
 
 import java.time.LocalDateTime;
 
+import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 import org.seasar.doma.Table;
 
@@ -16,5 +17,7 @@ public final class TaskEntity {
     public int id;
     public String title;
     public String description;
+
+    @Column(name = "created_at")
     public LocalDateTime createAt;
 }
