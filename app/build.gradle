@@ -12,46 +12,11 @@ java {
     targetCompatibility = 17
 }
 
-// // テンポラリディレクトリのパスを定義する
-// ext.domaResourcesDir = "${buildDir}/tmp/doma-resources"
-
-// // domaが注釈処理で参照するリソースをテンポラリディレクトリに抽出
-// task extractDomaResources(type: Copy, dependsOn: processResources)  {
-//     from processResources.destinationDir
-//     include 'doma.compile.config'
-//     include 'META-INF/**/*.sql'
-//     include 'META-INF/**/*.script'
-//     into domaResourcesDir
-// }
-
-// // テンポラリディレクトリ内のリソースをcompileJavaタスクの出力先ディレクトリにコピーする
-// task copyDomaResources(type: Copy, dependsOn: extractDomaResources)  {
-//     from domaResourcesDir
-//     into compileJava.destinationDir
-// }
-
-// compileJava {
-//     // 上述のタスクに依存させる
-//     dependsOn copyDomaResources
-//     // テンポラリディレクトリをcompileJavaタスクの入力ディレクトリに設定する
-//     inputs.dir domaResourcesDir
-//     options.encoding = 'UTF-8'
-//     // options.compilerArgs = ['-Adoma.dao.subpackage=impl', '-Adoma.dao.suffix=Impl']
-// }
-
-// compileTestJava {
-//     options.encoding = 'UTF-8'
-//     // テストの実行時は注釈処理を無効にする
-//     options.compilerArgs = ['-proc:none']
-// }
-
-// bootJar {
-//     duplicatesStrategy = DuplicatesStrategy.INCLUDE
-// }
-
-// jar {
-//     duplicatesStrategy = DuplicatesStrategy.INCLUDE
-// }
+// TODO: Explorer > JAVA PROJECTS の Rebuild の clean のあとにフックできるようにする
+task copyDomaResources(type: Copy) {
+    from 'src/main/resources/META-INF'
+    into 'bin/default/META-INF'
+}
 
 configurations {
     compileOnly {
