@@ -14,7 +14,7 @@ public final class UpdateTaskUseCase {
 
     public UpdateTaskResponse execute(UpdateTaskRequest request) {
     
-        var maybeTask = this.repository.findBy(request.getId());
+        var maybeTask = this.repository.findBy(Integer.parseInt(request.getId()));
         var foundTask = maybeTask.orElseThrow(() -> {
             throw new DomainException("");
         });

@@ -12,7 +12,7 @@ public final class DeleteTaskUseCase {
     private final TaskRepository repository;
 
     public DeleteTaskResponse execute(final DeleteTaskRequest request) {
-        this.repository.delete(request.getId());
+        this.repository.delete(Integer.parseInt(request.getId()));
         return new DeleteTaskResponse();
     }
 

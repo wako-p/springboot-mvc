@@ -33,7 +33,7 @@ public class InMemoryTaskRepository implements TaskRepository {
         return tasks;
     }
 
-    public Optional<Task> findBy(final String id) {
+    public Optional<Task> findBy(final int id) {
 
         var foundTaskEntity = this.taskEntites
             .stream()
@@ -79,7 +79,7 @@ public class InMemoryTaskRepository implements TaskRepository {
             task.getCreateAt());
     }
 
-    public void delete(final String id) {
+    public void delete(final int id) {
         this.taskEntites.removeIf(addedTask -> addedTask.getId().equals(id));
     }
 

@@ -32,13 +32,13 @@ public class DbTaskRepository implements TaskRepository {
         return tasks;
     }
 
-    public void delete(final String id) {
-        this.dao.delete(Integer.parseInt(id));
+    public void delete(final int id) {
+        this.dao.delete(id);
     }
 
-    public Optional<Task> findBy(final String id) {
+    public Optional<Task> findBy(final int id) {
 
-        var maybeTaskEntity = this.dao.findBy(Integer.parseInt(id));
+        var maybeTaskEntity = this.dao.findBy(id);
         var maybeTask = maybeTaskEntity.map(this::convertToDomain);
 
         return maybeTask;
