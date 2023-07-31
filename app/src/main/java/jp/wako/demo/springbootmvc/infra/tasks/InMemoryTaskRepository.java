@@ -56,31 +56,41 @@ public class InMemoryTaskRepository implements TaskRepository {
 
         if (task.getId() == null) {
 
-            var taskEntity = convertToEntity(task);
-            this.taskEntites.add(taskEntity);
+            var insertTaskEntity = convertToEntity(task);
+            insertTaskEntity.setId(generateId());
+
+            this.taskEntites.add(insertTaskEntity);
 
         } else {
+            var maybeTaskEntity = this.taskEntites
+                .stream()
+                .filter(taskEntity -> taskEntity.getId() == task.getId())
+                .findFirst();
 
-            this.taskEntites.replaceAll(taskEntity -> {
-                if (taskEntity.getId().equals(task.getId())) {
-                    return convertToEntity(task);
-                }
-                return taskEntity;
-            });
+            maybeTaskEntity.orElseThrow(
+                () -> new IllegalArgumentException("Task with ID " + task.getId() + " not found.")
+            );
+            var foundTaskEntity = maybeTaskEntity.get();
 
+            var updateTaskEntity = convertToEntity(task);
+            this.taskEntites.set(taskEntites.indexOf(foundTaskEntity), updateTaskEntity);
         }
     }
 
     private TaskEntity convertToEntity(final Task task) {
         return new TaskEntity(
-            this.taskEntites.size() + 1,
+            task.getId(),
             task.getTitle(),
             task.getDescription(),
             task.getCreateAt());
     }
 
+    private int generateId() {
+        return this.taskEntites.size() + 1;
+    }
+
     public void delete(final int id) {
-        this.taskEntites.removeIf(addedTask -> addedTask.getId().equals(id));
+        this.taskEntites.removeIf(taskEntity -> taskEntity.getId() == id);
     }
 
 }

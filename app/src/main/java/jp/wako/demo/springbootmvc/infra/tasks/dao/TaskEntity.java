@@ -11,9 +11,11 @@ import org.seasar.doma.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @AllArgsConstructor
 @Getter
+@Setter
 @Entity(immutable = true)
 @Table(name = "tasks")
 public final class TaskEntity {
