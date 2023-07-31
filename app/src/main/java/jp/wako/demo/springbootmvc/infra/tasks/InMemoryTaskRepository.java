@@ -9,15 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import jp.wako.demo.springbootmvc.domain.tasks.TaskRepository;
 import jp.wako.demo.springbootmvc.domain.tasks.Task;
-import jp.wako.demo.springbootmvc.infra.tasks.dao.TaskEntityDao;
-import jp.wako.demo.springbootmvc.infra.tasks.dao.TaskEntity;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Repository
 public class InMemoryTaskRepository implements TaskRepository {
-
-    private final TaskEntityDao dao;
 
     // TODO: Setにする
     private final List<Task> tasks = new ArrayList<>() {{
@@ -36,25 +32,12 @@ public class InMemoryTaskRepository implements TaskRepository {
 
     public Optional<Task> findBy(final String id) {
 
-        // NOTE: DAO使えるかのお試し
-        var maybeTaskEntity = this.dao.findBy(Integer.parseInt(id));
-        var maybeTask = maybeTaskEntity.map(this::convertEntityToDomain);
-        return maybeTask;
+        var foundTask = this.tasks
+            .stream()
+            .filter(addedTask -> addedTask.getId().equals(id))
+            .findFirst();
 
-        // var foundTask = this.tasks
-        //     .stream()
-        //     .filter(addedTask -> addedTask.getId().equals(id))
-        //     .findFirst();
-
-        // return foundTask;
-    }
-
-    private Task convertEntityToDomain(final TaskEntity taskEntity) {
-        return Task.reconstruct(
-            taskEntity.getId(),
-            taskEntity.getTitle(),
-            taskEntity.getDescription(),
-            taskEntity.getCreateAt());
+        return foundTask;
     }
 
     public void save(final Task task) {
