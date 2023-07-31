@@ -55,10 +55,10 @@ public final class TaskTest {
         @DisplayName("引数にID、タイトル、説明などを指定して復元することができ、その値が属性として使用される")
         void test1() {
             // when:
-            var task = Task.reconstruct("999", "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00));
+            var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00));
 
             // then:
-            assertEquals("999", task.getId());
+            assertEquals(999, task.getId());
             assertEquals("Task1", task.getTitle());
             assertEquals("This is test description.", task.getDescription());
             assertEquals(LocalDateTime.of(2023, 07, 23, 10, 00), task.getCreateAt());
@@ -72,7 +72,7 @@ public final class TaskTest {
         @DisplayName("引数に指定したタイトルに更新することができる")
         void test1() {
             // given:
-            var task = Task.reconstruct("999", "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00));
+            var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00));
 
             // when:
             task.updateTitle("Task2");
@@ -85,7 +85,7 @@ public final class TaskTest {
         @DisplayName("引数に指定したタイトルがnullまたは空文字の場合は例外がスローされる")
         void test2() {
             // given:
-            var task = Task.reconstruct("999", "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00));
+            var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00));
 
             // when/then:
             assertThrows(IllegalArgumentException.class, () -> {

@@ -23,7 +23,7 @@ public final class UpdateTaskUseCase {
         foundTask.updateDescription(request.getDescription());
         this.repository.save(foundTask);
 
-        var response = new UpdateTaskResponse(foundTask.getId());
+        var response = new UpdateTaskResponse(foundTask.getId().toString());
         return response;
     }
 }

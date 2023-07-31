@@ -21,9 +21,9 @@ public class InMemoryTaskRepository implements TaskRepository {
 
     // TODO: Setにする
     private final List<Task> tasks = new ArrayList<>() {{
-        add(Task.reconstruct("1", "#3245 Replace InMemory repository with Postgres", "This is a task added for testing purposes.", LocalDateTime.of(2023, 07, 23, 10, 00)));
-        add(Task.reconstruct("2", "#3246 Change the structure of the VM for a presentation layer task", "This is a task added for testing purposes.", LocalDateTime.of(2023, 07, 23, 10, 30)));
-        add(Task.reconstruct("3", "#3247 Hide task card description", "This is a task added for testing purposes.", LocalDateTime.of(2023, 07, 23, 11, 00)));
+        add(Task.reconstruct(1, "#3245 Replace InMemory repository with Postgres", "This is a task added for testing purposes.", LocalDateTime.of(2023, 07, 23, 10, 00)));
+        add(Task.reconstruct(2, "#3246 Change the structure of the VM for a presentation layer task", "This is a task added for testing purposes.", LocalDateTime.of(2023, 07, 23, 10, 30)));
+        add(Task.reconstruct(3, "#3247 Hide task card description", "This is a task added for testing purposes.", LocalDateTime.of(2023, 07, 23, 11, 00)));
     }};
 
     public List<Task> findAll() {
@@ -51,7 +51,7 @@ public class InMemoryTaskRepository implements TaskRepository {
 
     private Task convertEntityToDomain(final TaskEntity taskEntity) {
         return Task.reconstruct(
-            String.valueOf(taskEntity.getId()),
+            taskEntity.getId(),
             taskEntity.getTitle(),
             taskEntity.getDescription(),
             taskEntity.getCreateAt());

@@ -19,7 +19,7 @@ public final class GetTaskUseCase {
             throw new DomainException("");
         });
 
-        var response = new GetTaskResponse(foundTask.getId(), foundTask.getTitle(), foundTask.getDescription());
+        var response = new GetTaskResponse(foundTask.getId().toString(), foundTask.getTitle(), foundTask.getDescription());
         return response;
     }
 }

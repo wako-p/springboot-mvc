@@ -51,7 +51,7 @@ public class TaskController {
         var tasks = response.getTasks()
             .stream()
             .map(task -> new TaskVM(
-                task.getId(),
+                task.getId().toString(),
                 task.getTitle(),
                 task.getDescription(),
                 task.getCreateAt().toString()))

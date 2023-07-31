@@ -1,7 +1,6 @@
 package jp.wako.demo.springbootmvc.domain.tasks;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +11,7 @@ import lombok.ToString;
 @Getter
 public final class Task {
 
-    private final String id;
+    private final Integer id;
     private String title;
     private String description;
     private final LocalDateTime createAt;
@@ -21,7 +20,7 @@ public final class Task {
         if (!isValidTitle(title)) {
             throw new IllegalArgumentException();
         }
-        return new Task(UUID.randomUUID().toString(), title, "", LocalDateTime.now());
+        return new Task(null, title, "", LocalDateTime.now());
     }
 
     private static boolean isValidTitle(final String title) {
@@ -34,7 +33,7 @@ public final class Task {
     /**
      * インフラ層からタスクを復元するためのファクトリメソッド
      */
-    public static Task reconstruct(final String id, final String title, final String description, final LocalDateTime createAt) {
+    public static Task reconstruct(final Integer id, final String title, final String description, final LocalDateTime createAt) {
         return new Task(id, title, description, createAt);
     }
 
