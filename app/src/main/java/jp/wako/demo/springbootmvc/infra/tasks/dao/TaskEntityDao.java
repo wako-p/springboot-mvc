@@ -20,7 +20,7 @@ public interface TaskEntityDao {
 
     @Select
     @Sql("""
-            select /*%expand*/* from tasks
+            select * from tasks
             """)
     List<TaskEntity> findAll();
 
