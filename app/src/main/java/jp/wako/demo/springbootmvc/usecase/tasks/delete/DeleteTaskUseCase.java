@@ -2,6 +2,7 @@ package jp.wako.demo.springbootmvc.usecase.tasks.delete;
 
 import org.springframework.stereotype.Service;
 
+import jp.wako.demo.springbootmvc.domain.shared.exception.DomainException;
 import jp.wako.demo.springbootmvc.domain.tasks.TaskRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -12,7 +13,13 @@ public final class DeleteTaskUseCase {
     private final TaskRepository repository;
 
     public DeleteTaskResponse execute(final DeleteTaskRequest request) {
-        this.repository.delete(Integer.parseInt(request.getId()));
+
+        var maybeTask = this.repository.findBy(Integer.parseInt(request.getId()));
+
+        var foundTask = maybeTask
+            .orElseThrow(() -> new DomainException(""));
+
+        this.repository.delete(foundTask);
         return new DeleteTaskResponse();
     }
 

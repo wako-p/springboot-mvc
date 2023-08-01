@@ -16,6 +16,7 @@ public final class GetTaskUseCase {
 
         var maybeTask = this.repository.findBy(Integer.parseInt(request.getId()));
         var foundTask = maybeTask.orElseThrow(() -> {
+            // TODO: throwいらなくね？
             throw new DomainException("");
         });
 

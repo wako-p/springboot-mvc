@@ -32,10 +32,6 @@ public class DbTaskRepository implements TaskRepository {
         return tasks;
     }
 
-    public void delete(final int id) {
-        this.dao.delete(id);
-    }
-
     public Optional<Task> findBy(final int id) {
 
         var maybeTaskEntity = this.dao.findBy(id);
@@ -49,7 +45,7 @@ public class DbTaskRepository implements TaskRepository {
             taskEntity.getId(),
             taskEntity.getTitle(),
             taskEntity.getDescription(),
-            taskEntity.getCreateAt());
+            taskEntity.getCreatedAt());
     }
 
     public void save(final Task task) {
@@ -69,6 +65,11 @@ public class DbTaskRepository implements TaskRepository {
             task.getTitle(),
             task.getDescription(),
             task.getCreateAt());
+    }
+
+    public void delete(final Task task) {
+        var taskEntity = convertToEntity(task);
+        this.dao.delete(taskEntity);
     }
 
 }

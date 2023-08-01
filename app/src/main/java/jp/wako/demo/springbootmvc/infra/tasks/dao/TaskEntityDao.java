@@ -31,23 +31,11 @@ public interface TaskEntityDao {
     Optional<TaskEntity> findBy(final int id);
 
     @Insert
-    @Sql("""
-            insert into tasks(title, description)
-            values(/* task.title */'', /* task.description */'')
-            """)
     Result<TaskEntity> insert(final TaskEntity task);
 
     @Update
-    @Sql("""
-            update tasks
-            set title = /* task.title */'', description = /* task.description */''
-            where id = /* task.id */0
-            """)
     Result<TaskEntity> update(final TaskEntity task);
 
     @Delete
-    @Sql("""
-            delete from tasks where id = /* id */0
-            """)
-    int delete(final int id);
+    Result<TaskEntity> delete(final TaskEntity task);
 }

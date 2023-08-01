@@ -49,7 +49,7 @@ public class InMemoryTaskRepository implements TaskRepository {
             taskEntity.getId(),
             taskEntity.getTitle(),
             taskEntity.getDescription(),
-            taskEntity.getCreateAt());
+            taskEntity.getCreatedAt());
     }
 
     public void save(final Task task) {
@@ -89,8 +89,9 @@ public class InMemoryTaskRepository implements TaskRepository {
         return this.taskEntites.size() + 1;
     }
 
-    public void delete(final int id) {
-        this.taskEntites.removeIf(taskEntity -> taskEntity.getId() == id);
+    public void delete(final Task task) {
+        this.taskEntites.removeIf(
+            taskEntity -> taskEntity.getId() == task.getId());
     }
 
 }
