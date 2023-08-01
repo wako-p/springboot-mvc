@@ -97,4 +97,20 @@ public final class TaskTest {
         }
 
     }
+
+    @Nested
+    class UpdateDescriptionTest {
+        @Test
+        @DisplayName("引数に指定した説明に更新することができる")
+        void test1() {
+            // given:
+            var task = Task.reconstruct(999, "Task1", "created description.", LocalDateTime.of(2023, 07, 23, 10, 00));
+
+            // when:
+            task.updateDescription("updated description.");
+
+            // then:
+            assertEquals("updated description.", task.getDescription());
+        }
+    }
 }
