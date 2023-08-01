@@ -56,8 +56,11 @@ public class InMemoryTaskRepository implements TaskRepository {
 
         if (task.getId() == null) {
 
-            var insertTaskEntity = convertToEntity(task);
-            insertTaskEntity.setId(generateId());
+            var insertTaskEntity = new TaskEntity(
+                generateId(),
+                task.getTitle(),
+                task.getDescription(),
+                task.getCreateAt());
 
             this.taskEntites.add(insertTaskEntity);
 

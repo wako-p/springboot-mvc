@@ -10,21 +10,17 @@ import org.seasar.doma.SequenceGenerator;
 import org.seasar.doma.Table;
 import org.seasar.doma.jdbc.entity.NamingType;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@AllArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity(naming = NamingType.SNAKE_LOWER_CASE, immutable = true)
 @Table(name = "tasks")
 public final class TaskEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(sequence = "tasks_id_seq")
-    public Integer id;
-    public String title;
-    public String description;
-    public LocalDateTime createdAt;
+    public final Integer id;
+    public final String title;
+    public final String description;
+    public final LocalDateTime createdAt;
 }

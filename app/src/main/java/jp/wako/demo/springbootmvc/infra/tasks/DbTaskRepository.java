@@ -23,7 +23,6 @@ public class DbTaskRepository implements TaskRepository {
     public List<Task> findAll() {
 
         var taskEntites = this.dao.findAll();
-
         var tasks = taskEntites
             .stream()
             .map(this::convertToDomain)
