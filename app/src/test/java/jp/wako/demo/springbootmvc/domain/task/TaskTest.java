@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import jp.wako.demo.springbootmvc.domain.shared.exception.DomainException;
 import jp.wako.demo.springbootmvc.domain.tasks.Task;
 
 public final class TaskTest {
@@ -30,10 +31,10 @@ public final class TaskTest {
         @DisplayName("引数に指定したタイトルがnullまたは空文字の場合は例外がスローされる")
         void failure1() {
             // when/then:
-            assertThrows(IllegalArgumentException.class, () -> {
+            assertThrows(DomainException.class, () -> {
                 Task.create(null);
             });
-            assertThrows(IllegalArgumentException.class, () -> {
+            assertThrows(DomainException.class, () -> {
                 Task.create("");
             });
         }
@@ -79,10 +80,10 @@ public final class TaskTest {
             var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00));
 
             // when/then:
-            assertThrows(IllegalArgumentException.class, () -> {
+            assertThrows(DomainException.class, () -> {
                 task.updateTitle(null);
             });
-            assertThrows(IllegalArgumentException.class, () -> {
+            assertThrows(DomainException.class, () -> {
                 task.updateTitle("");
             });
         }

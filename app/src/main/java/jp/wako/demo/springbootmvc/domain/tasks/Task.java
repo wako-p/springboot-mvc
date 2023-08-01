@@ -2,6 +2,7 @@ package jp.wako.demo.springbootmvc.domain.tasks;
 
 import java.time.LocalDateTime;
 
+import jp.wako.demo.springbootmvc.domain.shared.exception.DomainException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
@@ -18,7 +19,7 @@ public final class Task {
 
     public static Task create(final String title) {
         if (!isValidTitle(title)) {
-            throw new IllegalArgumentException();
+            throw new DomainException("");
         }
         return new Task(null, title, "", LocalDateTime.now());
     }
@@ -39,7 +40,7 @@ public final class Task {
 
     public void updateTitle(final String title) {
         if (!isValidTitle(title)) {
-            throw new IllegalArgumentException();
+            throw new DomainException("");
         }
         this.title = title;
     }
