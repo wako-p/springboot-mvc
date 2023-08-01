@@ -16,18 +16,19 @@ public final class TaskTest {
     @Nested
     class CreateTest {
         @Test
-        @DisplayName("引数にタイトルを指定して生成することができ、その値が属性として使用される")
-        void test1() {
+        @DisplayName("引数にタイトルを指定して生成することができ、その値が属性として使用され説明は空文字となる")
+        void success1() {
             // when:
             var task = Task.create("test1");
 
             // then:
             assertEquals("test1", task.getTitle());
+            assertEquals("", task.getDescription());
         }
 
         @Test
         @DisplayName("引数に指定したタイトルがnullまたは空文字の場合は例外がスローされる")
-        void test2() {
+        void failure1() {
             // when/then:
             assertThrows(IllegalArgumentException.class, () -> {
                 Task.create(null);
@@ -37,23 +38,13 @@ public final class TaskTest {
             });
         }
 
-        @Test
-        @DisplayName("説明は空文字となる")
-        void test3() {
-            // when:
-            var task = Task.create("test1");
-
-            // then:
-            assertEquals("", task.getDescription());
-        }
-
     }
 
     @Nested
     class ReconstructTest {
         @Test
         @DisplayName("引数にID、タイトル、説明などを指定して復元することができ、その値が属性として使用される")
-        void test1() {
+        void success1() {
             // when:
             var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00));
 
@@ -70,7 +61,7 @@ public final class TaskTest {
 
         @Test
         @DisplayName("引数に指定したタイトルに更新することができる")
-        void test1() {
+        void success1() {
             // given:
             var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00));
 
@@ -83,7 +74,7 @@ public final class TaskTest {
 
         @Test
         @DisplayName("引数に指定したタイトルがnullまたは空文字の場合は例外がスローされる")
-        void test2() {
+        void failure1() {
             // given:
             var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00));
 
@@ -102,9 +93,9 @@ public final class TaskTest {
     class UpdateDescriptionTest {
         @Test
         @DisplayName("引数に指定した説明に更新することができる")
-        void test1() {
+        void success1() {
             // given:
-            var task = Task.reconstruct(999, "Task1", "created description.", LocalDateTime.of(2023, 07, 23, 10, 00));
+            var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00));
 
             // when:
             task.updateDescription("updated description.");
