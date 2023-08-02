@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public final class GetAllTaskUseCase {
+public class GetAllTaskUseCase {
 
     private final TaskRepository repository;
 
