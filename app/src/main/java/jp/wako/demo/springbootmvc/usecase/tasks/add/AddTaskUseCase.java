@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public final class AddTaskUseCase {
+public class AddTaskUseCase {
 
     private final TaskRepository repository;
 
