@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://db:5432/kanban
+    username: kanban
+    password: kanban1234
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
