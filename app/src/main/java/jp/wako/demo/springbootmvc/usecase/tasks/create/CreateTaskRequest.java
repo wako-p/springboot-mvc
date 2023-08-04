@@ -1,10 +1,10 @@
-package jp.wako.demo.springbootmvc.usecase.tasks.add;
+package jp.wako.demo.springbootmvc.usecase.tasks.create;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public final class AddTaskRequest {
+public final class CreateTaskRequest {
     private final String title;
 }

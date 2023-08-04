@@ -1,4 +1,4 @@
-package jp.wako.demo.springbootmvc.usecase.tasks.add;
+package jp.wako.demo.springbootmvc.usecase.tasks.create;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,17 +9,17 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class AddTaskUseCase {
+public class CreateTaskUseCase {
 
     private final TaskRepository repository;
 
     @Transactional
-    public AddTaskResponse execute(final AddTaskRequest request) {
+    public CreateTaskResponse execute(final CreateTaskRequest request) {
 
         var task = Task.create(request.getTitle());
         this.repository.save(task);
 
-        return new AddTaskResponse();
+        return new CreateTaskResponse();
     }
 
 }

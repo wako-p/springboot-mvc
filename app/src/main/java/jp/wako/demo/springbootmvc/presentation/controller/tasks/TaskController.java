@@ -16,8 +16,8 @@ import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.edit.T
 import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.list.TaskListVM;
 import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.list.TaskVM;
 import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.view.TaskViewVM;
-import jp.wako.demo.springbootmvc.usecase.tasks.add.AddTaskRequest;
-import jp.wako.demo.springbootmvc.usecase.tasks.add.AddTaskUseCase;
+import jp.wako.demo.springbootmvc.usecase.tasks.create.CreateTaskRequest;
+import jp.wako.demo.springbootmvc.usecase.tasks.create.CreateTaskUseCase;
 import jp.wako.demo.springbootmvc.usecase.tasks.delete.DeleteTaskRequest;
 import jp.wako.demo.springbootmvc.usecase.tasks.delete.DeleteTaskUseCase;
 import jp.wako.demo.springbootmvc.usecase.tasks.get.GetTaskRequest;
@@ -33,7 +33,7 @@ import lombok.RequiredArgsConstructor;
 public class TaskController {
 
     private final GetAllTaskUseCase getAllTaskUseCase;
-    private final AddTaskUseCase addTaskUseCase;
+    private final CreateTaskUseCase createTaskUseCase;
     private final DeleteTaskUseCase deleteTaskUseCase;
     private final GetTaskUseCase getTaskUseCase;
     private final UpdateTaskUseCase updateTaskUseCase;
@@ -72,8 +72,8 @@ public class TaskController {
         }
 
         var form = vm.getForm();
-        var request = new AddTaskRequest(form.getTitle());
-        this.addTaskUseCase.execute(request);
+        var request = new CreateTaskRequest(form.getTitle());
+        this.createTaskUseCase.execute(request);
 
         return "redirect:/tasks";
     }
