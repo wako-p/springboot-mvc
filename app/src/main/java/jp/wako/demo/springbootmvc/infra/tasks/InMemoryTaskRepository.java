@@ -37,7 +37,7 @@ public class InMemoryTaskRepository implements TaskRepository {
 
         var foundTaskEntity = this.taskEntites
             .stream()
-            .filter(taskEntity -> taskEntity.getId().equals(id))
+            .filter(taskEntity -> taskEntity.getId() == id)
             .findFirst();
 
         var maybeTask = foundTaskEntity.map(this::convertToDomain);

@@ -6,5 +6,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public final class UpdateTaskResponse {
-    private final String id;
+    private final int id;
 }

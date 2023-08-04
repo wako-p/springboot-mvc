@@ -16,7 +16,7 @@ public class DeleteTaskUseCase {
     @Transactional
     public DeleteTaskResponse execute(final DeleteTaskRequest request) {
 
-        var maybeTask = this.repository.findBy(Integer.parseInt(request.getId()));
+        var maybeTask = this.repository.findBy(request.getId());
         var foundTask = maybeTask
             .orElseThrow(() -> new UseCaseException("Task(id:" + request.getId() + ") not found."));
 

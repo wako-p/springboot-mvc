@@ -51,7 +51,7 @@ public class TaskController {
         var tasks = response.getTasks()
             .stream()
             .map(task -> new TaskVM(
-                task.getId().toString(),
+                task.getId(),
                 task.getTitle(),
                 task.getDescription(),
                 task.getCreateAt().toString()))
@@ -85,7 +85,7 @@ public class TaskController {
 
     @GetMapping("/tasks/{id}/view")
     public String view(
-        @PathVariable final String id,
+        @PathVariable final int id,
         @ModelAttribute("taskViewVM") final TaskViewVM vm) {
 
         var request = new GetTaskRequest(id);
@@ -105,7 +105,7 @@ public class TaskController {
 
     @GetMapping("/tasks/{id}/edit")
     public String edit(
-        @PathVariable final String id,
+        @PathVariable final int id,
         @ModelAttribute("taskEditVM") final TaskEditVM vm) {
 
         var request = new GetTaskRequest(id);
@@ -120,7 +120,7 @@ public class TaskController {
 
     @PutMapping("/tasks/{id}")
     public String update(
-        @PathVariable final String id,
+        @PathVariable final int id,
         @ModelAttribute("taskEditVM") @Validated final TaskEditVM vm,
         final BindingResult result) {
 
@@ -135,7 +135,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/tasks/{id}")
-    public String delete(@PathVariable final String id) {
+    public String delete(@PathVariable final int id) {
 
         var request = new DeleteTaskRequest(id);
         this.deleteTaskUseCase.execute(request);

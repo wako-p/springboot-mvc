@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public final class TaskEditVM {
 
-    private String id;
+    private int id;
 
     @NotBlank(message = "Please enter a title for the task")
     private String title;
@@ -14,7 +14,7 @@ public final class TaskEditVM {
     private String description;
 
     public TaskEditVM() {
-        this.id = "";
+        this.id = 0;
         this.title = "";
         this.description = "";
     }

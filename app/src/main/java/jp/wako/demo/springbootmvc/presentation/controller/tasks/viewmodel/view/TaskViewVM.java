@@ -5,12 +5,12 @@ import lombok.Data;
 @Data
 public final class TaskViewVM {
 
-    private String id;
+    private int id;
     private String title;
     private String description;
 
     public TaskViewVM() {
-        this.id = "";
+        this.id = 0;
         this.title = "";
         this.description = "";
     }

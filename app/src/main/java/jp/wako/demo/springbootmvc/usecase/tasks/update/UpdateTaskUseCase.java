@@ -16,7 +16,7 @@ public class UpdateTaskUseCase {
     @Transactional
     public UpdateTaskResponse execute(UpdateTaskRequest request) {
 
-        var maybeTask = this.repository.findBy(Integer.parseInt(request.getId()));
+        var maybeTask = this.repository.findBy(request.getId());
         var foundTask = maybeTask
             .orElseThrow(() -> new UseCaseException("Task(id:" + request.getId() + ") not found."));
 
@@ -24,7 +24,7 @@ public class UpdateTaskUseCase {
         foundTask.updateDescription(request.getDescription());
         this.repository.save(foundTask);
 
-        var response = new UpdateTaskResponse(foundTask.getId().toString());
+        var response = new UpdateTaskResponse(foundTask.getId());
         return response;
     }
 }

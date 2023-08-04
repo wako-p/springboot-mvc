@@ -6,5 +6,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public final class DeleteTaskRequest {
-    private final String id;
+    private final int id;
 }
