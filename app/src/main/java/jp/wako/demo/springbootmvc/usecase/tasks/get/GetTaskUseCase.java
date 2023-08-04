@@ -2,8 +2,8 @@ package jp.wako.demo.springbootmvc.usecase.tasks.get;
 
 import org.springframework.stereotype.Service;
 
-import jp.wako.demo.springbootmvc.domain.shared.exception.DomainException;
 import jp.wako.demo.springbootmvc.domain.tasks.TaskRepository;
+import jp.wako.demo.springbootmvc.usecase.shared.exception.UseCaseException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -16,7 +16,7 @@ public class GetTaskUseCase {
 
         var maybeTask = this.repository.findBy(Integer.parseInt(request.getId()));
         var foundTask = maybeTask
-            .orElseThrow(() -> new DomainException(""));
+            .orElseThrow(() -> new UseCaseException(""));
 
         var response = new GetTaskResponse(foundTask.getId().toString(), foundTask.getTitle(), foundTask.getDescription());
         return response;

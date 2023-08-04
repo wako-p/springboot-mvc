@@ -3,8 +3,8 @@ package jp.wako.demo.springbootmvc.usecase.tasks.update;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import jp.wako.demo.springbootmvc.domain.shared.exception.DomainException;
 import jp.wako.demo.springbootmvc.domain.tasks.TaskRepository;
+import jp.wako.demo.springbootmvc.usecase.shared.exception.UseCaseException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -18,7 +18,7 @@ public class UpdateTaskUseCase {
     
         var maybeTask = this.repository.findBy(Integer.parseInt(request.getId()));
         var foundTask = maybeTask
-            .orElseThrow(() -> new DomainException(""));
+            .orElseThrow(() -> new UseCaseException(""));
 
         foundTask.updateTitle(request.getTitle());
         foundTask.updateDescription(request.getDescription());
