@@ -33,10 +33,10 @@ import lombok.RequiredArgsConstructor;
 public class TaskController {
 
     private final GetAllTaskUseCase getAllTaskUseCase;
-    private final CreateTaskUseCase createTaskUseCase;
-    private final DeleteTaskUseCase deleteTaskUseCase;
     private final GetTaskUseCase getTaskUseCase;
+    private final CreateTaskUseCase createTaskUseCase;
     private final UpdateTaskUseCase updateTaskUseCase;
+    private final DeleteTaskUseCase deleteTaskUseCase;
 
     @ModelAttribute("taskListVM")
     private TaskListVM initializeTaskListVM() {
