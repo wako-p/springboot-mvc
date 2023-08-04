@@ -15,10 +15,8 @@ public class GetTaskUseCase {
     public GetTaskResponse execute(final GetTaskRequest request) {
 
         var maybeTask = this.repository.findBy(Integer.parseInt(request.getId()));
-        var foundTask = maybeTask.orElseThrow(() -> {
-            // TODO: throwいらなくね？
-            throw new DomainException("");
-        });
+        var foundTask = maybeTask
+            .orElseThrow(() -> new DomainException(""));
 
         var response = new GetTaskResponse(foundTask.getId().toString(), foundTask.getTitle(), foundTask.getDescription());
         return response;

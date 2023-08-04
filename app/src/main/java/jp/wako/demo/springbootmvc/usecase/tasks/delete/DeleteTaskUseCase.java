@@ -17,7 +17,6 @@ public class DeleteTaskUseCase {
     public DeleteTaskResponse execute(final DeleteTaskRequest request) {
 
         var maybeTask = this.repository.findBy(Integer.parseInt(request.getId()));
-
         var foundTask = maybeTask
             .orElseThrow(() -> new DomainException(""));
 
