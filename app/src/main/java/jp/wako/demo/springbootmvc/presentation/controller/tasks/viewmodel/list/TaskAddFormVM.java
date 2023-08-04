@@ -3,6 +3,7 @@ package jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.list;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+// TODO: Add を Create にする
 @Data
 public final class TaskAddFormVM {
 

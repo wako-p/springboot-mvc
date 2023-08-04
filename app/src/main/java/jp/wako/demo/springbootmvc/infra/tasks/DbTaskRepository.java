@@ -54,6 +54,7 @@ public class DbTaskRepository implements TaskRepository {
         if (task.getId() == null) {
             this.dao.insert(taskEntity);
         } else {
+            // TODO: 楽観ロックに失敗したら PersistenceException に変換してスローする
             this.dao.update(taskEntity);
         }
     }

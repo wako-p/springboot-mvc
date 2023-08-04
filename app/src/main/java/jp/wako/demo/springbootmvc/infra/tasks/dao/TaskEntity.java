@@ -23,4 +23,5 @@ public final class TaskEntity {
     public final String title;
     public final String description;
     public final LocalDateTime createdAt;
+    // TODO: version 追加する
 }
