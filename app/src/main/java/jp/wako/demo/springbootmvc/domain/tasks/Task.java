@@ -16,12 +16,13 @@ public final class Task {
     private String title;
     private String description;
     private final LocalDateTime createAt;
+    private final int version;
 
     public static Task create(final String title) {
         if (!isValidTitle(title)) {
             throw new DomainException("");
         }
-        return new Task(null, title, "", LocalDateTime.now());
+        return new Task(null, title, "", LocalDateTime.now(), 1);
     }
 
     private static boolean isValidTitle(final String title) {
@@ -34,8 +35,13 @@ public final class Task {
     /**
      * インフラ層からタスクを復元するためのファクトリメソッド
      */
-    public static Task reconstruct(final Integer id, final String title, final String description, final LocalDateTime createAt) {
-        return new Task(id, title, description, createAt);
+    public static Task reconstruct(
+        final Integer id,
+        final String title,
+        final String description,
+        final LocalDateTime createAt,
+        final int version) {
+        return new Task(id, title, description, createAt, version);
     }
 
     public void updateTitle(final String title) {

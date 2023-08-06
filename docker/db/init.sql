@@ -24,6 +24,7 @@ CREATE TABLE tasks (
     title varchar(255)  NOT NULL DEFAULT '',
     description TEXT  NOT NULL DEFAULT '',
     created_at TIMESTAMP DEFAULT NOW()
+    // TODO: version 追加する integer default 1 not null
 );
 
 INSERT INTO tasks(title, description) VALUES('test1', 'this is test task.');

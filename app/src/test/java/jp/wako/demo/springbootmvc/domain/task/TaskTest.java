@@ -47,7 +47,7 @@ public final class TaskTest {
         @DisplayName("引数にID、タイトル、説明などを指定して復元することができ、その値が属性として使用される")
         void success1() {
             // when:
-            var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00));
+            var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00), 1);
 
             // then:
             assertEquals(999, task.getId());
@@ -64,7 +64,7 @@ public final class TaskTest {
         @DisplayName("引数に指定したタイトルに更新することができる")
         void success1() {
             // given:
-            var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00));
+            var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00), 1);
 
             // when:
             task.updateTitle("Task2");
@@ -77,7 +77,7 @@ public final class TaskTest {
         @DisplayName("引数に指定したタイトルがnullまたは空文字の場合は例外がスローされる")
         void failure1() {
             // given:
-            var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00));
+            var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00), 1);
 
             // when/then:
             assertThrows(DomainException.class, () -> {
@@ -96,7 +96,7 @@ public final class TaskTest {
         @DisplayName("引数に指定した説明に更新することができる")
         void success1() {
             // given:
-            var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00));
+            var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00), 1);
 
             // when:
             task.updateDescription("updated description.");

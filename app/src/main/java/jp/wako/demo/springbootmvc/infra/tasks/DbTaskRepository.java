@@ -44,7 +44,8 @@ public class DbTaskRepository implements TaskRepository {
             taskEntity.getId(),
             taskEntity.getTitle(),
             taskEntity.getDescription(),
-            taskEntity.getCreatedAt());
+            taskEntity.getCreatedAt(),
+            taskEntity.getVersion());
     }
 
     public int save(final Task task) {
@@ -76,7 +77,8 @@ public class DbTaskRepository implements TaskRepository {
             task.getId(),
             task.getTitle(),
             task.getDescription(),
-            task.getCreateAt());
+            task.getCreateAt(),
+            task.getVersion());
     }
 
     public void delete(final Task task) {
