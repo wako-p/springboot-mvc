@@ -11,17 +11,17 @@ public class ExceptionHandler {
 
     @org.springframework.web.bind.annotation.ExceptionHandler(UseCaseException.class)
     public String handleUseCaseException(UseCaseException exception) {
-        return "redirect:/error";
+        return "/error";
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(DomainException.class)
     public String handleDomainException(DomainException exception) {
-        return "redirect:/error";
+        return "/error";
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
     public String handleOtherException(Exception exception) {
-        return "redirect:/error";
+        return "/error";
     }
 
 }
