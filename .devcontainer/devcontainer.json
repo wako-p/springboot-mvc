@@ -21,7 +21,9 @@
                 // Git
                 "donjayamanne.githistory",
                 "mhutchie.git-graph",
-                "eamodio.gitlens"
+                "eamodio.gitlens",
+                // ToDo
+                "Gruntfuggly.todo-tree"
             ]
         }
     }
