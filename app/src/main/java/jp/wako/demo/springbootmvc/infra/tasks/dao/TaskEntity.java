@@ -17,16 +17,15 @@ import lombok.Data;
 @Entity(naming = NamingType.SNAKE_LOWER_CASE, immutable = true)
 @Table(name = "tasks")
 public final class TaskEntity {
-    // TODO: メンバ変数のアクセス修飾子をprivateにする
     // TODO: Entityの基底クラス作成する
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(sequence = "tasks_id_seq")
-    public final Integer id;
-    public final String title;
-    public final String description;
-    public final LocalDateTime createdAt;
+    private final Integer id;
+    private final String title;
+    private final String description;
+    private final LocalDateTime createdAt;
 
     @Version
-    public final int version;
+    private final int version;
 }
