@@ -52,7 +52,7 @@ public class InMemoryTaskRepository implements TaskRepository {
             taskEntity.getCreatedAt());
     }
 
-    public void save(final Task task) {
+    public int save(final Task task) {
 
         if (task.getId() == null) {
 
@@ -63,8 +63,10 @@ public class InMemoryTaskRepository implements TaskRepository {
                 task.getCreateAt());
 
             this.taskEntites.add(insertTaskEntity);
+            return insertTaskEntity.getId();
 
         } else {
+
             var maybeTaskEntity = this.taskEntites
                 .stream()
                 .filter(taskEntity -> taskEntity.getId() == task.getId())
@@ -77,6 +79,8 @@ public class InMemoryTaskRepository implements TaskRepository {
 
             var updateTaskEntity = convertToEntity(task);
             this.taskEntites.set(taskEntites.indexOf(foundTaskEntity), updateTaskEntity);
+            return updateTaskEntity.getId();
+
         }
     }
 

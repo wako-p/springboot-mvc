@@ -47,15 +47,27 @@ public class DbTaskRepository implements TaskRepository {
             taskEntity.getCreatedAt());
     }
 
-    public void save(final Task task) {
+    public int save(final Task task) {
 
         var taskEntity = convertToEntity(task);
 
         if (task.getId() == null) {
-            this.dao.insert(taskEntity);
+
+            var result = this.dao.insert(taskEntity);
+            var insertedTaskEntity = result.getEntity();
+
+            var insertedTask = convertToDomain(insertedTaskEntity);
+            return insertedTask.getId();
+
         } else {
+
             // TODO: 楽観ロックに失敗したら PersistenceException に変換してスローする
-            this.dao.update(taskEntity);
+            var result = this.dao.update(taskEntity);
+            var updateTaskEntity = result.getEntity();
+
+            var updateTask = convertToDomain(updateTaskEntity);
+            return updateTask.getId();
+
         }
     }
 

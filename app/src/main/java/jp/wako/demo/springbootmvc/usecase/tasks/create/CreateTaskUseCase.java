@@ -17,9 +17,9 @@ public class CreateTaskUseCase {
     public CreateTaskResponse execute(final CreateTaskRequest request) {
 
         var task = Task.create(request.getTitle());
-        this.repository.save(task);
+        var createdTaskId = this.repository.save(task);
 
-        return new CreateTaskResponse();
+        return new CreateTaskResponse(createdTaskId);
     }
 
 }

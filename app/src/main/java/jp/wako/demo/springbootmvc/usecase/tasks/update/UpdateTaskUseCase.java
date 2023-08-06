@@ -22,9 +22,9 @@ public class UpdateTaskUseCase {
 
         foundTask.updateTitle(request.getTitle());
         foundTask.updateDescription(request.getDescription());
-        this.repository.save(foundTask);
+        var updatedTaskId = this.repository.save(foundTask);
 
-        var response = new UpdateTaskResponse(foundTask.getId());
+        var response = new UpdateTaskResponse(updatedTaskId);
         return response;
     }
 }
