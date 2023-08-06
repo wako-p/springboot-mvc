@@ -8,9 +8,18 @@
 </head>
 <body>
     <div class="container">
-        <div class="alert alert-danger" role="alert">
-            error
+        <div class="alert alert-danger mt-5" role="alert">
+            <h1 th:text="|${status} ${error}|"></h1>
+            <span th:text="${message}"></span>
         </div>
+        <!-- <div th:text="|timestamp: ${timestamp}|"></div>
+        <div th:text="|status: ${status}|"></div>
+        <div th:text="|error: ${error}|"></div>
+        <div th:text="|exception: ${exception}|"></div>
+        <div th:text="|message: ${message}|"></div>
+        <div th:text="|errors: ${errors}|"></div>
+        <div th:text="|trace: ${trace}|"></div>
+        <div th:text="|path: ${path}|"></div> -->
     </div>
 </body>
 </html>
