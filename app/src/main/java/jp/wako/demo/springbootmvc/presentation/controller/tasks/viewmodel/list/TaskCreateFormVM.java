@@ -3,14 +3,13 @@ package jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.list;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-// TODO: Add を Create にする
 @Data
-public final class TaskAddFormVM {
+public final class TaskCreateFormVM {
 
     @NotBlank(message = "Please enter a title for the task")
     private String title;
 
-    public TaskAddFormVM() {
+    public TaskCreateFormVM() {
         this.title = "";
     }
 
