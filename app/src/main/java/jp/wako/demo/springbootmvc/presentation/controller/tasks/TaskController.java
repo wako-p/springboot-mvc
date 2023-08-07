@@ -46,7 +46,7 @@ public class TaskController {
     }
 
     @GetMapping("/tasks")
-    public String getAll(
+    public String index(
         @ModelAttribute("taskListVM") final TaskListVM vm) {
 
         var response = this.getAllTaskUseCase.execute(new GetAllTaskRequest());
@@ -62,22 +62,6 @@ public class TaskController {
         vm.setTasks(tasks);
 
         return "/tasks/task-list";
-    }
-
-    @PostMapping("/tasks")
-    public String create(
-        @ModelAttribute("taskListVM") @Validated final TaskListVM vm,
-        final BindingResult result) {
-
-        if (result.hasErrors()) {
-            return getAll(vm);
-        }
-
-        var form = vm.getForm();
-        var request = new CreateTaskRequest(form.getTitle());
-        this.createTaskUseCase.execute(request);
-
-        return "redirect:/tasks";
     }
 
     @ModelAttribute("taskViewVM")
@@ -121,14 +105,30 @@ public class TaskController {
         return "/tasks/task-edit";
     }
 
+    @PostMapping("/tasks")
+    public String create(
+        @ModelAttribute("taskListVM") @Validated final TaskListVM vm,
+        final BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return index(vm);
+        }
+
+        var form = vm.getForm();
+        var request = new CreateTaskRequest(form.getTitle());
+        this.createTaskUseCase.execute(request);
+
+        return "redirect:/tasks";
+    }
+
     @PutMapping("/tasks/{id}")
     public String update(
         @PathVariable final int id,
         @ModelAttribute("taskEditVM") @Validated final TaskEditVM vm,
-        final BindingResult result,
+        final BindingResult bindingResult,
         final RedirectAttributes redirectAttributes) {
 
-        if (result.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "/tasks/task-edit";
         }
 
@@ -157,3 +157,4 @@ public class TaskController {
     }
 
 }
+
