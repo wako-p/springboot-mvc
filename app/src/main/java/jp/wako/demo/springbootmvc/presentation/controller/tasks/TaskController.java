@@ -56,8 +56,8 @@ public class TaskController {
                 task.getId(),
                 task.getTitle(),
                 task.getDescription(),
-                task.getCreatedAt().toString(),
-                task.getUpdatedAt().toString()))
+                task.getCreatedAt(),
+                task.getUpdatedAt()))
             .collect(Collectors.toList());
 
         vm.setTasks(tasks);
