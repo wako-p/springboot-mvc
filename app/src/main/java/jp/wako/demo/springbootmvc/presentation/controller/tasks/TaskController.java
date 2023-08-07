@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jp.wako.demo.springbootmvc.infra.shared.exception.PersistenceException;
 import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.edit.TaskEditVM;
 import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.list.TaskListVM;
 import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.list.TaskVM;
@@ -123,17 +125,26 @@ public class TaskController {
     public String update(
         @PathVariable final int id,
         @ModelAttribute("taskEditVM") @Validated final TaskEditVM vm,
-        final BindingResult result) {
+        final BindingResult result,
+        final RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
             return "/tasks/task-edit";
         }
 
-        // TODO: PersistenceException キャッチしたら /tasks/{id}/edit にリダイレクトさせる
-        var request = new UpdateTaskRequest(id, vm.getTitle(), vm.getDescription(), vm.getVersion());
-        var response = this.updateTaskUseCase.execute(request);
+        try {
+            var request = new UpdateTaskRequest(id, vm.getTitle(), vm.getDescription(), vm.getVersion());
+            var response = this.updateTaskUseCase.execute(request);
 
-        return "redirect:/tasks/" + response.getId() + "/view";
+            return "redirect:/tasks/" + response.getId() + "/view";
+
+        } catch (PersistenceException exception) {
+            // NOTE: 楽観ロックに失敗したらもっかい編集画面を表示させる
+            redirectAttributes.addFlashAttribute("alertMessage", exception.getMessage());
+
+            return "redirect:/tasks/" + id + "/edit";
+        }
+
     }
 
     @DeleteMapping("/tasks/{id}")

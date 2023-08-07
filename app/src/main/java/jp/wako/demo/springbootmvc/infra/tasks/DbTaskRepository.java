@@ -5,11 +5,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.context.annotation.Primary;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Repository;
 
 import jp.wako.demo.springbootmvc.domain.tasks.TaskRepository;
 import jp.wako.demo.springbootmvc.domain.tasks.Task;
 import jp.wako.demo.springbootmvc.infra.tasks.dao.TaskEntityDao;
+import jp.wako.demo.springbootmvc.infra.shared.exception.PersistenceException;
 import jp.wako.demo.springbootmvc.infra.tasks.dao.TaskEntity;
 import lombok.RequiredArgsConstructor;
 
@@ -59,17 +61,20 @@ public class DbTaskRepository implements TaskRepository {
 
             var insertedTask = convertToDomain(insertedTaskEntity);
             return insertedTask.getId();
+        }
 
-        } else {
-
-            // TODO: 楽観ロックに失敗したら PersistenceException に変換してスローする
+        try {
             var result = this.dao.update(taskEntity);
             var updateTaskEntity = result.getEntity();
 
             var updateTask = convertToDomain(updateTaskEntity);
             return updateTask.getId();
 
+        } catch (OptimisticLockingFailureException exception) {
+            // NOTE: アプリケーション独自の楽観ロック例外作成してスローした方がよさげ？
+            throw new PersistenceException("Update failed. It has already been updated. Please try again.", exception);
         }
+
     }
 
     private TaskEntity convertToEntity(final Task task) {
