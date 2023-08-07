@@ -12,11 +12,13 @@ public final class TaskEditVM {
     private String title;
 
     private String description;
+    private int version;
 
     public TaskEditVM() {
         this.id = 0;
         this.title = "";
         this.description = "";
+        this.version = 0;
     }
 
 }

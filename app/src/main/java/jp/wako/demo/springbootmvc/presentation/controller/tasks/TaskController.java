@@ -114,6 +114,7 @@ public class TaskController {
         vm.setId(response.getId());
         vm.setTitle(response.getTitle());
         vm.setDescription(response.getDescription());
+        vm.setVersion(response.getVersion());
 
         return "/tasks/task-edit";
     }
@@ -128,7 +129,8 @@ public class TaskController {
             return "/tasks/task-edit";
         }
 
-        var request = new UpdateTaskRequest(id, vm.getTitle(), vm.getDescription());
+        // TODO: PersistenceException キャッチしたら /tasks/{id}/edit にリダイレクトさせる
+        var request = new UpdateTaskRequest(id, vm.getTitle(), vm.getDescription(), vm.getVersion());
         var response = this.updateTaskUseCase.execute(request);
 
         return "redirect:/tasks/" + response.getId() + "/view";

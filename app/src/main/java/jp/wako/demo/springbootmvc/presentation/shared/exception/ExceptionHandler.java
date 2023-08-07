@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import jp.wako.demo.springbootmvc.domain.shared.exception.DomainException;
+import jp.wako.demo.springbootmvc.infra.shared.exception.PersistenceException;
 import jp.wako.demo.springbootmvc.usecase.shared.exception.UseCaseException;
 
 @ControllerAdvice
@@ -25,6 +26,12 @@ public class ExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleDomainException(final Model model, final DomainException exception) {
         return error(model, HttpStatus.BAD_REQUEST, exception);
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(PersistenceException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public String handlePersistenceException(final Model model, final PersistenceException exception) {
+        return error(model, HttpStatus.INTERNAL_SERVER_ERROR, exception);
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)

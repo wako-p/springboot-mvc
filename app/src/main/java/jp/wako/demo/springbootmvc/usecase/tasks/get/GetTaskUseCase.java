@@ -18,7 +18,7 @@ public class GetTaskUseCase {
         var foundTask = maybeTask
             .orElseThrow(() -> new UseCaseException("Task(id:" + request.getId() + ") not found."));
 
-        var response = new GetTaskResponse(foundTask.getId(), foundTask.getTitle(), foundTask.getDescription());
+        var response = new GetTaskResponse(foundTask.getId(), foundTask.getTitle(), foundTask.getDescription(), foundTask.getVersion());
         return response;
     }
 }

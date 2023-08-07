@@ -9,4 +9,5 @@ public final class UpdateTaskRequest {
     private final int id;
     private final String title;
     private final String description;
+    private final int version;
 }
