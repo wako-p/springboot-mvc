@@ -20,8 +20,7 @@ public class UpdateTaskUseCase {
         var foundTask = maybeTask
             .orElseThrow(() -> new UseCaseException("Task(id:" + request.getId() + ") not found."));
 
-        foundTask.updateTitle(request.getTitle());
-        foundTask.updateDescription(request.getDescription());
+        foundTask.update(request.getTitle(), request.getDescription());
         var updatedTaskId = this.repository.save(foundTask);
 
         var response = new UpdateTaskResponse(updatedTaskId);

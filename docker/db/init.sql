@@ -24,6 +24,7 @@ CREATE TABLE tasks (
     title varchar(255)  NOT NULL DEFAULT '',
     description TEXT  NOT NULL DEFAULT '',
     created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW(),
     version INTEGER NOT NULL DEFAULT 1
 );
 

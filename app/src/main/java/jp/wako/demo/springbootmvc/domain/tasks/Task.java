@@ -16,13 +16,14 @@ public final class Task {
     private String title;
     private String description;
     private final LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private final int version;
 
     public static Task create(final String title) {
         if (!isValidTitle(title)) {
             throw new DomainException("");
         }
-        return new Task(null, title, "", LocalDateTime.now(), 1);
+        return new Task(null, title, "", LocalDateTime.now(), LocalDateTime.now(), 1);
     }
 
     private static boolean isValidTitle(final String title) {
@@ -40,18 +41,27 @@ public final class Task {
         final String title,
         final String description,
         final LocalDateTime createAt,
+        final LocalDateTime updateAt,
         final int version) {
-        return new Task(id, title, description, createAt, version);
+        return new Task(id, title, description, createAt, updateAt, version);
     }
 
-    public void updateTitle(final String title) {
+    public void update(final String title, final String description) {
+
+        updateTitle(title);
+        updateDescription(description);
+
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    private void updateTitle(final String title) {
         if (!isValidTitle(title)) {
             throw new DomainException("");
         }
         this.title = title;
     }
 
-    public void updateDescription(final String description) {
+    private void updateDescription(final String description) {
         this.description = description;
     }
 

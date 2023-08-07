@@ -49,7 +49,7 @@ public final class TaskTest {
         @DisplayName("引数にID、タイトル、説明などを指定して復元することができ、その値が属性として使用される。")
         void success1() {
             // when:
-            var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00), 1);
+            var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00), LocalDateTime.of(2023, 07, 23, 10, 00), 1);
 
             // then:
             assertEquals(999, task.getId());
@@ -61,51 +61,40 @@ public final class TaskTest {
     }
 
     @Nested
-    class UpdateTitleTest {
+    class UpdateTest {
 
         @Test
-        @DisplayName("引数に指定したタイトルに更新することができる。")
+        @DisplayName("引数に指定したタイトルと説明で更新することができる。")
         void success1() {
             // given:
-            var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00), 1);
+            var task = Task.reconstruct(999, "title", "description", LocalDateTime.of(2023, 07, 23, 10, 00), LocalDateTime.of(2023, 07, 23, 10, 00), 1);
 
             // when:
-            task.updateTitle("Task2");
+            task.update("updated title", "updated description");
 
             // then:
-            assertEquals("Task2", task.getTitle());
+            assertEquals("updated title", task.getTitle());
+            assertEquals("updated description", task.getDescription());
         }
+
 
         @Test
         @DisplayName("引数に指定したタイトルがnullまたは空文字の場合は例外がスローされる。")
         void failure1() {
             // given:
-            var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00), 1);
+            var task = Task.reconstruct(999, "title", "description", LocalDateTime.of(2023, 07, 23, 10, 00), LocalDateTime.of(2023, 07, 23, 10, 00), 1);
 
             // when/then:
             assertThrows(DomainException.class, () -> {
-                task.updateTitle(null);
+                task.update(null, "description");
             });
             assertThrows(DomainException.class, () -> {
-                task.updateTitle("");
+                task.update("", "description");
             });
         }
 
+        // TODO: 更新日のテスト追加する
+
     }
 
-    @Nested
-    class UpdateDescriptionTest {
-        @Test
-        @DisplayName("引数に指定した説明に更新することができる。")
-        void success1() {
-            // given:
-            var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00), 1);
-
-            // when:
-            task.updateDescription("updated description.");
-
-            // then:
-            assertEquals("updated description.", task.getDescription());
-        }
-    }
 }

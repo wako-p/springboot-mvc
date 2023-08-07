@@ -47,6 +47,7 @@ public class DbTaskRepository implements TaskRepository {
             taskEntity.getTitle(),
             taskEntity.getDescription(),
             taskEntity.getCreatedAt(),
+            taskEntity.getUpdatedAt(),
             taskEntity.getVersion());
     }
 
@@ -83,6 +84,7 @@ public class DbTaskRepository implements TaskRepository {
             task.getTitle(),
             task.getDescription(),
             task.getCreatedAt(),
+            task.getUpdatedAt(),
             task.getVersion());
     }
 

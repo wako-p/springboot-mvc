@@ -25,6 +25,7 @@ public final class TaskEntity {
     private final String title;
     private final String description;
     private final LocalDateTime createdAt;
+    private final LocalDateTime updatedAt;
 
     @Version
     private final int version;

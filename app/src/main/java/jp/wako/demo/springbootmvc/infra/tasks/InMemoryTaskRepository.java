@@ -18,9 +18,9 @@ import lombok.RequiredArgsConstructor;
 public class InMemoryTaskRepository implements TaskRepository {
 
     private final List<TaskEntity> taskEntites = new ArrayList<>() {{
-        add(new TaskEntity(1, "#3245 Replace InMemory repository with Postgres", "This is a task added for testing purposes.", LocalDateTime.of(2023, 07, 23, 10, 00), 1));
-        add(new TaskEntity(2, "#3246 Change the structure of the VM for a presentation layer task", "This is a task added for testing purposes.", LocalDateTime.of(2023, 07, 23, 10, 30), 1));
-        add(new TaskEntity(3, "#3247 Hide task card description", "This is a task added for testing purposes.", LocalDateTime.of(2023, 07, 23, 11, 00), 1));
+        add(new TaskEntity(1, "#3245 Replace InMemory repository with Postgres", "This is a task added for testing purposes.", LocalDateTime.of(2023, 07, 23, 10, 00), LocalDateTime.of(2023, 07, 23, 10, 00), 1));
+        add(new TaskEntity(2, "#3246 Change the structure of the VM for a presentation layer task", "This is a task added for testing purposes.", LocalDateTime.of(2023, 07, 23, 10, 30), LocalDateTime.of(2023, 07, 23, 10, 30), 1));
+        add(new TaskEntity(3, "#3247 Hide task card description", "This is a task added for testing purposes.", LocalDateTime.of(2023, 07, 23, 11, 00), LocalDateTime.of(2023, 07, 23, 11, 00), 1));
     }};
 
     public List<Task> findAll() {
@@ -50,6 +50,7 @@ public class InMemoryTaskRepository implements TaskRepository {
             taskEntity.getTitle(),
             taskEntity.getDescription(),
             taskEntity.getCreatedAt(),
+            taskEntity.getUpdatedAt(),
             taskEntity.getVersion());
     }
 
@@ -62,6 +63,7 @@ public class InMemoryTaskRepository implements TaskRepository {
                 task.getTitle(),
                 task.getDescription(),
                 task.getCreatedAt(),
+                task.getUpdatedAt(),
                 task.getVersion());
 
             this.taskEntites.add(insertTaskEntity);
@@ -84,6 +86,7 @@ public class InMemoryTaskRepository implements TaskRepository {
                 task.getTitle(),
                 task.getDescription(),
                 task.getCreatedAt(),
+                task.getUpdatedAt(),
                 task.getVersion() + 1);
 
             this.taskEntites.set(taskEntites.indexOf(foundTaskEntity), updateTaskEntity);
