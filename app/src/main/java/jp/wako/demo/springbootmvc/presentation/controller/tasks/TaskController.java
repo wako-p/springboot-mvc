@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.wako.demo.springbootmvc.infra.shared.exception.PersistenceException;
-import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.edit.TaskEditVM;
-import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.list.TaskListVM;
-import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.list.TaskVM;
-import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.view.TaskViewVM;
+import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.TaskEditVM;
+import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.TaskIndexVM;
+import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.TaskVM;
+import jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.TaskViewVM;
 import jp.wako.demo.springbootmvc.usecase.tasks.create.CreateTaskRequest;
 import jp.wako.demo.springbootmvc.usecase.tasks.create.CreateTaskUseCase;
 import jp.wako.demo.springbootmvc.usecase.tasks.delete.DeleteTaskRequest;
@@ -40,14 +40,14 @@ public class TaskController {
     private final UpdateTaskUseCase updateTaskUseCase;
     private final DeleteTaskUseCase deleteTaskUseCase;
 
-    @ModelAttribute("taskListVM")
-    private TaskListVM initializeTaskListVM() {
-        return new TaskListVM();
+    @ModelAttribute("taskIndexVM")
+    private TaskIndexVM initializeTaskListVM() {
+        return new TaskIndexVM();
     }
 
     @GetMapping("/tasks")
     public String index(
-        @ModelAttribute("taskListVM") final TaskListVM vm) {
+        @ModelAttribute("taskIndexVM") final TaskIndexVM vm) {
 
         var response = this.getAllTaskUseCase.execute(new GetAllTaskRequest());
         var tasks = response.getTasks()
@@ -56,7 +56,8 @@ public class TaskController {
                 task.getId(),
                 task.getTitle(),
                 task.getDescription(),
-                task.getCreatedAt().toString()))
+                task.getCreatedAt().toString(),
+                task.getUpdatedAt().toString()))
             .collect(Collectors.toList());
 
         vm.setTasks(tasks);
@@ -107,15 +108,15 @@ public class TaskController {
 
     @PostMapping("/tasks")
     public String create(
-        @ModelAttribute("taskListVM") @Validated final TaskListVM vm,
+        @ModelAttribute("taskIndexVM") @Validated final TaskIndexVM vm,
         final BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return index(vm);
         }
 
-        var form = vm.getForm();
-        var request = new CreateTaskRequest(form.getTitle());
+        var taskCreateVM = vm.getTaskCreateVM();
+        var request = new CreateTaskRequest(taskCreateVM.getTitle());
         this.createTaskUseCase.execute(request);
 
         return "redirect:/tasks";

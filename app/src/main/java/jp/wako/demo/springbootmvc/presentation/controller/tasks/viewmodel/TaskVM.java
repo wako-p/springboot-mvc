@@ -1,4 +1,4 @@
-package jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel.list;
+package jp.wako.demo.springbootmvc.presentation.controller.tasks.viewmodel;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -9,5 +9,6 @@ public class TaskVM {
     private final int id;
     private final String title;
     private final String description;
-    private final String createAt;
+    private final String createdAt;
+    private final String updatedAt;
 }
