@@ -15,7 +15,7 @@ public final class Task {
     private final Integer id;
     private String title;
     private String description;
-    private final LocalDateTime createAt;
+    private final LocalDateTime createdAt;
     private final int version;
 
     public static Task create(final String title) {

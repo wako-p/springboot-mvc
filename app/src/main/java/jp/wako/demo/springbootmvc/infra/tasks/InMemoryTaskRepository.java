@@ -61,7 +61,7 @@ public class InMemoryTaskRepository implements TaskRepository {
                 generateId(),
                 task.getTitle(),
                 task.getDescription(),
-                task.getCreateAt(),
+                task.getCreatedAt(),
                 task.getVersion());
 
             this.taskEntites.add(insertTaskEntity);
@@ -83,7 +83,7 @@ public class InMemoryTaskRepository implements TaskRepository {
                 generateId(),
                 task.getTitle(),
                 task.getDescription(),
-                task.getCreateAt(),
+                task.getCreatedAt(),
                 task.getVersion() + 1);
 
             this.taskEntites.set(taskEntites.indexOf(foundTaskEntity), updateTaskEntity);

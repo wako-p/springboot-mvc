@@ -55,7 +55,7 @@ public final class TaskTest {
             assertEquals(999, task.getId());
             assertEquals("Task1", task.getTitle());
             assertEquals("This is test description.", task.getDescription());
-            assertEquals(LocalDateTime.of(2023, 07, 23, 10, 00), task.getCreateAt());
+            assertEquals(LocalDateTime.of(2023, 07, 23, 10, 00), task.getCreatedAt());
             assertEquals(1, task.getVersion());
         }
     }

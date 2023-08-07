@@ -82,7 +82,7 @@ public class DbTaskRepository implements TaskRepository {
             task.getId(),
             task.getTitle(),
             task.getDescription(),
-            task.getCreateAt(),
+            task.getCreatedAt(),
             task.getVersion());
     }
 
