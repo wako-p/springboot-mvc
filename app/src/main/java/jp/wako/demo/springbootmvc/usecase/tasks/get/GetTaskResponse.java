@@ -11,4 +11,3 @@ public final class GetTaskResponse {
     private final String description;
     private final int version;
 }
-
