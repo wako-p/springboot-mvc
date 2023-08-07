@@ -17,18 +17,20 @@ public final class TaskTest {
     @Nested
     class CreateTest {
         @Test
-        @DisplayName("引数にタイトルを指定して生成することができ、その値が属性として使用され説明は空文字となる")
+        @DisplayName("引数にタイトルを指定して生成することができ、その値が属性として使用される。また、IDはnull、説明は空文字、バージョンは1となる。")
         void success1() {
             // when:
             var task = Task.create("test1");
 
             // then:
             assertEquals("test1", task.getTitle());
+            assertEquals(null, task.getId());
             assertEquals("", task.getDescription());
+            assertEquals(1, task.getVersion());
         }
 
         @Test
-        @DisplayName("引数に指定したタイトルがnullまたは空文字の場合は例外がスローされる")
+        @DisplayName("引数に指定したタイトルがnullまたは空文字の場合は例外がスローされる。")
         void failure1() {
             // when/then:
             assertThrows(DomainException.class, () -> {
@@ -44,7 +46,7 @@ public final class TaskTest {
     @Nested
     class ReconstructTest {
         @Test
-        @DisplayName("引数にID、タイトル、説明などを指定して復元することができ、その値が属性として使用される")
+        @DisplayName("引数にID、タイトル、説明などを指定して復元することができ、その値が属性として使用される。")
         void success1() {
             // when:
             var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00), 1);
@@ -54,6 +56,7 @@ public final class TaskTest {
             assertEquals("Task1", task.getTitle());
             assertEquals("This is test description.", task.getDescription());
             assertEquals(LocalDateTime.of(2023, 07, 23, 10, 00), task.getCreateAt());
+            assertEquals(1, task.getVersion());
         }
     }
 
@@ -61,7 +64,7 @@ public final class TaskTest {
     class UpdateTitleTest {
 
         @Test
-        @DisplayName("引数に指定したタイトルに更新することができる")
+        @DisplayName("引数に指定したタイトルに更新することができる。")
         void success1() {
             // given:
             var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00), 1);
@@ -74,7 +77,7 @@ public final class TaskTest {
         }
 
         @Test
-        @DisplayName("引数に指定したタイトルがnullまたは空文字の場合は例外がスローされる")
+        @DisplayName("引数に指定したタイトルがnullまたは空文字の場合は例外がスローされる。")
         void failure1() {
             // given:
             var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00), 1);
@@ -93,7 +96,7 @@ public final class TaskTest {
     @Nested
     class UpdateDescriptionTest {
         @Test
-        @DisplayName("引数に指定した説明に更新することができる")
+        @DisplayName("引数に指定した説明に更新することができる。")
         void success1() {
             // given:
             var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00), 1);
