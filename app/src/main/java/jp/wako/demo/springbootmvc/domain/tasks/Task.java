@@ -15,6 +15,8 @@ public final class Task {
     private final Integer id;
     private String title;
     private String description;
+
+    // TODO: Entityの基底クラスつくる
     private final LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private final int version;
