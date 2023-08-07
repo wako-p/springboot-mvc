@@ -33,7 +33,7 @@ public class InMemoryTaskRepository implements TaskRepository {
         return tasks;
     }
 
-    public Optional<Task> findBy(final int id) {
+    public Optional<Task> findById(final int id) {
 
         var foundTaskEntity = this.taskEntites
             .stream()

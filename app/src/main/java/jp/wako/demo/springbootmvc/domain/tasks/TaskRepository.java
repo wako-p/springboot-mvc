@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public interface TaskRepository {
     List<Task> findAll();
-    Optional<Task> findBy(final int id);
+    Optional<Task> findById(final int id);
     int save(final Task task);
     void delete(final Task task);
 }

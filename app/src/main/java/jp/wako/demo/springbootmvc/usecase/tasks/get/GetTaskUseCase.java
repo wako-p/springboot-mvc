@@ -14,7 +14,7 @@ public class GetTaskUseCase {
 
     public GetTaskResponse execute(final GetTaskRequest request) {
 
-        var maybeTask = this.repository.findBy(request.getId());
+        var maybeTask = this.repository.findById(request.getId());
         var foundTask = maybeTask
             .orElseThrow(() -> new UseCaseException("Task(id:" + request.getId() + ") not found."));
 
@@ -22,3 +22,4 @@ public class GetTaskUseCase {
         return response;
     }
 }
+

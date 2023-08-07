@@ -33,9 +33,9 @@ public class DbTaskRepository implements TaskRepository {
         return tasks;
     }
 
-    public Optional<Task> findBy(final int id) {
+    public Optional<Task> findById(final int id) {
 
-        var maybeTaskEntity = this.dao.findBy(id);
+        var maybeTaskEntity = this.dao.findById(id);
         var maybeTask = maybeTaskEntity.map(this::convertToDomain);
 
         return maybeTask;

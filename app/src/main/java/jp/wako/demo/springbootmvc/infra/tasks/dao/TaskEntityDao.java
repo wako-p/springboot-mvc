@@ -28,7 +28,7 @@ public interface TaskEntityDao {
     @Sql("""
             select * from tasks where id = /* id */0
             """)
-    Optional<TaskEntity> findBy(final int id);
+    Optional<TaskEntity> findById(final int id);
 
     @Insert
     Result<TaskEntity> insert(final TaskEntity task);
