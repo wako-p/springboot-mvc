@@ -1,10 +1,8 @@
 package jp.wako.demo.springbootmvc.usecase.tasks.get;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
 
-@RequiredArgsConstructor
-@Getter
+@Data
 public final class GetTaskRequest {
     private final Integer id;
 }
