@@ -9,8 +9,6 @@ import lombok.Getter;
 @Getter
 public final class Task extends Entity {
 
-    // NOTE: IDもEntityに移譲しても良いかも？
-    private final Integer id;
     private String title;
     private String description;
 
@@ -21,8 +19,7 @@ public final class Task extends Entity {
         final LocalDateTime createdAt,
         final LocalDateTime updatedAt,
         final int version) {
-            super(createdAt, updatedAt, version);
-            this.id = id;
+            super(id, createdAt, updatedAt, version);
             this.title = title;
             this.description = description;
     }
