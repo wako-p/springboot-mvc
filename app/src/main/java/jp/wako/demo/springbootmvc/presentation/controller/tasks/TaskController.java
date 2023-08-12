@@ -72,7 +72,7 @@ public class TaskController {
 
     @GetMapping("/tasks/{id}/view")
     public String view(
-        @PathVariable final int id,
+        @PathVariable final Integer id,
         @ModelAttribute("taskViewVM") final TaskViewVM vm) {
 
         var request = new GetTaskRequest(id);
@@ -92,7 +92,7 @@ public class TaskController {
 
     @GetMapping("/tasks/{id}/edit")
     public String edit(
-        @PathVariable final int id,
+        @PathVariable final Integer id,
         @ModelAttribute("taskEditVM") final TaskEditVM vm) {
 
         var request = new GetTaskRequest(id);
@@ -124,7 +124,7 @@ public class TaskController {
 
     @PutMapping("/tasks/{id}")
     public String update(
-        @PathVariable final int id,
+        @PathVariable final Integer id,
         @ModelAttribute("taskEditVM") @Validated final TaskEditVM vm,
         final BindingResult bindingResult,
         final RedirectAttributes redirectAttributes) {
@@ -149,7 +149,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/tasks/{id}")
-    public String delete(@PathVariable final int id) {
+    public String delete(@PathVariable final Integer id) {
 
         var request = new DeleteTaskRequest(id);
         this.deleteTaskUseCase.execute(request);

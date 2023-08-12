@@ -18,7 +18,7 @@ public final class Task extends Entity {
         final String description,
         final LocalDateTime createdAt,
         final LocalDateTime updatedAt,
-        final int version) {
+        final Integer version) {
             super(id, createdAt, updatedAt, version);
             this.title = title;
             this.description = description;
@@ -53,7 +53,7 @@ public final class Task extends Entity {
         final String description,
         final LocalDateTime createAt,
         final LocalDateTime updateAt,
-        final int version) {
+        final Integer version) {
         return new Task(id, title, description, createAt, updateAt, version);
     }
 

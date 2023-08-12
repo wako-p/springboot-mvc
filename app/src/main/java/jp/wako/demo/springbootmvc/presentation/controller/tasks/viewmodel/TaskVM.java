@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public class TaskVM {
-    private final int id;
+    private final Integer id;
     private final String title;
     private final String description;
     private final LocalDateTime createdAt;

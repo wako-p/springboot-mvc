@@ -33,7 +33,7 @@ public class InMemoryTaskRepository implements TaskRepository {
         return tasks;
     }
 
-    public Optional<Task> findById(final int id) {
+    public Optional<Task> findById(final Integer id) {
 
         var foundTaskEntity = this.taskEntites
             .stream()
@@ -54,7 +54,7 @@ public class InMemoryTaskRepository implements TaskRepository {
             taskEntity.getVersion());
     }
 
-    public int save(final Task task) {
+    public Integer save(final Task task) {
 
         if (task.getId() == null) {
 
@@ -95,7 +95,7 @@ public class InMemoryTaskRepository implements TaskRepository {
         }
     }
 
-    private int generateId() {
+    private Integer generateId() {
         return this.taskEntites.size() + 1;
     }
 

@@ -33,7 +33,7 @@ public class DbTaskRepository implements TaskRepository {
         return tasks;
     }
 
-    public Optional<Task> findById(final int id) {
+    public Optional<Task> findById(final Integer id) {
 
         var maybeTaskEntity = this.dao.findById(id);
         var maybeTask = maybeTaskEntity.map(this::convertToDomain);
@@ -51,7 +51,7 @@ public class DbTaskRepository implements TaskRepository {
             taskEntity.getVersion());
     }
 
-    public int save(final Task task) {
+    public Integer save(final Task task) {
 
         var taskEntity = convertToEntity(task);
 

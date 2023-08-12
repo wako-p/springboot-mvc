@@ -34,7 +34,7 @@ public final class TaskEntity extends ImmutableEntity {
         final String description,
         final LocalDateTime createdAt,
         final LocalDateTime updatedAt,
-        final int version) {
+        final Integer version) {
             super(createdAt, updatedAt, version);
             this.id = id;
             this.title = title;

@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public final class TaskViewVM {
 
-    private int id;
+    private Integer id;
     private String title;
     private String description;
 

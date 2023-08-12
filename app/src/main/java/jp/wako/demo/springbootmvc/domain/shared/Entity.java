@@ -11,5 +11,5 @@ public class Entity {
     private final Integer id;
     private final LocalDateTime createdAt;
     protected LocalDateTime updatedAt;
-    private final int version;
+    private final Integer version;
 }
