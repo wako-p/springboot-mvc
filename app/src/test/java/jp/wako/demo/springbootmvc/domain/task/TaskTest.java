@@ -13,14 +13,14 @@ import org.mockito.Mockito;
 import jp.wako.demo.springbootmvc.domain.shared.exception.DomainException;
 import jp.wako.demo.springbootmvc.domain.tasks.Task;
 
-public final class TaskTest {
+public class TaskTest {
 
     @Nested
-    class CreateTest {
+    public class CreateTest {
 
         @Test
         @DisplayName("引数にタイトルを指定して生成することができ、その値が属性として使用される。")
-        void success1() {
+        public void success1() {
             // when:
             var task = Task.create("title");
 
@@ -30,7 +30,7 @@ public final class TaskTest {
 
         @Test
         @DisplayName("引数にタイトルを指定して生成することができ、IDはnull、説明は空文字、作成日/更新日は現在の日時、バージョンは1となる。")
-        void success2() {
+        public void success2() {
             // given:
             // LocalDateTime.now()の返り値を固定化する
             var datetime = LocalDateTime.of(2023, 07, 23, 11, 00);
@@ -51,7 +51,7 @@ public final class TaskTest {
 
         @Test
         @DisplayName("引数に指定したタイトルがnullまたは空文字の場合は例外がスローされる。")
-        void failure1() {
+        public void failure1() {
             // when/then:
             assertThrows(DomainException.class, () -> {
                 Task.create(null);
@@ -67,7 +67,7 @@ public final class TaskTest {
     class ReconstructTest {
         @Test
         @DisplayName("引数にID、タイトル、説明などを指定して復元することができ、その値が属性として使用される。")
-        void success1() {
+        public void success1() {
             // when:
             var task = Task.reconstruct(999, "Task1", "This is test description.", LocalDateTime.of(2023, 07, 23, 10, 00), LocalDateTime.of(2023, 07, 23, 10, 00), 1);
 
@@ -86,7 +86,7 @@ public final class TaskTest {
 
         @Test
         @DisplayName("引数に指定したタイトルと説明で更新することができる。また更新日はそのときの日時となる。")
-        void success1() {
+        public void success1() {
             // given:
             // LocalDateTime.now()の返り値を固定化する
             var datetime = LocalDateTime.of(2023, 07, 23, 11, 00);
@@ -114,7 +114,7 @@ public final class TaskTest {
 
         @Test
         @DisplayName("引数に指定したタイトルがnullまたは空文字の場合は例外がスローされる。")
-        void failure1() {
+        public void failure1() {
             // given:
             var task = Task.reconstruct(999, "title", "description", LocalDateTime.of(2023, 07, 23, 10, 00), LocalDateTime.of(2023, 07, 23, 10, 00), 1);
 
