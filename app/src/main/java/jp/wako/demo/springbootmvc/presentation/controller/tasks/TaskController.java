@@ -41,7 +41,7 @@ public class TaskController {
     private final DeleteTaskUseCase deleteTaskUseCase;
 
     @ModelAttribute("taskIndexVM")
-    private TaskIndexVM initializeTaskListVM() {
+    private TaskIndexVM initializeTaskIndexVM() {
         return new TaskIndexVM();
     }
 
