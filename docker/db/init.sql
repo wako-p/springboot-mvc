@@ -18,9 +18,10 @@ GRANT ALL PRIVILEGES ON DATABASE kanban TO kanban;
 
 -- create table
 -- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE SEQUENCE tasks_id_seq START 100;
 CREATE TABLE tasks (
     -- id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-    id SERIAL PRIMARY KEY,
+    id integer DEFAULT nextval('tasks_id_seq') PRIMARY KEY,
     title varchar(255)  NOT NULL DEFAULT '',
     description TEXT  NOT NULL DEFAULT '',
     created_at TIMESTAMP DEFAULT NOW(),
