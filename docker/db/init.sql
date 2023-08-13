@@ -21,9 +21,9 @@ GRANT ALL PRIVILEGES ON DATABASE kanban TO kanban;
 CREATE SEQUENCE tasks_id_seq START 100;
 CREATE TABLE tasks (
     -- id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-    id integer DEFAULT nextval('tasks_id_seq') PRIMARY KEY,
-    title varchar(255)  NOT NULL DEFAULT '',
-    description TEXT  NOT NULL DEFAULT '',
+    id INTEGER DEFAULT nextval('tasks_id_seq') PRIMARY KEY,
+    title VARCHAR(255) NOT NULL DEFAULT '',
+    description TEXT NOT NULL DEFAULT '',
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW(),
     version INTEGER NOT NULL DEFAULT 1
