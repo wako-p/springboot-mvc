@@ -11,8 +11,8 @@ public class TestTaskFactory {
             100,
             "title",
             "description",
-            LocalDateTime.now(),
-            LocalDateTime.now(),
+            LocalDateTime.now().withNano(0),
+            LocalDateTime.now().withNano(0),
             1);
         return task;
     }
@@ -22,8 +22,8 @@ public class TestTaskFactory {
             id,
             "title",
             "description",
-            LocalDateTime.now(),
-            LocalDateTime.now(),
+            LocalDateTime.now().withNano(0),
+            LocalDateTime.now().withNano(0),
             1);
         return task;
     }

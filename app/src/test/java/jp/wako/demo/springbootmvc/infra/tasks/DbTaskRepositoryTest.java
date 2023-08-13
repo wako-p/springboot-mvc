@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -32,22 +31,23 @@ public class DbTaskRepositoryTest {
         public void success1() {
             // given:
             // 検索対象のデータを作成して保存
-            // NOTE: なんかof()で生成するとテスト失敗するので文字列から生成する
-            var createdAt = LocalDateTime.parse("2023/08/13 17:00", DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm"));
-            var updatedAt = LocalDateTime.parse("2023/08/13 17:00", DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm"));
-            var createdTask = TestTaskFactory.create(null, createdAt, updatedAt);
-            var createdTaskId = this.repository.save(createdTask);
+            var saveTask = TestTaskFactory.create(
+                null,
+                LocalDateTime.of(2023, 8, 13, 17, 30).withNano(0),
+                LocalDateTime.of(2023, 8, 13, 17, 30).withNano(0));
+
+            var savedTaskId = this.repository.save(saveTask);
 
             // when:
-            var maybeTask = this.repository.findById(createdTaskId);
+            var maybeTask = this.repository.findById(savedTaskId);
             var foundTask = maybeTask.orElseGet(() -> fail());
 
             // then:
-            assertEquals(createdTaskId, foundTask.getId());
+            assertEquals(savedTaskId, foundTask.getId());
             assertEquals("title", foundTask.getTitle());
             assertEquals("description", foundTask.getDescription());
-            assertEquals(createdAt, foundTask.getCreatedAt());
-            assertEquals(updatedAt, foundTask.getUpdatedAt());
+            assertEquals(LocalDateTime.of(2023, 8, 13, 17, 30).withNano(0), foundTask.getCreatedAt());
+            assertEquals(LocalDateTime.of(2023, 8, 13, 17, 30).withNano(0), foundTask.getUpdatedAt());
             assertEquals(1, foundTask.getVersion());
         }
 

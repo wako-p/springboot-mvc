@@ -32,8 +32,8 @@ public final class Task extends Entity {
             null,
             title,
             "",
-            LocalDateTime.now(),
-            LocalDateTime.now(),
+            LocalDateTime.now().withNano(0),
+            LocalDateTime.now().withNano(0),
             1);
     }
 

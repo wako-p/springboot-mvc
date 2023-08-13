@@ -33,7 +33,7 @@ public class TaskTest {
         public void success2() {
             // given:
             // LocalDateTime.now()の返り値を固定化する
-            var datetime = LocalDateTime.of(2023, 07, 23, 11, 00);
+            var datetime = LocalDateTime.of(2023, 07, 23, 11, 00).withNano(0);
             var mock = Mockito.mockStatic(LocalDateTime.class);
             mock.when(LocalDateTime::now).thenReturn(datetime);
 
@@ -89,7 +89,7 @@ public class TaskTest {
         public void success1() {
             // given:
             // LocalDateTime.now()の返り値を固定化する
-            var datetime = LocalDateTime.of(2023, 07, 23, 11, 00);
+            var datetime = LocalDateTime.of(2023, 07, 23, 11, 00).withNano(0);
             var mock = Mockito.mockStatic(LocalDateTime.class);
             mock.when(LocalDateTime::now).thenReturn(datetime);
 
