@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.DisplayName;
@@ -14,6 +15,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import jp.wako.demo.springbootmvc.domain.shared.exception.DomainException;
+import jp.wako.demo.springbootmvc.domain.tasks.Task;
 
 public class ProjectTest {
     
@@ -36,6 +38,16 @@ public class ProjectTest {
             // then:
             assertEquals(name, project.getName());
             assertEquals(description, project.getDescription());
+        }
+
+        @Test
+        @DisplayName("プロジェクトの課題は0件になっている。")
+        public void success2() {
+            // when:
+            var project = Project.create("ProjectA", "This is a test project.");
+
+            // then:
+            assertEquals(0, project.issues.size());
         }
 
         static Stream<Arguments> parameterForFailure1() {
@@ -66,7 +78,7 @@ public class ProjectTest {
     }
 
     @Nested
-    class ReconstructTest {
+    public class ReconstructTest {
 
         @Test
         @DisplayName("引数にID、プロジェクト名、説明などを指定して復元することができ、その値が属性として使用される。")
@@ -76,6 +88,7 @@ public class ProjectTest {
                 999,
                 "ProjectA",
                 "This is a test project.",
+                new ArrayList<>(),
                 LocalDateTime.of(2023, 9, 2, 18, 00).withNano(0),
                 LocalDateTime.of(2023, 9, 2, 18, 00).withNano(0),
                 1);
@@ -87,6 +100,30 @@ public class ProjectTest {
             assertEquals(LocalDateTime.of(2023, 9, 2, 18, 00).withNano(0), project.getCreatedAt());
             assertEquals(LocalDateTime.of(2023, 9, 2, 18, 00).withNano(0), project.getUpdatedAt());
             assertEquals(1, project.getVersion());
+        }
+
+    }
+
+    @Nested
+    public class AddTest {
+
+        @Test
+        @DisplayName("課題を追加することができる")
+        public void success1() {
+            // given:
+            var project = Project.create("ProjectA", "This is a test project.");
+
+            var issue1 = Task.reconstruct(1000, "TaskA", "This is a test task1.", LocalDateTime.of(2023, 9, 2, 20, 10, 00), LocalDateTime.of(2023, 9, 2, 20, 10, 00), 1);
+            var issue2 = Task.reconstruct(1001, "TaskB", "This is a test task2.", LocalDateTime.of(2023, 9, 2, 20, 20, 00), LocalDateTime.of(2023, 9, 2, 20, 20, 00), 1);
+            var issue3 = Task.reconstruct(1002, "TaskC", "This is a test task3.", LocalDateTime.of(2023, 9, 2, 20, 30, 00), LocalDateTime.of(2023, 9, 2, 20, 30, 00), 1);
+
+            // when:
+            project.add(issue1);
+            project.add(issue2);
+            project.add(issue3);
+
+            // then:
+            assertEquals(3, project.issues.size());
         }
 
     }
