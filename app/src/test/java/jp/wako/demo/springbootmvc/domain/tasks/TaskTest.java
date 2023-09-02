@@ -1,4 +1,4 @@
-package jp.wako.demo.springbootmvc.domain.task;
+package jp.wako.demo.springbootmvc.domain.tasks;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import jp.wako.demo.springbootmvc.domain.shared.exception.DomainException;
-import jp.wako.demo.springbootmvc.domain.tasks.Task;
 
 public class TaskTest {
 
