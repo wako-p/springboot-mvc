@@ -62,7 +62,7 @@ public class TaskController {
 
         vm.setTasks(tasks);
 
-        return "/tasks/task-list";
+        return "/tasks/list";
     }
 
     @ModelAttribute("taskViewVM")
@@ -82,7 +82,7 @@ public class TaskController {
         vm.setTitle(response.getTitle());
         vm.setDescription(response.getDescription());
 
-        return "/tasks/task-view";
+        return "/tasks/view";
     }
 
     @ModelAttribute("taskEditVM")
@@ -103,7 +103,7 @@ public class TaskController {
         vm.setDescription(response.getDescription());
         vm.setVersion(response.getVersion());
 
-        return "/tasks/task-edit";
+        return "/tasks/edit";
     }
 
     @PostMapping("/tasks")
@@ -130,7 +130,7 @@ public class TaskController {
         final RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            return "/tasks/task-edit";
+            return "/tasks/edit";
         }
 
         try {
