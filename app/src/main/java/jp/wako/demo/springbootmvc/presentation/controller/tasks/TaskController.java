@@ -41,7 +41,7 @@ public class TaskController {
     private final DeleteTaskUseCase deleteTaskUseCase;
 
     @ModelAttribute("taskIndexVM")
-    private TaskIndexVM initializeTaskIndexVM() {
+    private TaskIndexVM createTaskIndexVM() {
         return new TaskIndexVM();
     }
 
@@ -66,7 +66,7 @@ public class TaskController {
     }
 
     @ModelAttribute("taskViewVM")
-    private TaskViewVM initializeTaskViewVM() {
+    private TaskViewVM createTaskViewVM() {
         return new TaskViewVM();
     }
 
@@ -86,7 +86,7 @@ public class TaskController {
     }
 
     @ModelAttribute("taskEditVM")
-    private TaskEditVM initializeTaskEditVM() {
+    private TaskEditVM createTaskEditVM() {
         return new TaskEditVM();
     }
 
