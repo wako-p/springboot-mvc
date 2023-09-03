@@ -12,17 +12,20 @@ import lombok.Getter;
 @Getter
 public final class Issue extends Entity {
 
+    private Integer projectId;
     private String title;
     private String description;
 
     private Issue(
         final Integer id,
+        final Integer projectId,
         final String title,
         final String description,
         final LocalDateTime createdAt,
         final LocalDateTime updatedAt,
         final Integer version) {
             super(id, createdAt, updatedAt, version);
+            this.projectId = projectId;
             this.title = title;
             this.description = description;
     }
@@ -32,6 +35,7 @@ public final class Issue extends Entity {
             throw new DomainException("");
         }
         return new Issue(
+            null,
             null,
             title,
             "",
@@ -52,12 +56,13 @@ public final class Issue extends Entity {
      */
     public static Issue reconstruct(
         final Integer id,
+        final Integer projectId,
         final String title,
         final String description,
         final LocalDateTime createdAt,
         final LocalDateTime updatedAt,
         final Integer version) {
-        return new Issue(id, title, description, createdAt, updatedAt, version);
+        return new Issue(id, projectId, title, description, createdAt, updatedAt, version);
     }
 
     public void update(final String title, final String description) {

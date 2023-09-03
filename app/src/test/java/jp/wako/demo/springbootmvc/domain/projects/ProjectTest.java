@@ -85,7 +85,7 @@ public class ProjectTest {
         public void success1() {
             // when:
             var project = Project.reconstruct(
-                999,
+                1000,
                 "ProjectA",
                 "This is a test project.",
                 new ArrayList<>(),
@@ -94,7 +94,7 @@ public class ProjectTest {
                 1);
 
             // then:
-            assertEquals(999, project.getId());
+            assertEquals(1000, project.getId());
             assertEquals("ProjectA", project.getName());
             assertEquals("This is a test project.", project.getDescription());
             assertEquals(LocalDateTime.of(2023, 9, 2, 18, 00).withNano(0), project.getCreatedAt());
@@ -113,9 +113,9 @@ public class ProjectTest {
             // given:
             var project = Project.create("ProjectA", "This is a test project.");
 
-            var issue1 = Issue.reconstruct(1000, "IssueA", "This is a test issue.", LocalDateTime.of(2023, 9, 2, 20, 10, 00), LocalDateTime.of(2023, 9, 2, 20, 10, 00), 1);
-            var issue2 = Issue.reconstruct(1001, "IssueB", "This is a test issue.", LocalDateTime.of(2023, 9, 2, 20, 20, 00), LocalDateTime.of(2023, 9, 2, 20, 20, 00), 1);
-            var issue3 = Issue.reconstruct(1002, "IssueC", "This is a test issue.", LocalDateTime.of(2023, 9, 2, 20, 30, 00), LocalDateTime.of(2023, 9, 2, 20, 30, 00), 1);
+            var issue1 = Issue.reconstruct(1000, 1000, "IssueA", "This is a test issue.", LocalDateTime.of(2023, 9, 2, 20, 10, 00), LocalDateTime.of(2023, 9, 2, 20, 10, 00), 1);
+            var issue2 = Issue.reconstruct(1001, 1000, "IssueB", "This is a test issue.", LocalDateTime.of(2023, 9, 2, 20, 20, 00), LocalDateTime.of(2023, 9, 2, 20, 20, 00), 1);
+            var issue3 = Issue.reconstruct(1002, 1000, "IssueC", "This is a test issue.", LocalDateTime.of(2023, 9, 2, 20, 30, 00), LocalDateTime.of(2023, 9, 2, 20, 30, 00), 1);
 
             // when:
             project.add(issue1);

@@ -22,6 +22,7 @@ public class IssueEntityConverterTest {
             var converter = new IssueEntityConverter();
             var entity = new IssueEntity(
                 1000,
+                1000,
                 "Issue1",
                 "This is a test issue.",
                 LocalDateTime.of(2023, 9, 3, 14, 00, 00),
@@ -33,6 +34,7 @@ public class IssueEntityConverterTest {
 
             // then:
             assertEquals(1000, domain.getId());
+            assertEquals(1000, domain.getProjectId());
             assertEquals("Issue1", domain.getTitle());
             assertEquals("This is a test issue.", domain.getDescription());
             assertEquals(LocalDateTime.of(2023, 9, 3, 14, 00, 00), domain.getCreatedAt());
@@ -52,6 +54,7 @@ public class IssueEntityConverterTest {
             var converter = new IssueEntityConverter();
             var domain = Issue.reconstruct(
                 1000,
+                1000,
                 "Issue1",
                 "This is a test issue.",
                 LocalDateTime.of(2023, 9, 3, 14, 00, 00),
@@ -63,6 +66,7 @@ public class IssueEntityConverterTest {
 
             // then:
             assertEquals(1000, entity.getId());
+            assertEquals(1000, entity.getProjectId());
             assertEquals("Issue1", entity.getTitle());
             assertEquals("This is a test issue.", entity.getDescription());
             assertEquals(LocalDateTime.of(2023, 9, 3, 14, 00, 00), entity.getCreatedAt());

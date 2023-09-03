@@ -19,9 +19,9 @@ import lombok.RequiredArgsConstructor;
 public class IssueInMemoryRepository implements IssueRepository {
 
     private final List<IssueEntity> issueEntities = new ArrayList<>() {{
-        add(new IssueEntity(1, "#3245 Replace InMemory repository with Postgres", "This is a issue added for testing purposes.", LocalDateTime.of(2023, 07, 23, 10, 00, 00), LocalDateTime.of(2023, 07, 23, 10, 00, 00), 1));
-        add(new IssueEntity(2, "#3246 Change the structure of the VM for a presentation layer issue", "This is a issue added for testing purposes.", LocalDateTime.of(2023, 07, 23, 10, 30, 00), LocalDateTime.of(2023, 07, 23, 10, 30, 00), 1));
-        add(new IssueEntity(3, "#3247 Hide issue card description", "This is a issue added for testing purposes.", LocalDateTime.of(2023, 07, 23, 11, 00, 00), LocalDateTime.of(2023, 07, 23, 11, 00, 00), 1));
+        add(new IssueEntity(1000, 1000, "#3245 Replace InMemory repository with Postgres", "This is a issue added for testing purposes.", LocalDateTime.of(2023, 07, 23, 10, 00, 00), LocalDateTime.of(2023, 07, 23, 10, 00, 00), 1));
+        add(new IssueEntity(1001, 1000, "#3246 Change the structure of the VM for a presentation layer issue", "This is a issue added for testing purposes.", LocalDateTime.of(2023, 07, 23, 10, 30, 00), LocalDateTime.of(2023, 07, 23, 10, 30, 00), 1));
+        add(new IssueEntity(1002, 1000, "#3247 Hide issue card description", "This is a issue added for testing purposes.", LocalDateTime.of(2023, 07, 23, 11, 00, 00), LocalDateTime.of(2023, 07, 23, 11, 00, 00), 1));
     }};
     private final IssueEntityConverter converter;
 
@@ -52,6 +52,7 @@ public class IssueInMemoryRepository implements IssueRepository {
 
             var insertIssueEntity = new IssueEntity(
                 generateId(),
+                1000, // NOTE: とりあえずで1000
                 issue.getTitle(),
                 issue.getDescription(),
                 issue.getCreatedAt(),
@@ -75,6 +76,7 @@ public class IssueInMemoryRepository implements IssueRepository {
 
             var updateIssueEntity = new IssueEntity(
                 generateId(),
+                1000, // NOTE: とりあえずで1000
                 issue.getTitle(),
                 issue.getDescription(),
                 issue.getCreatedAt(),

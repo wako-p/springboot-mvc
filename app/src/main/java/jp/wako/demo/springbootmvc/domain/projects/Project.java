@@ -64,6 +64,9 @@ public final class Project extends Entity {
         return true;
     }
 
+    /**
+     * インフラ層でプロジェクトを復元するためのファクトリメソッド
+     */
     public static Project reconstruct(
         final Integer id,
         final String name,

@@ -69,8 +69,9 @@ public class IssueTest {
         public void success1() {
             // when:
             var issue = Issue.reconstruct(
-                1000, 
-                "Issue1", 
+                1000,
+                1000,
+                "Issue1",
                 "This is a test issue.",
                 LocalDateTime.of(2023, 07, 23, 10, 00, 00),
                 LocalDateTime.of(2023, 07, 23, 10, 00, 00),
@@ -99,7 +100,8 @@ public class IssueTest {
             mock.when(LocalDateTime::now).thenReturn(datetime);
 
             var issue = Issue.reconstruct(
-                999,
+                1000,
+                1000,
                 "Issue1",
                 "This is a test issue.",
                 LocalDateTime.of(2023, 07, 23, 10, 00, 00),
@@ -121,7 +123,8 @@ public class IssueTest {
         public void failure1() {
             // given:
             var issue = Issue.reconstruct(
-                999,
+                1000,
+                1000,
                 "Issue1",
                 "This is a test issue.",
                 LocalDateTime.of(2023, 07, 23, 10, 00, 00),
