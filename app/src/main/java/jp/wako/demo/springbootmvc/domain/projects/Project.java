@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.wako.demo.springbootmvc.domain.issues.Issue;
 import jp.wako.demo.springbootmvc.domain.shared.Entity;
 import jp.wako.demo.springbootmvc.domain.shared.exception.DomainException;
-import jp.wako.demo.springbootmvc.domain.tasks.Task;
 import lombok.Getter;
 
 @Getter
@@ -14,20 +14,20 @@ public final class Project extends Entity {
 
     private String name;
     private String description;
-    List<Task> issues;
+    List<Issue> issues;
 
     private Project(
         final Integer id,
         final String name,
         final String description,
-        final List<Task> tasks,
+        final List<Issue> issues,
         final LocalDateTime createdAt,
         final LocalDateTime updatedAt,
         final Integer version) {
             super(id, createdAt, updatedAt, version);
             this.name = name;
             this.description = description;
-            this.issues = tasks;
+            this.issues = issues;
     }
 
     public static Project create(final String name, final String description) {
@@ -68,15 +68,15 @@ public final class Project extends Entity {
         final Integer id,
         final String name,
         final String description,
-        final List<Task> tasks,
+        final List<Issue> issues,
         final LocalDateTime createAt,
         final LocalDateTime updateAt,
         final Integer version) {
-            return new Project(id, name, description, tasks, createAt, updateAt, version);
+            return new Project(id, name, description, issues, createAt, updateAt, version);
     }
 
-    public void add(final Task task) {
-        this.issues.add(task);
+    public void add(final Issue issue) {
+        this.issues.add(issue);
     }
 
 }

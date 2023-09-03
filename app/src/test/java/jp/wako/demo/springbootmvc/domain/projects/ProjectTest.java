@@ -14,8 +14,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import jp.wako.demo.springbootmvc.domain.issues.Issue;
 import jp.wako.demo.springbootmvc.domain.shared.exception.DomainException;
-import jp.wako.demo.springbootmvc.domain.tasks.Task;
 
 public class ProjectTest {
     
@@ -89,8 +89,8 @@ public class ProjectTest {
                 "ProjectA",
                 "This is a test project.",
                 new ArrayList<>(),
-                LocalDateTime.of(2023, 9, 2, 18, 00).withNano(0),
-                LocalDateTime.of(2023, 9, 2, 18, 00).withNano(0),
+                LocalDateTime.of(2023, 9, 2, 18, 00, 00),
+                LocalDateTime.of(2023, 9, 2, 18, 00, 00),
                 1);
 
             // then:
@@ -113,9 +113,9 @@ public class ProjectTest {
             // given:
             var project = Project.create("ProjectA", "This is a test project.");
 
-            var issue1 = Task.reconstruct(1000, "TaskA", "This is a test task1.", LocalDateTime.of(2023, 9, 2, 20, 10, 00), LocalDateTime.of(2023, 9, 2, 20, 10, 00), 1);
-            var issue2 = Task.reconstruct(1001, "TaskB", "This is a test task2.", LocalDateTime.of(2023, 9, 2, 20, 20, 00), LocalDateTime.of(2023, 9, 2, 20, 20, 00), 1);
-            var issue3 = Task.reconstruct(1002, "TaskC", "This is a test task3.", LocalDateTime.of(2023, 9, 2, 20, 30, 00), LocalDateTime.of(2023, 9, 2, 20, 30, 00), 1);
+            var issue1 = Issue.reconstruct(1000, "IssueA", "This is a test issue.", LocalDateTime.of(2023, 9, 2, 20, 10, 00), LocalDateTime.of(2023, 9, 2, 20, 10, 00), 1);
+            var issue2 = Issue.reconstruct(1001, "IssueB", "This is a test issue.", LocalDateTime.of(2023, 9, 2, 20, 20, 00), LocalDateTime.of(2023, 9, 2, 20, 20, 00), 1);
+            var issue3 = Issue.reconstruct(1002, "IssueC", "This is a test issue.", LocalDateTime.of(2023, 9, 2, 20, 30, 00), LocalDateTime.of(2023, 9, 2, 20, 30, 00), 1);
 
             // when:
             project.add(issue1);
