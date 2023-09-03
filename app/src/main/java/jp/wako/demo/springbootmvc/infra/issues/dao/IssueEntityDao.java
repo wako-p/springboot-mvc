@@ -26,7 +26,14 @@ public interface IssueEntityDao {
 
     @Select
     @Sql("""
-            select * from issues where id = /* id */0
+            select * from issues
+            where project_id = /* projectId */0
+            """)
+    List<IssueEntity> findByProjectId(final Integer projectId);
+
+    @Select
+    @Sql("""
+            select * from tasks where id = /* id */0
             """)
     Optional<IssueEntity> findById(final Integer id);
 
