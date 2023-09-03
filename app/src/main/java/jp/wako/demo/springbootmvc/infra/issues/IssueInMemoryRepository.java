@@ -22,12 +22,13 @@ public class IssueInMemoryRepository implements IssueRepository {
         add(new IssueEntity(2, "#3246 Change the structure of the VM for a presentation layer issue", "This is a issue added for testing purposes.", LocalDateTime.of(2023, 07, 23, 10, 30, 00), LocalDateTime.of(2023, 07, 23, 10, 30, 00), 1));
         add(new IssueEntity(3, "#3247 Hide issue card description", "This is a issue added for testing purposes.", LocalDateTime.of(2023, 07, 23, 11, 00, 00), LocalDateTime.of(2023, 07, 23, 11, 00, 00), 1));
     }};
+    private final IssueConverter converter;
 
     public List<Issue> findAll() {
 
         var issues = issueEntities
             .stream()
-            .map(this::convertToDomain)
+            .map(this.converter::toDomain)
             .collect(Collectors.toList());
 
         return issues;
@@ -40,18 +41,8 @@ public class IssueInMemoryRepository implements IssueRepository {
             .filter(issueEntity -> issueEntity.getId() == id)
             .findFirst();
 
-        var maybeIssue = foundIssueEntity.map(this::convertToDomain);
+        var maybeIssue = foundIssueEntity.map(this.converter::toDomain);
         return maybeIssue;
-    }
-
-    private Issue convertToDomain(final IssueEntity issueEntity) {
-        return Issue.reconstruct(
-            issueEntity.getId(),
-            issueEntity.getTitle(),
-            issueEntity.getDescription(),
-            issueEntity.getCreatedAt(),
-            issueEntity.getUpdatedAt(),
-            issueEntity.getVersion());
     }
 
     public Integer save(final Issue issue) {

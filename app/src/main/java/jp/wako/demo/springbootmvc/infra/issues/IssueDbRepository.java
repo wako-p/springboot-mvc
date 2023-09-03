@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import jp.wako.demo.springbootmvc.domain.issues.Issue;
 import jp.wako.demo.springbootmvc.domain.issues.IssueRepository;
-import jp.wako.demo.springbootmvc.infra.issues.dao.IssueEntity;
 import jp.wako.demo.springbootmvc.infra.issues.dao.IssueEntityDao;
 import jp.wako.demo.springbootmvc.infra.shared.exception.PersistenceException;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +20,14 @@ import lombok.RequiredArgsConstructor;
 public class IssueDbRepository implements IssueRepository {
 
     private final IssueEntityDao dao;
+    private final IssueConverter converter;
 
     public List<Issue> findAll() {
 
-        var issueEntites = this.dao.findAll();
-        var issues = issueEntites
+        var issueEntities = this.dao.findAll();
+        var issues = issueEntities
             .stream()
-            .map(this::convertToDomain)
+            .map(this.converter::toDomain)
             .collect(Collectors.toList());
 
         return issues;
@@ -36,31 +36,21 @@ public class IssueDbRepository implements IssueRepository {
     public Optional<Issue> findById(final Integer id) {
 
         var maybeIssueEntity = this.dao.findById(id);
-        var maybeIssue = maybeIssueEntity.map(this::convertToDomain);
+        var maybeIssue = maybeIssueEntity.map(this.converter::toDomain);
 
         return maybeIssue;
     }
 
-    private Issue convertToDomain(final IssueEntity issueEntity) {
-        return Issue.reconstruct(
-            issueEntity.getId(),
-            issueEntity.getTitle(),
-            issueEntity.getDescription(),
-            issueEntity.getCreatedAt(),
-            issueEntity.getUpdatedAt(),
-            issueEntity.getVersion());
-    }
-
     public Integer save(final Issue issue) {
 
-        var issueEntity = convertToEntity(issue);
+        var issueEntity = this.converter.toEntity(issue);
 
         if (issue.getId() == null) {
 
             var result = this.dao.insert(issueEntity);
             var insertedIssueEntity = result.getEntity();
 
-            var insertedIssue = convertToDomain(insertedIssueEntity);
+            var insertedIssue = this.converter.toDomain(insertedIssueEntity);
             return insertedIssue.getId();
         }
 
@@ -68,7 +58,7 @@ public class IssueDbRepository implements IssueRepository {
             var result = this.dao.update(issueEntity);
             var updatedIssueEntity = result.getEntity();
 
-            var updatedIssue = convertToDomain(updatedIssueEntity);
+            var updatedIssue = this.converter.toDomain(updatedIssueEntity);
             return updatedIssue.getId();
 
         } catch (OptimisticLockingFailureException exception) {
@@ -78,18 +68,8 @@ public class IssueDbRepository implements IssueRepository {
 
     }
 
-    private IssueEntity convertToEntity(final Issue issue) {
-        return new IssueEntity(
-            issue.getId(),
-            issue.getTitle(),
-            issue.getDescription(),
-            issue.getCreatedAt(),
-            issue.getUpdatedAt(),
-            issue.getVersion());
-    }
-
     public void delete(final Issue issue) {
-        var issueEntity = convertToEntity(issue);
+        var issueEntity = this.converter.toEntity(issue);
         this.dao.delete(issueEntity);
     }
 
