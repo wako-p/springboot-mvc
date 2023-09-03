@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import jp.wako.demo.springbootmvc.domain.issues.Issue;
 import jp.wako.demo.springbootmvc.domain.issues.IssueRepository;
+import jp.wako.demo.springbootmvc.infra.issues.dao.IssueEntityConverter;
 import jp.wako.demo.springbootmvc.infra.issues.dao.IssueEntity;
 import lombok.RequiredArgsConstructor;
 
@@ -22,7 +23,7 @@ public class IssueInMemoryRepository implements IssueRepository {
         add(new IssueEntity(2, "#3246 Change the structure of the VM for a presentation layer issue", "This is a issue added for testing purposes.", LocalDateTime.of(2023, 07, 23, 10, 30, 00), LocalDateTime.of(2023, 07, 23, 10, 30, 00), 1));
         add(new IssueEntity(3, "#3247 Hide issue card description", "This is a issue added for testing purposes.", LocalDateTime.of(2023, 07, 23, 11, 00, 00), LocalDateTime.of(2023, 07, 23, 11, 00, 00), 1));
     }};
-    private final IssueConverter converter;
+    private final IssueEntityConverter converter;
 
     public List<Issue> findAll() {
 

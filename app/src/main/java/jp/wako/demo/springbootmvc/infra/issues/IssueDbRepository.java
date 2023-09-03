@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import jp.wako.demo.springbootmvc.domain.issues.Issue;
 import jp.wako.demo.springbootmvc.domain.issues.IssueRepository;
+import jp.wako.demo.springbootmvc.infra.issues.dao.IssueEntityConverter;
 import jp.wako.demo.springbootmvc.infra.issues.dao.IssueEntityDao;
 import jp.wako.demo.springbootmvc.infra.shared.exception.PersistenceException;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class IssueDbRepository implements IssueRepository {
 
     private final IssueEntityDao dao;
-    private final IssueConverter converter;
+    private final IssueEntityConverter converter;
 
     public List<Issue> findAll() {
 

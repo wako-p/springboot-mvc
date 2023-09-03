@@ -1,9 +1,8 @@
-package jp.wako.demo.springbootmvc.infra.issues;
+package jp.wako.demo.springbootmvc.infra.issues.dao;
 
 import jp.wako.demo.springbootmvc.domain.issues.Issue;
-import jp.wako.demo.springbootmvc.infra.issues.dao.IssueEntity;
 
-public final class IssueConverter {
+public final class IssueEntityConverter {
 
     public Issue toDomain(final IssueEntity issueEntity) {
         return Issue.reconstruct(
