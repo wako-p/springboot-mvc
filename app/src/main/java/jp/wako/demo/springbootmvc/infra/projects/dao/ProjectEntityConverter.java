@@ -28,4 +28,13 @@ public final class ProjectEntityConverter {
             projectEntity.getVersion());
     }
 
+    public ProjectEntity toEntity(final Project project) {
+        return new ProjectEntity(
+            project.getId(),
+            project.getName(),
+            project.getDescription(),
+            project.getCreatedAt(),
+            project.getUpdatedAt(),
+            project.getVersion());
+    }
 }
