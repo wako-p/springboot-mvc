@@ -8,20 +8,25 @@
 </head>
 <body>
     <div class="container">
-        <div class="row py-5">
-            <div
-                class="col-sm-4"
-                th:each="project : ${projectIndexVM.projects}">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h6 class="card-title">
-                            <a
-                                class="card-link link-underline link-underline-opacity-0"
-                                th:href="@{/projects/{id}/view(id=${project.id})}"
-                                th:text="${project.name}"></a>
-                        </h6>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 py-5">
+            <div class="col d-flex mb-3">
+                <div class="card flex-fill">
+                    <!-- TODO: 上下中央に配置する -->
+                    <a
+                        class="card-body link-underline link-underline-opacity-0"
+                        th:href="@{/projects/new}">
+                        <i class="bi bi-plus-lg"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col d-flex mb-3" th:each="project : ${projectIndexVM.projects}">
+                <div class="card flex-fill">
+                    <a
+                        class="card-body link-underline link-underline-opacity-0"
+                        th:href="@{/projects/{id}/issues(id=${project.id})}">
+                        <h5 class="card-title" th:text="${project.name}"></h5>
                         <p class="card-text" th:text="${project.description}"></p>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>
