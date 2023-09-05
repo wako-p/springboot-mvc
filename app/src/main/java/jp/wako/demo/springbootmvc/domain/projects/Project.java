@@ -20,6 +20,7 @@ public final class Project extends Entity {
         final Integer id,
         final String name,
         final String description,
+        // TODO: ID連携にする
         final List<Issue> issues,
         final LocalDateTime createdAt,
         final LocalDateTime updatedAt,
