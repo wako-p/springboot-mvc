@@ -55,7 +55,7 @@ public class GetIssueUseCaseTest {
             assertEquals(1000, capturedIssueId);
 
             // 取得した課題をDTOに詰め替えて返している
-            var expected = new GetIssueResponse(1000, "Issue1", "This is a test issue.", 1);
+            var expected = new GetIssueResponse(1000, 1000, "Issue1", "This is a test issue.", 1);
             assertEquals(expected, actual);
         }
 
@@ -67,7 +67,7 @@ public class GetIssueUseCaseTest {
                 .thenReturn(Optional.empty());
 
             // when/then:
-            var request = new GetIssueRequest(100);
+            var request = new GetIssueRequest(1000);
             assertThrows(UseCaseException.class, () -> {
                 this.usecase.execute(request);
             });

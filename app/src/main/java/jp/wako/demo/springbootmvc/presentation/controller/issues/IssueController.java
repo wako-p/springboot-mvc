@@ -1,7 +1,5 @@
 package jp.wako.demo.springbootmvc.presentation.controller.issues;
 
-import java.util.stream.Collectors;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -16,7 +14,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jp.wako.demo.springbootmvc.infra.shared.exception.PersistenceException;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueEditVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueIndexVM;
-import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueViewVM;
 import jp.wako.demo.springbootmvc.usecase.issues.create.CreateIssueRequest;
 import jp.wako.demo.springbootmvc.usecase.issues.create.CreateIssueUseCase;
@@ -24,8 +21,6 @@ import jp.wako.demo.springbootmvc.usecase.issues.delete.DeleteIssueRequest;
 import jp.wako.demo.springbootmvc.usecase.issues.delete.DeleteIssueUseCase;
 import jp.wako.demo.springbootmvc.usecase.issues.get.GetIssueRequest;
 import jp.wako.demo.springbootmvc.usecase.issues.get.GetIssueUseCase;
-import jp.wako.demo.springbootmvc.usecase.issues.getall.GetAllIssueRequest;
-import jp.wako.demo.springbootmvc.usecase.issues.getall.GetAllIssueUseCase;
 import jp.wako.demo.springbootmvc.usecase.issues.update.UpdateIssueRequest;
 import jp.wako.demo.springbootmvc.usecase.issues.update.UpdateIssueUseCase;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +29,6 @@ import lombok.RequiredArgsConstructor;
 @Controller
 public class IssueController {
 
-    private final GetAllIssueUseCase getAllIssueUseCase;
     private final GetIssueUseCase getIssueUseCase;
     private final CreateIssueUseCase createIssueUseCase;
     private final UpdateIssueUseCase updateIssueUseCase;
@@ -43,26 +37,6 @@ public class IssueController {
     @ModelAttribute("issueIndexVM")
     private IssueIndexVM createIssueIndexVM() {
         return new IssueIndexVM();
-    }
-
-    @GetMapping("/issues")
-    public String index(
-        @ModelAttribute("issueIndexVM") final IssueIndexVM vm) {
-
-        var response = this.getAllIssueUseCase.execute(new GetAllIssueRequest());
-        var issues = response.getIssues()
-            .stream()
-            .map(issue -> new IssueVM(
-                issue.getId(),
-                issue.getTitle(),
-                issue.getDescription(),
-                issue.getCreatedAt(),
-                issue.getUpdatedAt()))
-            .collect(Collectors.toList());
-
-        vm.setIssues(issues);
-
-        return "/issues/list";
     }
 
     @ModelAttribute("issueViewVM")
@@ -113,14 +87,15 @@ public class IssueController {
         final BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return index(vm);
+            // TODO: 画面(テンプレート)つくる
+            return "/issues/create";
         }
 
         var issueCreateVM = vm.getIssueCreateVM();
         var request = new CreateIssueRequest(issueCreateVM.getTitle());
-        this.createIssueUseCase.execute(request);
+        var response = this.createIssueUseCase.execute(request);
 
-        return "redirect:/issues";
+        return "redirect:/issues/" + response.getId() + "/view";
     }
 
     @PutMapping("/issues/{id}")
