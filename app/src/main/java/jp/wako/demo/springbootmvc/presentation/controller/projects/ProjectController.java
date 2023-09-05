@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.wako.demo.springbootmvc.infra.shared.exception.PersistenceException;
+import jp.wako.demo.springbootmvc.presentation.controller.projects.viewmodel.IssueVM;
 import jp.wako.demo.springbootmvc.presentation.controller.projects.viewmodel.ProjectCreateVM;
 import jp.wako.demo.springbootmvc.presentation.controller.projects.viewmodel.ProjectIndexVM;
+import jp.wako.demo.springbootmvc.presentation.controller.projects.viewmodel.ProjectIssuesVM;
 import jp.wako.demo.springbootmvc.presentation.controller.projects.viewmodel.ProjectVM;
 import jp.wako.demo.springbootmvc.presentation.controller.projects.viewmodel.ProjectViewVM;
 import jp.wako.demo.springbootmvc.usecase.projects.create.CreateProjectRequest;
@@ -126,7 +128,28 @@ public class ProjectController {
     }
 
     @GetMapping("/{id}/issues")
-    public String issues() {
+    public String issues(
+        @PathVariable Integer id,
+        @ModelAttribute("projectIssuesVM") final ProjectIssuesVM projectIssuesVM) {
+
+        // TODO: ProjectとIssueはID連携にするのでGetIssusUseCaseをDIしてそれ使う
+        var request = new GetProjectRequest(id);
+        var response = this.getProjectUseCase.execute(request);
+
+        var issues = response.getIssues()
+            .stream()
+            .map(issue -> {
+                var issueVM = new IssueVM(
+                    issue.getId(),
+                    issue.getTitle(),
+                    issue.getDescription());
+                return issueVM;
+            })
+            .collect(Collectors.toList());
+
+        projectIssuesVM.setName(response.getName());
+        projectIssuesVM.setIssues(issues);
+
         return "/projects/issues";
     }
 

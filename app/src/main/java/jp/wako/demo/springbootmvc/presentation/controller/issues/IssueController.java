@@ -79,6 +79,7 @@ public class IssueController {
         var response = this.getIssueUseCase.execute(request);
 
         vm.setId(response.getId());
+        vm.setProjectId(response.getProjectId());
         vm.setTitle(response.getTitle());
         vm.setDescription(response.getDescription());
 

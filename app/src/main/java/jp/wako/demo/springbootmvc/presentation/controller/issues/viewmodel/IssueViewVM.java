@@ -6,11 +6,13 @@ import lombok.Data;
 public final class IssueViewVM {
 
     private Integer id;
+    private Integer projectId;
     private String title;
     private String description;
 
     public IssueViewVM() {
         this.id = 0;
+        this.projectId = 0;
         this.title = "";
         this.description = "";
     }

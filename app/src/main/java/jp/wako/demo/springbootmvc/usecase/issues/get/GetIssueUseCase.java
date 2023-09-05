@@ -20,6 +20,7 @@ public class GetIssueUseCase {
 
         return new GetIssueResponse(
             foundIssue.getId(),
+            foundIssue.getProjectId(),
             foundIssue.getTitle(),
             foundIssue.getDescription(),
             foundIssue.getVersion());

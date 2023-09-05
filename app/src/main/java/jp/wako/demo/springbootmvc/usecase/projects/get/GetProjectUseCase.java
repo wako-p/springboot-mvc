@@ -21,6 +21,7 @@ public class GetProjectUseCase {
         return new GetProjectResponse(
             foundProject.getId(),
             foundProject.getName(),
-            foundProject.getDescription());
+            foundProject.getDescription(),
+            foundProject.getIssues());
     }
 }
