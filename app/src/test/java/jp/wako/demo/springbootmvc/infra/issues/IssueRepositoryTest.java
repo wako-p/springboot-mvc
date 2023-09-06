@@ -13,18 +13,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import jp.wako.demo.springbootmvc.domain.issues.IssueRepository;
+import jp.wako.demo.springbootmvc.domain.issues.IIssueRepository;
 import jp.wako.demo.springbootmvc.usecase.issues.TestIssueFactory;
 
 @SpringBootTest
 @Transactional
-public class IssueDbRepositoryTest {
+public class IssueRepositoryTest {
 
     @Nested
     public class FindByIdTest {
 
         @Autowired
-        private IssueRepository repository;
+        private IIssueRepository repository;
 
         @Test
         @DisplayName("IDを渡すと、そのIDの課題を取得することができる。")

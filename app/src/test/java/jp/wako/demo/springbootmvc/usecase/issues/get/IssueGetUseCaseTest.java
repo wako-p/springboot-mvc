@@ -18,7 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import jp.wako.demo.springbootmvc.domain.issues.IssueRepository;
+import jp.wako.demo.springbootmvc.domain.issues.IIssueRepository;
 import jp.wako.demo.springbootmvc.usecase.issues.TestIssueFactory;
 import jp.wako.demo.springbootmvc.usecase.shared.exception.UseCaseException;
 
@@ -29,7 +29,7 @@ public class IssueGetUseCaseTest {
     public class ExecuteTest {
 
         @Mock
-        private IssueRepository repository;
+        private IIssueRepository repository;
 
         @InjectMocks
         private IssueGetUseCase usecase;

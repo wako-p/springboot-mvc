@@ -2,7 +2,7 @@ package jp.wako.demo.springbootmvc.usecase.projects.get;
 
 import org.springframework.stereotype.Service;
 
-import jp.wako.demo.springbootmvc.domain.projects.ProjectRepository;
+import jp.wako.demo.springbootmvc.domain.projects.IProjectRepository;
 import jp.wako.demo.springbootmvc.usecase.shared.exception.UseCaseException;
 import lombok.RequiredArgsConstructor;
 
@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class ProjectGetUseCase {
 
-    private final ProjectRepository repository;
+    private final IProjectRepository repository;
 
     public ProjectGetResponse execute(final ProjectGetRequest request) {
 

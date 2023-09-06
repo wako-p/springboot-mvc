@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import jp.wako.demo.springbootmvc.domain.projects.Project;
-import jp.wako.demo.springbootmvc.domain.projects.ProjectRepository;
+import jp.wako.demo.springbootmvc.domain.projects.IProjectRepository;
 import jp.wako.demo.springbootmvc.infra.issues.dao.IssueEntityDao;
 import jp.wako.demo.springbootmvc.infra.projects.dao.ProjectEntityConverter;
 import jp.wako.demo.springbootmvc.infra.projects.dao.ProjectEntityDao;
@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @Primary
 @RequiredArgsConstructor
 @Repository
-public class ProjectDbRepository implements ProjectRepository {
+public class ProjectRepository implements IProjectRepository {
 
     private final ProjectEntityDao projectEntityDao;
     private final ProjectEntityConverter projectEntityConverter;

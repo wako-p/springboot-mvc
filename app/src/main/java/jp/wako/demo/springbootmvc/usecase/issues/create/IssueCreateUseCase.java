@@ -4,14 +4,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import jp.wako.demo.springbootmvc.domain.issues.Issue;
-import jp.wako.demo.springbootmvc.domain.issues.IssueRepository;
+import jp.wako.demo.springbootmvc.domain.issues.IIssueRepository;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
 public class IssueCreateUseCase {
 
-    private final IssueRepository repository;
+    private final IIssueRepository repository;
 
     @Transactional
     public IssueCreateResponse execute(final IssueCreateRequest request) {

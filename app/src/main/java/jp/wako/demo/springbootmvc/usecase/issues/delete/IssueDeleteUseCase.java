@@ -3,7 +3,7 @@ package jp.wako.demo.springbootmvc.usecase.issues.delete;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import jp.wako.demo.springbootmvc.domain.issues.IssueRepository;
+import jp.wako.demo.springbootmvc.domain.issues.IIssueRepository;
 import jp.wako.demo.springbootmvc.usecase.shared.exception.UseCaseException;
 import lombok.RequiredArgsConstructor;
 
@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class IssueDeleteUseCase {
 
-    private final IssueRepository repository;
+    private final IIssueRepository repository;
 
     @Transactional
     public IssueDeleteResponse execute(final IssueDeleteRequest request) {

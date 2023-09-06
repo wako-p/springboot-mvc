@@ -9,7 +9,7 @@ import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Repository;
 
 import jp.wako.demo.springbootmvc.domain.issues.Issue;
-import jp.wako.demo.springbootmvc.domain.issues.IssueRepository;
+import jp.wako.demo.springbootmvc.domain.issues.IIssueRepository;
 import jp.wako.demo.springbootmvc.infra.issues.dao.IssueEntityConverter;
 import jp.wako.demo.springbootmvc.infra.issues.dao.IssueEntityDao;
 import jp.wako.demo.springbootmvc.infra.shared.exception.PersistenceException;
@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @Primary
 @RequiredArgsConstructor
 @Repository
-public class IssueDbRepository implements IssueRepository {
+public class IssueRepository implements IIssueRepository {
 
     private final IssueEntityDao dao;
     private final IssueEntityConverter converter;
