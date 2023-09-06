@@ -9,17 +9,17 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class CreateIssueUseCase {
+public class IssueCreateUseCase {
 
     private final IssueRepository repository;
 
     @Transactional
-    public CreateIssueResponse execute(final CreateIssueRequest request) {
+    public IssueCreateResponse execute(final IssueCreateRequest request) {
 
         var issue = Issue.create(request.getTitle());
         var createdIssueId = this.repository.save(issue);
 
-        return new CreateIssueResponse(createdIssueId);
+        return new IssueCreateResponse(createdIssueId);
     }
 
 }

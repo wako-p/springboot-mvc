@@ -23,7 +23,7 @@ import jp.wako.demo.springbootmvc.domain.issues.IssueRepository;
 import jp.wako.demo.springbootmvc.usecase.issues.TestIssueFactory;
 import jp.wako.demo.springbootmvc.usecase.shared.exception.UseCaseException;
 
-public class UpdateIssueUseCaseTest {
+public class IssueUpdateUseCaseTest {
 
     @Nested
     @ExtendWith(MockitoExtension.class)
@@ -33,7 +33,7 @@ public class UpdateIssueUseCaseTest {
         private IssueRepository repository;
 
         @InjectMocks
-        private UpdateIssueUseCase usecase;
+        private IssueUpdateUseCase usecase;
 
         @Captor
         private ArgumentCaptor<Integer> issueIdCaptor;
@@ -49,7 +49,7 @@ public class UpdateIssueUseCaseTest {
                 .thenReturn(Optional.of(TestIssueFactory.create(1000)));
 
             // when:
-            var request = new UpdateIssueRequest(1000, "Issue1", "This is a test issue.", 1);
+            var request = new IssueUpdateRequest(1000, "Issue1", "This is a test issue.", 1);
             this.usecase.execute(request);
 
             // then:
@@ -67,7 +67,7 @@ public class UpdateIssueUseCaseTest {
                 .thenReturn(Optional.of(TestIssueFactory.create(1000)));
 
             // when:
-            var request = new UpdateIssueRequest(1000, "Issue1", "This is a test issue.", 1);
+            var request = new IssueUpdateRequest(1000, "Issue1", "This is a test issue.", 1);
             this.usecase.execute(request);
 
             // then:
@@ -88,7 +88,7 @@ public class UpdateIssueUseCaseTest {
                 .thenReturn(Optional.empty());
 
             // when/then:
-            var request = new UpdateIssueRequest(1000, "Issue1", "This is a test issue.", 1);
+            var request = new IssueUpdateRequest(1000, "Issue1", "This is a test issue.", 1);
             assertThrows(UseCaseException.class, () -> {
                 this.usecase.execute(request);
             });

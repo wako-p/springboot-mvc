@@ -1,7 +1,6 @@
-package jp.wako.demo.springbootmvc.usecase.issues.delete;
+package jp.wako.demo.springbootmvc.usecase.issues.get;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import jp.wako.demo.springbootmvc.domain.issues.IssueRepository;
 import jp.wako.demo.springbootmvc.usecase.shared.exception.UseCaseException;
@@ -9,19 +8,21 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class DeleteIssueUseCase {
+public class IssueGetUseCase {
 
     private final IssueRepository repository;
 
-    @Transactional
-    public DeleteIssueResponse execute(final DeleteIssueRequest request) {
+    public IssueGetResponse execute(final IssueGetRequest request) {
 
         var maybeIssue = this.repository.findById(request.getId());
         var foundIssue = maybeIssue
             .orElseThrow(() -> new UseCaseException("Issue not found."));
 
-        this.repository.delete(foundIssue);
-        return new DeleteIssueResponse();
+        return new IssueGetResponse(
+            foundIssue.getId(),
+            foundIssue.getProjectId(),
+            foundIssue.getTitle(),
+            foundIssue.getDescription(),
+            foundIssue.getVersion());
     }
-
 }

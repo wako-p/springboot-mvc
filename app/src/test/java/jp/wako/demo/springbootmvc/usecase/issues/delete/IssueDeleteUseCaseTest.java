@@ -23,7 +23,7 @@ import jp.wako.demo.springbootmvc.domain.issues.IssueRepository;
 import jp.wako.demo.springbootmvc.usecase.issues.TestIssueFactory;
 import jp.wako.demo.springbootmvc.usecase.shared.exception.UseCaseException;
 
-public class DeleteIssueUseCaseTest {
+public class IssueDeleteUseCaseTest {
 
     @Nested
     @ExtendWith(MockitoExtension.class)
@@ -33,7 +33,7 @@ public class DeleteIssueUseCaseTest {
         private IssueRepository repository;
 
         @InjectMocks
-        private DeleteIssueUseCase usecase;
+        private IssueDeleteUseCase usecase;
 
         @Captor
         private ArgumentCaptor<Issue> issueCaptor;
@@ -49,7 +49,7 @@ public class DeleteIssueUseCaseTest {
                 .thenReturn(Optional.of(TestIssueFactory.create(1000)));
 
             // when:
-            var request = new DeleteIssueRequest(1000);
+            var request = new IssueDeleteRequest(1000);
             this.usecase.execute(request);
 
             // then:
@@ -67,7 +67,7 @@ public class DeleteIssueUseCaseTest {
                 .thenReturn(Optional.of(TestIssueFactory.create(1000)));
 
             // when:
-            var request = new DeleteIssueRequest(1000);
+            var request = new IssueDeleteRequest(1000);
             this.usecase.execute(request);
 
             // then:
@@ -88,7 +88,7 @@ public class DeleteIssueUseCaseTest {
                 .thenReturn(Optional.empty());
 
             // when/then:
-            var request = new DeleteIssueRequest(100);
+            var request = new IssueDeleteRequest(100);
             assertThrows(UseCaseException.class, () -> {
                 this.usecase.execute(request);
             });

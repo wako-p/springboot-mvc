@@ -16,7 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import jp.wako.demo.springbootmvc.domain.issues.Issue;
 import jp.wako.demo.springbootmvc.domain.issues.IssueRepository;
 
-public class CreateIssueUseCaseTest {
+public class IssueCreateUseCaseTest {
 
     @Nested
     @ExtendWith(MockitoExtension.class)
@@ -26,7 +26,7 @@ public class CreateIssueUseCaseTest {
         private IssueRepository repository;
 
         @InjectMocks
-        private CreateIssueUseCase usecase;
+        private IssueCreateUseCase usecase;
 
         @Captor
         private ArgumentCaptor<Issue> issueCaptor;
@@ -35,7 +35,7 @@ public class CreateIssueUseCaseTest {
         @DisplayName("DTOを渡すと、そのDTOに含まれるタイトルを使用して、新規作成された課題が保存される。")
         public void success1() {
             // when:
-            var request = new CreateIssueRequest("Issue1");
+            var request = new IssueCreateRequest("Issue1");
             this.usecase.execute(request);
 
             // then:

@@ -22,7 +22,7 @@ import jp.wako.demo.springbootmvc.domain.issues.IssueRepository;
 import jp.wako.demo.springbootmvc.usecase.issues.TestIssueFactory;
 import jp.wako.demo.springbootmvc.usecase.shared.exception.UseCaseException;
 
-public class GetIssueUseCaseTest {
+public class IssueGetUseCaseTest {
 
     @Nested
     @ExtendWith(MockitoExtension.class)
@@ -32,7 +32,7 @@ public class GetIssueUseCaseTest {
         private IssueRepository repository;
 
         @InjectMocks
-        private GetIssueUseCase usecase;
+        private IssueGetUseCase usecase;
 
         @Captor
         private ArgumentCaptor<Integer> issueIdCaptor;
@@ -45,7 +45,7 @@ public class GetIssueUseCaseTest {
                 .thenReturn(Optional.of(TestIssueFactory.create(1000)));
 
             // when:
-            var request = new GetIssueRequest(1000);
+            var request = new IssueGetRequest(1000);
             var actual = this.usecase.execute(request);
 
             // then:
@@ -55,7 +55,7 @@ public class GetIssueUseCaseTest {
             assertEquals(1000, capturedIssueId);
 
             // 取得した課題をDTOに詰め替えて返している
-            var expected = new GetIssueResponse(1000, 1000, "Issue1", "This is a test issue.", 1);
+            var expected = new IssueGetResponse(1000, 1000, "Issue1", "This is a test issue.", 1);
             assertEquals(expected, actual);
         }
 
@@ -67,7 +67,7 @@ public class GetIssueUseCaseTest {
                 .thenReturn(Optional.empty());
 
             // when/then:
-            var request = new GetIssueRequest(1000);
+            var request = new IssueGetRequest(1000);
             assertThrows(UseCaseException.class, () -> {
                 this.usecase.execute(request);
             });

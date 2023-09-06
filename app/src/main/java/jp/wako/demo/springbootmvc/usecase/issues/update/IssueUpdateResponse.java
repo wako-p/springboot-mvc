@@ -5,6 +5,6 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public final class UpdateIssueResponse {
+public final class IssueUpdateResponse {
     private final Integer id;
 }

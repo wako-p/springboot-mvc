@@ -15,24 +15,24 @@ import jp.wako.demo.springbootmvc.infra.shared.exception.PersistenceException;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueEditVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueIndexVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueViewVM;
-import jp.wako.demo.springbootmvc.usecase.issues.create.CreateIssueRequest;
-import jp.wako.demo.springbootmvc.usecase.issues.create.CreateIssueUseCase;
-import jp.wako.demo.springbootmvc.usecase.issues.delete.DeleteIssueRequest;
-import jp.wako.demo.springbootmvc.usecase.issues.delete.DeleteIssueUseCase;
-import jp.wako.demo.springbootmvc.usecase.issues.get.GetIssueRequest;
-import jp.wako.demo.springbootmvc.usecase.issues.get.GetIssueUseCase;
-import jp.wako.demo.springbootmvc.usecase.issues.update.UpdateIssueRequest;
-import jp.wako.demo.springbootmvc.usecase.issues.update.UpdateIssueUseCase;
+import jp.wako.demo.springbootmvc.usecase.issues.create.IssueCreateRequest;
+import jp.wako.demo.springbootmvc.usecase.issues.create.IssueCreateUseCase;
+import jp.wako.demo.springbootmvc.usecase.issues.delete.IssueDeleteRequest;
+import jp.wako.demo.springbootmvc.usecase.issues.delete.IssueDeleteUseCase;
+import jp.wako.demo.springbootmvc.usecase.issues.get.IssueGetRequest;
+import jp.wako.demo.springbootmvc.usecase.issues.get.IssueGetUseCase;
+import jp.wako.demo.springbootmvc.usecase.issues.update.IssueUpdateRequest;
+import jp.wako.demo.springbootmvc.usecase.issues.update.IssueUpdateUseCase;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Controller
 public class IssueController {
 
-    private final GetIssueUseCase getIssueUseCase;
-    private final CreateIssueUseCase createIssueUseCase;
-    private final UpdateIssueUseCase updateIssueUseCase;
-    private final DeleteIssueUseCase deleteIssueUseCase;
+    private final IssueGetUseCase issueGetUseCase;
+    private final IssueCreateUseCase issueCreateUseCase;
+    private final IssueUpdateUseCase issueUpdateUseCase;
+    private final IssueDeleteUseCase issueDeleteUseCase;
 
     @ModelAttribute("issueIndexVM")
     private IssueIndexVM createIssueIndexVM() {
@@ -49,8 +49,8 @@ public class IssueController {
         @PathVariable final Integer id,
         @ModelAttribute("issueViewVM") final IssueViewVM vm) {
 
-        var request = new GetIssueRequest(id);
-        var response = this.getIssueUseCase.execute(request);
+        var request = new IssueGetRequest(id);
+        var response = this.issueGetUseCase.execute(request);
 
         vm.setId(response.getId());
         vm.setProjectId(response.getProjectId());
@@ -70,8 +70,8 @@ public class IssueController {
         @PathVariable final Integer id,
         @ModelAttribute("issueEditVM") final IssueEditVM vm) {
 
-        var request = new GetIssueRequest(id);
-        var response = this.getIssueUseCase.execute(request);
+        var request = new IssueGetRequest(id);
+        var response = this.issueGetUseCase.execute(request);
 
         vm.setId(response.getId());
         vm.setTitle(response.getTitle());
@@ -92,8 +92,8 @@ public class IssueController {
         }
 
         var issueCreateVM = vm.getIssueCreateVM();
-        var request = new CreateIssueRequest(issueCreateVM.getTitle());
-        var response = this.createIssueUseCase.execute(request);
+        var request = new IssueCreateRequest(issueCreateVM.getTitle());
+        var response = this.issueCreateUseCase.execute(request);
 
         return "redirect:/issues/" + response.getId() + "/view";
     }
@@ -110,8 +110,8 @@ public class IssueController {
         }
 
         try {
-            var request = new UpdateIssueRequest(id, vm.getTitle(), vm.getDescription(), vm.getVersion());
-            var response = this.updateIssueUseCase.execute(request);
+            var request = new IssueUpdateRequest(id, vm.getTitle(), vm.getDescription(), vm.getVersion());
+            var response = this.issueUpdateUseCase.execute(request);
 
             return "redirect:/issues/" + response.getId() + "/view";
 
@@ -127,8 +127,8 @@ public class IssueController {
     @DeleteMapping("/issues/{id}")
     public String delete(@PathVariable final Integer id) {
 
-        var request = new DeleteIssueRequest(id);
-        this.deleteIssueUseCase.execute(request);
+        var request = new IssueDeleteRequest(id);
+        this.issueDeleteUseCase.execute(request);
 
         return "redirect:/issues";
     }
