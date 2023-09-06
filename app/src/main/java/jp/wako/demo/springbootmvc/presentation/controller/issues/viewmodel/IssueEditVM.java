@@ -10,15 +10,12 @@ public final class IssueEditVM {
 
     @NotBlank(message = "Please enter a title for the issue")
     private String title;
-
     private String description;
-    private Integer version;
 
     public IssueEditVM() {
         this.id = 0;
         this.title = "";
         this.description = "";
-        this.version = 0;
     }
 
 }

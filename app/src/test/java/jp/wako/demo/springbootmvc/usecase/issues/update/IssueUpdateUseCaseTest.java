@@ -49,7 +49,7 @@ public class IssueUpdateUseCaseTest {
                 .thenReturn(Optional.of(TestIssueFactory.create(1000)));
 
             // when:
-            var request = new IssueUpdateRequest(1000, "Issue1", "This is a test issue.", 1);
+            var request = new IssueUpdateRequest(1000, "Issue1", "This is a test issue.");
             this.usecase.execute(request);
 
             // then:
@@ -67,7 +67,7 @@ public class IssueUpdateUseCaseTest {
                 .thenReturn(Optional.of(TestIssueFactory.create(1000)));
 
             // when:
-            var request = new IssueUpdateRequest(1000, "Issue1", "This is a test issue.", 1);
+            var request = new IssueUpdateRequest(1000, "Issue1", "This is a test issue.");
             this.usecase.execute(request);
 
             // then:
@@ -88,7 +88,7 @@ public class IssueUpdateUseCaseTest {
                 .thenReturn(Optional.empty());
 
             // when/then:
-            var request = new IssueUpdateRequest(1000, "Issue1", "This is a test issue.", 1);
+            var request = new IssueUpdateRequest(1000, "Issue1", "This is a test issue.");
             assertThrows(UseCaseException.class, () -> {
                 this.usecase.execute(request);
             });

@@ -111,7 +111,7 @@ public class IssueController {
         }
 
         try {
-            var request = new IssueUpdateRequest(id, vm.getTitle(), vm.getDescription(), vm.getVersion());
+            var request = new IssueUpdateRequest(id, vm.getTitle(), vm.getDescription());
             var response = this.issueUpdateUseCase.execute(request);
 
             return "redirect:/issues/" + response.getId() + "/view";
