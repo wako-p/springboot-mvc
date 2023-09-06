@@ -18,14 +18,12 @@ import org.seasar.doma.jdbc.Result;
 @Dao
 public interface IssueEntityDao {
 
-    // TODO: find -> select にする
-
     @Select
     @Sql("""
             select *
             from issues
             """)
-    List<IssueEntity> findAll();
+    List<IssueEntity> selectAll();
 
     @Select
     @Sql("""
@@ -33,7 +31,7 @@ public interface IssueEntityDao {
             from issues
             where id = /* id */0
             """)
-    Optional<IssueEntity> findById(final Integer id);
+    Optional<IssueEntity> selectById(final Integer id);
 
     @Select
     @Sql("""
@@ -41,7 +39,7 @@ public interface IssueEntityDao {
             from issues
             where project_id = /* projectId */0
             """)
-    List<IssueEntity> findByProjectId(final Integer projectId);
+    List<IssueEntity> selectByProjectId(final Integer projectId);
 
     @Insert
     Result<IssueEntity> insert(final IssueEntity issue);

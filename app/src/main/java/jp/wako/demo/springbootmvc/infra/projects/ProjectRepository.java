@@ -26,11 +26,11 @@ public class ProjectRepository implements IProjectRepository {
 
     public List<Project> findAll() {
 
-        var projects = this.projectEntityDao.findAll()
+        var projects = this.projectEntityDao.selectAll()
             .stream()
             .map(projectEntity -> {
 
-                var issueEntities = this.issueEntityDao.findByProjectId(projectEntity.getId());
+                var issueEntities = this.issueEntityDao.selectByProjectId(projectEntity.getId());
                 projectEntity.setIssues(issueEntities);
 
                 var project = this.projectEntityConverter.toDomain(projectEntity);
@@ -61,11 +61,11 @@ public class ProjectRepository implements IProjectRepository {
 
     public Optional<Project> findById(final Integer id) {
 
-        var maybeProjectEntity = this.projectEntityDao.findById(id);
+        var maybeProjectEntity = this.projectEntityDao.selectById(id);
         var maybeProject = maybeProjectEntity
             .map(target -> {
 
-                var issueEntities = this.issueEntityDao.findByProjectId(target.getId());
+                var issueEntities = this.issueEntityDao.selectByProjectId(target.getId());
                 target.setIssues(issueEntities);
 
                 return this.projectEntityConverter.toDomain(target);

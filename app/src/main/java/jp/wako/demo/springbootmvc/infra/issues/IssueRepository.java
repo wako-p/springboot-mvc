@@ -25,7 +25,7 @@ public class IssueRepository implements IIssueRepository {
 
     public List<Issue> findAll() {
 
-        var issueEntities = this.dao.findAll();
+        var issueEntities = this.dao.selectAll();
         var issues = issueEntities
             .stream()
             .map(this.converter::toDomain)
@@ -36,7 +36,7 @@ public class IssueRepository implements IIssueRepository {
 
     public Optional<Issue> findById(final Integer id) {
 
-        var maybeIssueEntity = this.dao.findById(id);
+        var maybeIssueEntity = this.dao.selectById(id);
         var maybeIssue = maybeIssueEntity.map(this.converter::toDomain);
 
         return maybeIssue;

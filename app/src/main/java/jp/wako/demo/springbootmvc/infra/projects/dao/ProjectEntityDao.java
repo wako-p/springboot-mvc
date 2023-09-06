@@ -22,7 +22,7 @@ public interface ProjectEntityDao {
             select *
             from projects
             """)
-    List<ProjectEntity> findAll();
+    List<ProjectEntity> selectAll();
 
     @Select
     @Sql("""
@@ -30,7 +30,7 @@ public interface ProjectEntityDao {
             from projects
             where id = /* id */0
             """)
-    Optional<ProjectEntity> findById(final Integer id);
+    Optional<ProjectEntity> selectById(final Integer id);
 
     @Insert
     Result<ProjectEntity> insert(final ProjectEntity project);
