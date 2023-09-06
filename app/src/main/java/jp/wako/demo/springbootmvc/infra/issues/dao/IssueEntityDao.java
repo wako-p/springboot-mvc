@@ -11,12 +11,34 @@ import org.seasar.doma.Update;
 import org.seasar.doma.boot.ConfigAutowireable;
 import org.seasar.doma.jdbc.Result;
 
+import jp.wako.demo.springbootmvc.usecase.issues.search.IssueSearchRequest;
+
 // @ConfigAutowireableを付けておくと
 // Implを自動生成したときに@Repositoryを付加してくれるらしい
 // これ外したらBean見つからないって怒られた
 @ConfigAutowireable
 @Dao
 public interface IssueEntityDao {
+
+    @Select
+    @Sql("""
+            select *
+            from
+                issues
+            where
+                project_id = /* request.projectId */0
+            /*%if request.title != null && !request.title.isEmpty() */
+                and title like /* @infix(request.title) */'title'
+            /*%end*/
+            order by
+            /*%if request.sort != null && !request.sort.isEmpty() &&
+                    request.order != null && !request.order.isEmpty() */
+                /*# " " + request.sort + " " + request.order */
+            /*%else */
+                /*# "id asc" */
+            /*%end */
+            """)
+    List<IssueEntity> selectBy(final IssueSearchRequest request);
 
     @Select
     @Sql("""

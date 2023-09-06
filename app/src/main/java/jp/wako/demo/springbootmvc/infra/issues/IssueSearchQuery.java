@@ -19,8 +19,7 @@ public class IssueSearchQuery implements IIssueSearchQuery {
 
     public IssueSearchResponse execute(final IssueSearchRequest request) {
 
-        // TODO: daoにselectBy()実装する
-        var foundIssueEntities = this.dao.selectByProjectId(request.getProjectId());
+        var foundIssueEntities = this.dao.selectBy(request);
         var foundIssueDtos = foundIssueEntities
             .stream()
             .map(foundIssueEntity -> {
