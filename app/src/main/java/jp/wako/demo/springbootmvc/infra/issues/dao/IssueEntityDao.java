@@ -11,7 +11,7 @@ import org.seasar.doma.Update;
 import org.seasar.doma.boot.ConfigAutowireable;
 import org.seasar.doma.jdbc.Result;
 
-import jp.wako.demo.springbootmvc.usecase.issues.search.IssueSearchRequest;
+import jp.wako.demo.springbootmvc.infra.issues.IssueSearchParameter;
 
 // @ConfigAutowireableを付けておくと
 // Implを自動生成したときに@Repositoryを付加してくれるらしい
@@ -31,14 +31,13 @@ public interface IssueEntityDao {
                 and title like /* @infix(request.title) */'title'
             /*%end*/
             order by
-            /*%if request.sort != null && !request.sort.isEmpty() &&
-                    request.order != null && !request.order.isEmpty() */
-                /*# " " + request.sort + " " + request.order */
+            /*%if request.sort != null */
+                /*# " " + request.sort.toString() */
             /*%else */
                 /*# "id asc" */
             /*%end */
             """)
-    List<IssueEntity> selectBy(final IssueSearchRequest request);
+    List<IssueEntity> selectBy(final IssueSearchParameter request);
 
     @Select
     @Sql("""

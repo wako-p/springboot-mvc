@@ -5,6 +5,9 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
 
 import jp.wako.demo.springbootmvc.infra.issues.dao.IssueEntityDao;
+import jp.wako.demo.springbootmvc.infra.issues.sort.Column;
+import jp.wako.demo.springbootmvc.infra.issues.sort.Sort;
+import jp.wako.demo.springbootmvc.infra.shared.sort.Order;
 import jp.wako.demo.springbootmvc.usecase.issues.search.IIssueSearchQuery;
 import jp.wako.demo.springbootmvc.usecase.issues.search.IssueDto;
 import jp.wako.demo.springbootmvc.usecase.issues.search.IssueSearchRequest;
@@ -19,7 +22,14 @@ public class IssueSearchQuery implements IIssueSearchQuery {
 
     public IssueSearchResponse execute(final IssueSearchRequest request) {
 
-        var foundIssueEntities = this.dao.selectBy(request);
+        var parameter = new IssueSearchParameter(
+            request.getProjectId(),
+            request.getTitle(),
+            new Sort(
+                Column.parseBy(request.getSortColumn()),
+                Order.parseBy(request.getSortOrder())));
+
+        var foundIssueEntities = this.dao.selectBy(parameter);
         var foundIssueDtos = foundIssueEntities
             .stream()
             .map(foundIssueEntity -> {

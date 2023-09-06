@@ -26,6 +26,7 @@ public final class IssueEntity extends ImmutableEntity {
     @SequenceGenerator(sequence = "issues_id_seq")
     private final Integer id;
 
+    // TODO: namingにSNAKE_LOWER_CASEを指定してるのでいらないくさい
     @Column(name = "project_id")
     private final Integer projectId;
     private final String title;
