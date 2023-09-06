@@ -22,13 +22,6 @@ public interface IssueEntityDao {
     @Sql("""
             select *
             from issues
-            """)
-    List<IssueEntity> selectAll();
-
-    @Select
-    @Sql("""
-            select *
-            from issues
             where id = /* id */0
             """)
     Optional<IssueEntity> selectById(final Integer id);

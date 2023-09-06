@@ -1,8 +1,6 @@
 package jp.wako.demo.springbootmvc.infra.issues;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.OptimisticLockingFailureException;
@@ -22,17 +20,6 @@ public class IssueRepository implements IIssueRepository {
 
     private final IssueEntityDao dao;
     private final IssueEntityConverter converter;
-
-    public List<Issue> findAll() {
-
-        var issueEntities = this.dao.selectAll();
-        var issues = issueEntities
-            .stream()
-            .map(this.converter::toDomain)
-            .collect(Collectors.toList());
-
-        return issues;
-    }
 
     public Optional<Issue> findById(final Integer id) {
 
