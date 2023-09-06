@@ -3,6 +3,6 @@ package jp.wako.demo.springbootmvc.usecase.projects.get;
 import lombok.Data;
 
 @Data
-public class GetProjectRequest {
+public class ProjectGetRequest {
     private final Integer id;
 }

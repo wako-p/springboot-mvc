@@ -8,17 +8,17 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class GetProjectUseCase {
+public class ProjectGetUseCase {
 
     private final ProjectRepository repository;
 
-    public GetProjectResponse execute(final GetProjectRequest request) {
+    public ProjectGetResponse execute(final ProjectGetRequest request) {
 
         var maybeProject = this.repository.findById(request.getId());
         var foundProject = maybeProject
                     .orElseThrow(() -> new UseCaseException("Project not found."));
 
-        return new GetProjectResponse(
+        return new ProjectGetResponse(
             foundProject.getId(),
             foundProject.getName(),
             foundProject.getDescription(),

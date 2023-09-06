@@ -6,6 +6,6 @@ import jp.wako.demo.springbootmvc.domain.projects.Project;
 import lombok.Data;
 
 @Data
-public class GetAllProjectResponse {
+public class ProjectGetAllResponse {
     private final List<Project> projects;
 }

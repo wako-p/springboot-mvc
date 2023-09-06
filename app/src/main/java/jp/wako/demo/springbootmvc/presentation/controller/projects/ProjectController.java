@@ -20,12 +20,12 @@ import jp.wako.demo.springbootmvc.presentation.controller.projects.viewmodel.Pro
 import jp.wako.demo.springbootmvc.presentation.controller.projects.viewmodel.ProjectIssuesVM;
 import jp.wako.demo.springbootmvc.presentation.controller.projects.viewmodel.ProjectVM;
 import jp.wako.demo.springbootmvc.presentation.controller.projects.viewmodel.ProjectViewVM;
-import jp.wako.demo.springbootmvc.usecase.projects.create.CreateProjectRequest;
-import jp.wako.demo.springbootmvc.usecase.projects.create.CreateProjectUseCase;
-import jp.wako.demo.springbootmvc.usecase.projects.get.GetProjectRequest;
-import jp.wako.demo.springbootmvc.usecase.projects.get.GetProjectUseCase;
-import jp.wako.demo.springbootmvc.usecase.projects.getall.GetAllProjectRequest;
-import jp.wako.demo.springbootmvc.usecase.projects.getall.GetAllProjectUseCase;
+import jp.wako.demo.springbootmvc.usecase.projects.create.ProjectCreateRequest;
+import jp.wako.demo.springbootmvc.usecase.projects.create.ProjectCreateUseCase;
+import jp.wako.demo.springbootmvc.usecase.projects.get.ProjectGetRequest;
+import jp.wako.demo.springbootmvc.usecase.projects.get.ProjectGetUseCase;
+import jp.wako.demo.springbootmvc.usecase.projects.getall.ProjectGetAllRequest;
+import jp.wako.demo.springbootmvc.usecase.projects.getall.ProjectGetAllUseCase;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -33,9 +33,9 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/projects")
 public class ProjectController {
 
-    private final GetAllProjectUseCase getAllProjectUseCase;
-    private final CreateProjectUseCase createProjectUseCase;
-    private final GetProjectUseCase getProjectUseCase;
+    private final ProjectGetAllUseCase projectGetAllUseCase;
+    private final ProjectCreateUseCase projectCreateUseCase;
+    private final ProjectGetUseCase projectGetUseCase;
 
     @ModelAttribute("projectIndexVM")
     public ProjectIndexVM createProjectIndexVM() {
@@ -46,8 +46,8 @@ public class ProjectController {
     @GetMapping({"", "/"})
     public String index(@ModelAttribute("projectIndexVM") final ProjectIndexVM vm) {
 
-        var request = new GetAllProjectRequest();
-        var response = this.getAllProjectUseCase.execute(request);
+        var request = new ProjectGetAllRequest();
+        var response = this.projectGetAllUseCase.execute(request);
 
         var projects = response.getProjects()
             .stream()
@@ -93,8 +93,8 @@ public class ProjectController {
         }
 
         try {
-            var request = new CreateProjectRequest(vm.getName(), vm.getDescription());
-            var response = this.createProjectUseCase.execute(request);
+            var request = new ProjectCreateRequest(vm.getName(), vm.getDescription());
+            var response = this.projectCreateUseCase.execute(request);
 
             return "redirect:/projects/" + response.getId() + "/view";
 
@@ -115,8 +115,8 @@ public class ProjectController {
         @PathVariable Integer id,
         @ModelAttribute("projectViewVM") final ProjectViewVM vm) {
 
-        var request = new GetProjectRequest(id);
-        var response = this.getProjectUseCase.execute(request);
+        var request = new ProjectGetRequest(id);
+        var response = this.projectGetUseCase.execute(request);
 
         // TODO: プロジェクトが存在しなかったときの処理かく
 
@@ -133,8 +133,8 @@ public class ProjectController {
         @ModelAttribute("projectIssuesVM") final ProjectIssuesVM projectIssuesVM) {
 
         // TODO: ProjectとIssueはID連携にするのでGetIssusUseCaseをDIしてそれ使う
-        var request = new GetProjectRequest(id);
-        var response = this.getProjectUseCase.execute(request);
+        var request = new ProjectGetRequest(id);
+        var response = this.projectGetUseCase.execute(request);
 
         var issues = response.getIssues()
             .stream()

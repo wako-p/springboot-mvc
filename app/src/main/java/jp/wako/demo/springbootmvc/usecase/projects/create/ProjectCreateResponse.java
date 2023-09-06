@@ -3,6 +3,6 @@ package jp.wako.demo.springbootmvc.usecase.projects.create;
 import lombok.Data;
 
 @Data
-public class CreateProjectResponse {
+public class ProjectCreateResponse {
     private final Integer id;
 }

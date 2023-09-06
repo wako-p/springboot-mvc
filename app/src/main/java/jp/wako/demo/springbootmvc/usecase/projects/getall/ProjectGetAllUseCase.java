@@ -7,12 +7,12 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class GetAllProjectUseCase {
+public class ProjectGetAllUseCase {
 
     private final ProjectRepository repository;
 
-    public GetAllProjectResponse execute(final GetAllProjectRequest request) {
+    public ProjectGetAllResponse execute(final ProjectGetAllRequest request) {
         var projects = this.repository.findAll();
-        return new GetAllProjectResponse(projects);
+        return new ProjectGetAllResponse(projects);
     }
 }

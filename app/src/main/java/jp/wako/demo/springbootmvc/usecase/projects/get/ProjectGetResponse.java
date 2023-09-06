@@ -6,7 +6,7 @@ import jp.wako.demo.springbootmvc.domain.issues.Issue;
 import lombok.Data;
 
 @Data
-public class GetProjectResponse {
+public class ProjectGetResponse {
     private final Integer id;
     private final String name;
     private final String description;
