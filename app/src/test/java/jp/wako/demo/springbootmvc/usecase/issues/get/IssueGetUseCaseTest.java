@@ -55,7 +55,8 @@ public class IssueGetUseCaseTest {
             assertEquals(1000, capturedIssueId);
 
             // 取得した課題をDTOに詰め替えて返している
-            var expected = new IssueGetResponse(1000, 1000, "Issue1", "This is a test issue.", 1);
+            var dto = new IssueDto(1000, 1000, "Issue1", "This is a test issue.");
+            var expected = new IssueGetResponse(dto);
             assertEquals(expected, actual);
         }
 

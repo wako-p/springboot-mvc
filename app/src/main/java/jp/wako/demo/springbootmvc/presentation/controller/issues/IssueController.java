@@ -51,11 +51,12 @@ public class IssueController {
 
         var request = new IssueGetRequest(id);
         var response = this.issueGetUseCase.execute(request);
+        var issue = response.getIssue();
 
-        vm.setId(response.getId());
-        vm.setProjectId(response.getProjectId());
-        vm.setTitle(response.getTitle());
-        vm.setDescription(response.getDescription());
+        vm.setId(issue.getId());
+        vm.setProjectId(issue.getProjectId());
+        vm.setTitle(issue.getTitle());
+        vm.setDescription(issue.getDescription());
 
         return "/issues/view";
     }
@@ -72,11 +73,11 @@ public class IssueController {
 
         var request = new IssueGetRequest(id);
         var response = this.issueGetUseCase.execute(request);
+        var issue = response.getIssue();
 
-        vm.setId(response.getId());
-        vm.setTitle(response.getTitle());
-        vm.setDescription(response.getDescription());
-        vm.setVersion(response.getVersion());
+        vm.setId(issue.getId());
+        vm.setTitle(issue.getTitle());
+        vm.setDescription(issue.getDescription());
 
         return "/issues/edit";
     }

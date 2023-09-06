@@ -18,11 +18,12 @@ public class IssueGetUseCase {
         var foundIssue = maybeIssue
             .orElseThrow(() -> new UseCaseException("Issue not found."));
 
-        return new IssueGetResponse(
+        var foundIssueDto = new IssueDto(
             foundIssue.getId(),
             foundIssue.getProjectId(),
             foundIssue.getTitle(),
-            foundIssue.getDescription(),
-            foundIssue.getVersion());
+            foundIssue.getDescription());
+
+        return new IssueGetResponse(foundIssueDto);
     }
 }
