@@ -18,6 +18,8 @@ import org.seasar.doma.jdbc.Result;
 @Dao
 public interface IssueEntityDao {
 
+    // TODO: find -> select にする
+
     @Select
     @Sql("""
             select *

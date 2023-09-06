@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jp.wako.demo.springbootmvc.infra.issues.IssueSearchQuery;
 import jp.wako.demo.springbootmvc.infra.shared.exception.PersistenceException;
 import jp.wako.demo.springbootmvc.presentation.controller.projects.viewmodel.IssueVM;
 import jp.wako.demo.springbootmvc.presentation.controller.projects.viewmodel.ProjectCreateVM;
@@ -20,6 +21,7 @@ import jp.wako.demo.springbootmvc.presentation.controller.projects.viewmodel.Pro
 import jp.wako.demo.springbootmvc.presentation.controller.projects.viewmodel.ProjectIssuesVM;
 import jp.wako.demo.springbootmvc.presentation.controller.projects.viewmodel.ProjectVM;
 import jp.wako.demo.springbootmvc.presentation.controller.projects.viewmodel.ProjectViewVM;
+import jp.wako.demo.springbootmvc.usecase.issues.search.IssueSearchRequest;
 import jp.wako.demo.springbootmvc.usecase.projects.create.ProjectCreateRequest;
 import jp.wako.demo.springbootmvc.usecase.projects.create.ProjectCreateUseCase;
 import jp.wako.demo.springbootmvc.usecase.projects.get.ProjectGetRequest;
@@ -36,6 +38,7 @@ public class ProjectController {
     private final ProjectGetAllUseCase projectGetAllUseCase;
     private final ProjectCreateUseCase projectCreateUseCase;
     private final ProjectGetUseCase projectGetUseCase;
+    private final IssueSearchQuery issueSearchQuery;
 
     @ModelAttribute("projectIndexVM")
     public ProjectIndexVM createProjectIndexVM() {
@@ -132,11 +135,14 @@ public class ProjectController {
         @PathVariable Integer id,
         @ModelAttribute("projectIssuesVM") final ProjectIssuesVM projectIssuesVM) {
 
-        // TODO: ProjectとIssueはID連携にするのでGetIssusUseCaseをDIしてそれ使う
-        var request = new ProjectGetRequest(id);
-        var response = this.projectGetUseCase.execute(request);
+        // TODO: UseCaseException補足する
+        var projectGetRequest = new ProjectGetRequest(id);
+        var projectGetResponse = this.projectGetUseCase.execute(projectGetRequest);
 
-        var issues = response.getIssues()
+        var issueSearchRequest = new IssueSearchRequest(id);
+        var issueSearchResponse = this.issueSearchQuery.execute(issueSearchRequest);
+
+        var issues = issueSearchResponse.getIssues()
             .stream()
             .map(issue -> {
                 var issueVM = new IssueVM(
@@ -147,7 +153,7 @@ public class ProjectController {
             })
             .collect(Collectors.toList());
 
-        projectIssuesVM.setName(response.getName());
+        projectIssuesVM.setName(projectGetResponse.getName());
         projectIssuesVM.setIssues(issues);
 
         return "/projects/issues";
