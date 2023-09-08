@@ -2,7 +2,6 @@ package jp.wako.demo.springbootmvc.infra.issues.dao;
 
 import java.time.LocalDateTime;
 
-import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 import org.seasar.doma.GeneratedValue;
 import org.seasar.doma.GenerationType;
@@ -25,9 +24,6 @@ public final class IssueEntity extends ImmutableEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(sequence = "issues_id_seq")
     private final Integer id;
-
-    // TODO: namingにSNAKE_LOWER_CASEを指定してるのでいらないくさい
-    @Column(name = "project_id")
     private final Integer projectId;
     private final String title;
     private final String description;
