@@ -7,7 +7,6 @@ public enum Column {
 
     ID("id"),
     TITLE("title"),
-    DESCRIPTION("description"),
     UPDATEDAT("updated_at");
 
     private final String name;

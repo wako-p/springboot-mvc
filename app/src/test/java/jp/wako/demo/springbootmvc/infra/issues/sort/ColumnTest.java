@@ -20,7 +20,6 @@ public class ColumnTest {
             return Stream.of(
                 Arguments.of("id", Column.ID),
                 Arguments.of("title", Column.TITLE),
-                Arguments.of("description", Column.DESCRIPTION),
                 Arguments.of("updated_at", Column.UPDATEDAT));
             }
 
