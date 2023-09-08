@@ -22,14 +22,14 @@ public class IssueSearchQuery implements IIssueSearchQuery {
 
     public IssueSearchResponse execute(final IssueSearchRequest request) {
 
-        var parameter = new IssueSearchParameter(
+        var condition = new IssueSearchCondition(
             request.getProjectId(),
             request.getTitle(),
             new Sort(
                 Column.parseBy(request.getSortColumn()),
                 Order.parseBy(request.getSortOrder())));
 
-        var foundIssueEntities = this.dao.selectBy(parameter);
+        var foundIssueEntities = this.dao.selectBy(condition);
         var foundIssueDtos = foundIssueEntities
             .stream()
             .map(foundIssueEntity -> {
