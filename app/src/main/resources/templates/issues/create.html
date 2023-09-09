@@ -10,7 +10,7 @@
         <div class="row justify-content-center">
             <div class="w-50">
                 <div class="row my-3">
-                    <form th:object="${issueCreateVM}" th:action="@{/issues}" th:method="post">
+                    <form th:object="${issueCreateVM}" th:action="@{/projects/{projectId}/issues(projectId=*{projectId})}" th:method="post">
                         <div
                             class="alert alert-danger mt-5"
                             role="alert"
@@ -33,7 +33,6 @@
                                 class="btn btn-outline-primary"
                                 th:href="@{/projects/{projectId}/issues(projectId=*{projectId})}">Cancel</a>
                         </div>
-                        <input type="hidden" th:field="*{projectId}">
                     </form>
                 </div>
             </div>

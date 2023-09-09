@@ -35,6 +35,8 @@ public class IssueController {
     private final IssueUpdateUseCase issueUpdateUseCase;
     private final IssueDeleteUseCase issueDeleteUseCase;
 
+   // TODO: 課題一覧の表示はこっちに移動する
+
     @ModelAttribute("issueViewVM")
     private IssueViewVM createIssueViewVM() {
         return new IssueViewVM();
@@ -87,23 +89,21 @@ public class IssueController {
     public String create(
         @PathVariable final Integer projectId,
         @ModelAttribute("issueCreateVM") final IssueCreateVM vm) {
-
         vm.setProjectId(projectId);
         return "/issues/create";
     }
 
-    // TODO: プロジェクトID必要
-    @PostMapping("/issues")
+    @PostMapping("projects/{projectId}/issues")
     public String create(
+        @PathVariable final Integer projectId,
         @ModelAttribute("issueCreateVM") @Validated final IssueCreateVM vm,
         final BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            // TODO: 画面(テンプレート)つくる
             return "/issues/create";
         }
 
-        var request = new IssueCreateRequest(vm.getProjectId(), vm.getTitle(), vm.getDescription());
+        var request = new IssueCreateRequest(projectId, vm.getTitle(), vm.getDescription());
         var response = this.issueCreateUseCase.execute(request);
 
         return "redirect:/issues/" + response.getId() + "/view";
