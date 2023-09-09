@@ -25,6 +25,7 @@ import jp.wako.demo.springbootmvc.usecase.issues.update.IssueUpdateRequest;
 import jp.wako.demo.springbootmvc.usecase.issues.update.IssueUpdateUseCase;
 import lombok.RequiredArgsConstructor;
 
+// TODO: URL設計しなおす /issues -> /projects/{projectId}/issues{id}
 @RequiredArgsConstructor
 @Controller
 public class IssueController {
