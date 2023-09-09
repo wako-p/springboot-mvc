@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class ProjectIssuesVM {
+    private Integer id;
     private String name;
     private List<IssueVM> issues;
 }

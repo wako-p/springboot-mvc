@@ -16,7 +16,11 @@ public class IssueCreateUseCase {
     @Transactional
     public IssueCreateResponse execute(final IssueCreateRequest request) {
 
-        var issue = Issue.create(request.getTitle());
+        var issue = Issue.create(
+            request.getProjectId(),
+            request.getTitle(),
+            request.getDescription());
+
         var createdIssueId = this.repository.save(issue);
 
         return new IssueCreateResponse(createdIssueId);

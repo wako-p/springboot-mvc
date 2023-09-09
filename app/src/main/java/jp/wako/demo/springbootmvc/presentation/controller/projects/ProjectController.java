@@ -153,6 +153,7 @@ public class ProjectController {
             })
             .collect(Collectors.toList());
 
+        projectIssuesVM.setId(projectGetResponse.getId());
         projectIssuesVM.setName(projectGetResponse.getName());
         projectIssuesVM.setIssues(issues);
 

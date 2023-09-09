@@ -32,10 +32,10 @@ public class IssueCreateUseCaseTest {
         private ArgumentCaptor<Issue> issueCaptor;
 
         @Test
-        @DisplayName("DTOを渡すと、そのDTOに含まれるタイトルを使用して、新規作成された課題が保存される。")
+        @DisplayName("DTOを渡すと、そのDTOに含まれるタイトルと説明を使用して、新規作成された課題が保存される。")
         public void success1() {
             // when:
-            var request = new IssueCreateRequest("Issue1");
+            var request = new IssueCreateRequest(1000, "Issue1", "This is a test issue.");
             this.usecase.execute(request);
 
             // then:
@@ -43,8 +43,10 @@ public class IssueCreateUseCaseTest {
             verify(this.repository).save(issueCaptor.capture());
             var capturedIssue = issueCaptor.getValue();
 
-            // DTOに含まれるタイトルを使用して課題が新規作成されている
+            // DTOに含まれるタイトルと説明を使用して課題が新規作成されている
+            assertEquals(1000, capturedIssue.getProjectId());
             assertEquals("Issue1", capturedIssue.getTitle());
+            assertEquals("This is a test issue.", capturedIssue.getDescription());
         }
 
     }

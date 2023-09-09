@@ -10,7 +10,7 @@
         <div class="row justify-content-center">
             <div class="w-50">
                 <div class="row my-3">
-                    <form th:object="${issueEditVM}" th:action="@{/issues/{id}(id=*{id})}" th:method="put">
+                    <form th:object="${issueCreateVM}" th:action="@{/issues}" th:method="post">
                         <div
                             class="alert alert-danger mt-5"
                             role="alert"
@@ -25,13 +25,15 @@
                             <label for="description" class="form-label">Description</label>
                             <textarea class="form-control" th:field="*{description}" rows="4" placeholder="Leave a description"></textarea>
                         </div>
-                        <div>
-                            <input type="hidden" th:field="*{id}">
-                        </div>
                         <div class="form-group d-flex">
-                            <button type="submit" class="btn btn-primary me-2">Update</button>
-                            <a th:href="@{/issues/{id}/view(id=*{id})}" class="btn btn-outline-primary">Cancel</a>
+                            <button
+                                class="btn btn-primary me-2"
+                                type="submit">Add</button>
+                            <a
+                                class="btn btn-outline-primary"
+                                th:href="@{/projects/{projectId}/issues(projectId=*{projectId})}">Cancel</a>
                         </div>
+                        <input type="hidden" th:field="*{projectId}">
                     </form>
                 </div>
             </div>

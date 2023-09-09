@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.wako.demo.springbootmvc.infra.shared.exception.PersistenceException;
+import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueCreateVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueEditVM;
-import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueIndexVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueViewVM;
 import jp.wako.demo.springbootmvc.usecase.issues.create.IssueCreateRequest;
 import jp.wako.demo.springbootmvc.usecase.issues.create.IssueCreateUseCase;
@@ -33,11 +33,6 @@ public class IssueController {
     private final IssueCreateUseCase issueCreateUseCase;
     private final IssueUpdateUseCase issueUpdateUseCase;
     private final IssueDeleteUseCase issueDeleteUseCase;
-
-    @ModelAttribute("issueIndexVM")
-    private IssueIndexVM createIssueIndexVM() {
-        return new IssueIndexVM();
-    }
 
     @ModelAttribute("issueViewVM")
     private IssueViewVM createIssueViewVM() {
@@ -82,9 +77,24 @@ public class IssueController {
         return "/issues/edit";
     }
 
+    @ModelAttribute("issueCreateVM")
+    private IssueCreateVM createIssueCreateVM() {
+        return new IssueCreateVM();
+    }
+
+    @GetMapping("projects/{projectId}/issues/create")
+    public String create(
+        @PathVariable final Integer projectId,
+        @ModelAttribute("issueCreateVM") final IssueCreateVM vm) {
+
+        vm.setProjectId(projectId);
+        return "/issues/create";
+    }
+
+    // TODO: プロジェクトID必要
     @PostMapping("/issues")
     public String create(
-        @ModelAttribute("issueIndexVM") @Validated final IssueIndexVM vm,
+        @ModelAttribute("issueCreateVM") @Validated final IssueCreateVM vm,
         final BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
@@ -92,8 +102,7 @@ public class IssueController {
             return "/issues/create";
         }
 
-        var issueCreateVM = vm.getIssueCreateVM();
-        var request = new IssueCreateRequest(issueCreateVM.getTitle());
+        var request = new IssueCreateRequest(vm.getProjectId(), vm.getTitle(), vm.getDescription());
         var response = this.issueCreateUseCase.execute(request);
 
         return "redirect:/issues/" + response.getId() + "/view";
