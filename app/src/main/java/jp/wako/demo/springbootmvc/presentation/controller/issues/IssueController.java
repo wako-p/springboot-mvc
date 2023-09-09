@@ -37,6 +37,35 @@ public class IssueController {
 
    // TODO: 課題一覧の表示はこっちに移動する
 
+    @ModelAttribute("issueCreateVM")
+    private IssueCreateVM createIssueCreateVM() {
+        return new IssueCreateVM();
+    }
+
+    @GetMapping("projects/{projectId}/issues/create")
+    public String create(
+        @PathVariable final Integer projectId,
+        @ModelAttribute("issueCreateVM") final IssueCreateVM vm) {
+        vm.setProjectId(projectId);
+        return "/issues/create";
+    }
+
+    @PostMapping("projects/{projectId}/issues")
+    public String create(
+        @PathVariable final Integer projectId,
+        @ModelAttribute("issueCreateVM") @Validated final IssueCreateVM vm,
+        final BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "/issues/create";
+        }
+
+        var request = new IssueCreateRequest(projectId, vm.getTitle(), vm.getDescription());
+        var response = this.issueCreateUseCase.execute(request);
+
+        return "redirect:/issues/" + response.getId() + "/view";
+    }
+
     @ModelAttribute("issueViewVM")
     private IssueViewVM createIssueViewVM() {
         return new IssueViewVM();
@@ -78,35 +107,6 @@ public class IssueController {
         vm.setDescription(issue.getDescription());
 
         return "/issues/edit";
-    }
-
-    @ModelAttribute("issueCreateVM")
-    private IssueCreateVM createIssueCreateVM() {
-        return new IssueCreateVM();
-    }
-
-    @GetMapping("projects/{projectId}/issues/create")
-    public String create(
-        @PathVariable final Integer projectId,
-        @ModelAttribute("issueCreateVM") final IssueCreateVM vm) {
-        vm.setProjectId(projectId);
-        return "/issues/create";
-    }
-
-    @PostMapping("projects/{projectId}/issues")
-    public String create(
-        @PathVariable final Integer projectId,
-        @ModelAttribute("issueCreateVM") @Validated final IssueCreateVM vm,
-        final BindingResult bindingResult) {
-
-        if (bindingResult.hasErrors()) {
-            return "/issues/create";
-        }
-
-        var request = new IssueCreateRequest(projectId, vm.getTitle(), vm.getDescription());
-        var response = this.issueCreateUseCase.execute(request);
-
-        return "redirect:/issues/" + response.getId() + "/view";
     }
 
     @PutMapping("/issues/{id}")
