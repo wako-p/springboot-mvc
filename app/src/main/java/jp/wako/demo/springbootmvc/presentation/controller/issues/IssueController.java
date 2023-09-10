@@ -96,7 +96,7 @@ public class IssueController {
         var request = new IssueCreateRequest(projectId, vm.getTitle(), vm.getDescription());
         var response = this.issueCreateUseCase.execute(request);
 
-        return "redirect:/projects/" + projectId + "/issues/" + response.getId() + "/view";
+        return "redirect:/projects/" + projectId + "/issues/" + response.getId();
     }
 
     @ModelAttribute("issueViewVM")
@@ -161,7 +161,7 @@ public class IssueController {
             var request = new IssueUpdateRequest(id, vm.getTitle(), vm.getDescription());
             var response = this.issueUpdateUseCase.execute(request);
 
-            return "redirect:/projects/" + projectId + "/issues/" + response.getId() + "/view";
+            return "redirect:/projects/" + projectId + "/issues/" + response.getId();
 
         } catch (PersistenceException exception) {
             // NOTE: 楽観ロックに失敗したらもっかい編集画面を表示させる
