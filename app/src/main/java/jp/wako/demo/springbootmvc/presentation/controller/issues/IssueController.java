@@ -104,7 +104,7 @@ public class IssueController {
         return new IssueViewVM();
     }
 
-    @GetMapping("/issues/{id}/view")
+    @GetMapping("/issues/{id}")
     public String view(
         @PathVariable final Integer projectId,
         @PathVariable final Integer id,
