@@ -6,5 +6,6 @@ import lombok.Data;
 
 @Data
 public class IssueSearchResponse {
+    private final ProjectDto project;
     private final List<IssueDto> issues;
 }

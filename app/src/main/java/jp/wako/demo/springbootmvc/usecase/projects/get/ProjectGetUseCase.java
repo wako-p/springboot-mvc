@@ -16,12 +16,13 @@ public class ProjectGetUseCase {
 
         var maybeProject = this.repository.findById(request.getId());
         var foundProject = maybeProject
-                    .orElseThrow(() -> new UseCaseException("Project not found."));
+                .orElseThrow(() -> new UseCaseException("Project not found."));
 
-        return new ProjectGetResponse(
+        var foundProjectDto = new ProjectDto(
             foundProject.getId(),
             foundProject.getName(),
-            foundProject.getDescription(),
-            foundProject.getIssues());
+            foundProject.getDescription());
+
+        return new ProjectGetResponse(foundProjectDto);
     }
 }

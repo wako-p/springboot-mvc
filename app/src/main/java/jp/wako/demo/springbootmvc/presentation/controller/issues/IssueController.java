@@ -1,5 +1,7 @@
 package jp.wako.demo.springbootmvc.presentation.controller.issues;
 
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -15,13 +17,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jp.wako.demo.springbootmvc.infra.shared.exception.PersistenceException;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueCreateVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueEditVM;
+import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueIndexVM;
+import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueViewVM;
+import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.ProjectVM;
 import jp.wako.demo.springbootmvc.usecase.issues.create.IssueCreateRequest;
 import jp.wako.demo.springbootmvc.usecase.issues.create.IssueCreateUseCase;
 import jp.wako.demo.springbootmvc.usecase.issues.delete.IssueDeleteRequest;
 import jp.wako.demo.springbootmvc.usecase.issues.delete.IssueDeleteUseCase;
 import jp.wako.demo.springbootmvc.usecase.issues.get.IssueGetRequest;
 import jp.wako.demo.springbootmvc.usecase.issues.get.IssueGetUseCase;
+import jp.wako.demo.springbootmvc.usecase.issues.search.IIssueSearchQuery;
+import jp.wako.demo.springbootmvc.usecase.issues.search.IssueSearchRequest;
 import jp.wako.demo.springbootmvc.usecase.issues.update.IssueUpdateRequest;
 import jp.wako.demo.springbootmvc.usecase.issues.update.IssueUpdateUseCase;
 import lombok.RequiredArgsConstructor;
@@ -31,12 +38,37 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/projects/{projectId}")
 public class IssueController {
 
+    private final IIssueSearchQuery issueSearchQuery;
     private final IssueGetUseCase issueGetUseCase;
     private final IssueCreateUseCase issueCreateUseCase;
     private final IssueUpdateUseCase issueUpdateUseCase;
     private final IssueDeleteUseCase issueDeleteUseCase;
 
-   // TODO: 課題一覧の表示はこっちに移動する
+    @ModelAttribute("issueIndexVM")
+    public IssueIndexVM createIssueIndexVM() {
+        return new IssueIndexVM();
+    }
+
+    @GetMapping("/issues")
+    public String index(
+        @PathVariable final Integer projectId,
+        @ModelAttribute("issueIndexVM") final IssueIndexVM vm) {
+
+        // TODO: UseCaseException補足する
+        var request = new IssueSearchRequest(projectId);
+        var response = this.issueSearchQuery.execute(request);
+
+        var project = ProjectVM.createFrom(response.getProject());
+        var issues = response.getIssues()
+            .stream()
+            .map(IssueVM::createFrom)
+            .collect(Collectors.toList());
+
+        vm.setProject(project);
+        vm.setIssues(issues);
+
+        return "/issues/index";
+    }
 
     @ModelAttribute("issueCreateVM")
     private IssueCreateVM createIssueCreateVM() {

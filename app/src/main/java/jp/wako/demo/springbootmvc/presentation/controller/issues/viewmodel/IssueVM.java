@@ -1,16 +1,27 @@
 package jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel;
 
-import java.time.LocalDateTime;
+import jp.wako.demo.springbootmvc.usecase.issues.search.IssueDto;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+@Data
+@AllArgsConstructor
+public final class IssueVM {
 
-@RequiredArgsConstructor
-@Getter
-public class IssueVM {
-    private final Integer id;
-    private final String title;
-    private final String description;
-    private final LocalDateTime createdAt;
-    private final LocalDateTime updatedAt;
+    private Integer id;
+    private Integer projectId;
+    private String title;
+    private String description;
+
+    public static IssueVM createFrom(final IssueDto dto) {
+
+        var vm = new IssueVM(
+            dto.getId(),
+            dto.getProjectId(),
+            dto.getTitle(),
+            dto.getDescription());
+
+        return vm;
+    }
+
 }
