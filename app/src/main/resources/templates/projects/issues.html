@@ -32,7 +32,7 @@
                             <td>
                                 <a
                                     th:text="${issue.title}"
-                                    th:href="@{/issues/{id}/view(id=${issue.id})}"></a>
+                                    th:href="@{/projects/{projectId}/issues/{id}/view(projectId=${issue.projectId}, id=${issue.id})}"></a>
                             </td>
                             <td th:text="${issue.description}"></td>
                         </tr>

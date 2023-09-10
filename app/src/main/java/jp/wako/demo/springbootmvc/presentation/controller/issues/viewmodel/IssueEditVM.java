@@ -7,6 +7,7 @@ import lombok.Data;
 public final class IssueEditVM {
 
     private Integer id;
+    private Integer projectId;
 
     @NotBlank(message = "Please enter a title for the issue")
     private String title;
@@ -14,6 +15,7 @@ public final class IssueEditVM {
 
     public IssueEditVM() {
         this.id = 0;
+        this.projectId = 0;
         this.title = "";
         this.description = "";
     }

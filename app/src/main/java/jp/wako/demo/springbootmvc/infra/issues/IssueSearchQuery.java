@@ -35,6 +35,7 @@ public class IssueSearchQuery implements IIssueSearchQuery {
             .map(foundIssueEntity -> {
                 var foundIssueDto = new IssueDto(
                     foundIssueEntity.getId(),
+                    foundIssueEntity.getProjectId(),
                     foundIssueEntity.getTitle(),
                     foundIssueEntity.getDescription());
                 return foundIssueDto;

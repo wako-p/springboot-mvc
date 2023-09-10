@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.wako.demo.springbootmvc.infra.shared.exception.PersistenceException;
@@ -25,9 +26,9 @@ import jp.wako.demo.springbootmvc.usecase.issues.update.IssueUpdateRequest;
 import jp.wako.demo.springbootmvc.usecase.issues.update.IssueUpdateUseCase;
 import lombok.RequiredArgsConstructor;
 
-// TODO: URL設計しなおす /issues -> /projects/{projectId}/issues{id}
 @RequiredArgsConstructor
 @Controller
+@RequestMapping("/projects/{projectId}")
 public class IssueController {
 
     private final IssueGetUseCase issueGetUseCase;
@@ -42,7 +43,7 @@ public class IssueController {
         return new IssueCreateVM();
     }
 
-    @GetMapping("projects/{projectId}/issues/create")
+    @GetMapping("/issues/create")
     public String create(
         @PathVariable final Integer projectId,
         @ModelAttribute("issueCreateVM") final IssueCreateVM vm) {
@@ -50,7 +51,7 @@ public class IssueController {
         return "/issues/create";
     }
 
-    @PostMapping("projects/{projectId}/issues")
+    @PostMapping("/issues")
     public String create(
         @PathVariable final Integer projectId,
         @ModelAttribute("issueCreateVM") @Validated final IssueCreateVM vm,
@@ -63,7 +64,7 @@ public class IssueController {
         var request = new IssueCreateRequest(projectId, vm.getTitle(), vm.getDescription());
         var response = this.issueCreateUseCase.execute(request);
 
-        return "redirect:/issues/" + response.getId() + "/view";
+        return "redirect:/projects/" + projectId + "/issues/" + response.getId() + "/view";
     }
 
     @ModelAttribute("issueViewVM")
@@ -73,6 +74,7 @@ public class IssueController {
 
     @GetMapping("/issues/{id}/view")
     public String view(
+        @PathVariable final Integer projectId,
         @PathVariable final Integer id,
         @ModelAttribute("issueViewVM") final IssueViewVM vm) {
 
@@ -95,6 +97,7 @@ public class IssueController {
 
     @GetMapping("/issues/{id}/edit")
     public String edit(
+        @PathVariable final Integer projectId,
         @PathVariable final Integer id,
         @ModelAttribute("issueEditVM") final IssueEditVM vm) {
 
@@ -103,6 +106,7 @@ public class IssueController {
         var issue = response.getIssue();
 
         vm.setId(issue.getId());
+        vm.setProjectId(issue.getProjectId());
         vm.setTitle(issue.getTitle());
         vm.setDescription(issue.getDescription());
 
@@ -111,6 +115,7 @@ public class IssueController {
 
     @PutMapping("/issues/{id}")
     public String update(
+        @PathVariable final Integer projectId,
         @PathVariable final Integer id,
         @ModelAttribute("issueEditVM") @Validated final IssueEditVM vm,
         final BindingResult bindingResult,
@@ -124,19 +129,21 @@ public class IssueController {
             var request = new IssueUpdateRequest(id, vm.getTitle(), vm.getDescription());
             var response = this.issueUpdateUseCase.execute(request);
 
-            return "redirect:/issues/" + response.getId() + "/view";
+            return "redirect:/projects/" + projectId + "/issues/" + response.getId() + "/view";
 
         } catch (PersistenceException exception) {
             // NOTE: 楽観ロックに失敗したらもっかい編集画面を表示させる
             redirectAttributes.addFlashAttribute("alertMessage", exception.getMessage());
 
-            return "redirect:/issues/" + id + "/edit";
+            return "redirect:/projects/" + projectId + "/issues/" + id + "/edit";
         }
 
     }
 
     @DeleteMapping("/issues/{id}")
-    public String delete(@PathVariable final Integer id) {
+    public String delete(
+        @PathVariable final Integer projectId,
+        @PathVariable final Integer id) {
 
         var request = new IssueDeleteRequest(id);
         this.issueDeleteUseCase.execute(request);

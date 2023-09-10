@@ -147,6 +147,7 @@ public class ProjectController {
             .map(issue -> {
                 var issueVM = new IssueVM(
                     issue.getId(),
+                    issue.getProjectId(),
                     issue.getTitle(),
                     issue.getDescription());
                 return issueVM;
