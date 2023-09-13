@@ -1,10 +1,7 @@
 package jp.wako.demo.springbootmvc.domain.projects;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-import jp.wako.demo.springbootmvc.domain.issues.Issue;
 import jp.wako.demo.springbootmvc.domain.shared.Entity;
 import jp.wako.demo.springbootmvc.domain.shared.exception.DomainException;
 import lombok.Getter;
@@ -14,21 +11,17 @@ public final class Project extends Entity {
 
     private String name;
     private String description;
-    List<Issue> issues;
 
     private Project(
         final Integer id,
         final String name,
         final String description,
-        // TODO: ID連携にする
-        final List<Issue> issues,
         final LocalDateTime createdAt,
         final LocalDateTime updatedAt,
         final Integer version) {
             super(id, createdAt, updatedAt, version);
             this.name = name;
             this.description = description;
-            this.issues = issues;
     }
 
     public static Project create(final String name, final String description) {
@@ -45,7 +38,6 @@ public final class Project extends Entity {
             null,
             name,
             description,
-            new ArrayList<>(),
             LocalDateTime.now().withNano(0),
             LocalDateTime.now().withNano(0),
             1);
@@ -72,15 +64,10 @@ public final class Project extends Entity {
         final Integer id,
         final String name,
         final String description,
-        final List<Issue> issues,
         final LocalDateTime createAt,
         final LocalDateTime updateAt,
         final Integer version) {
-            return new Project(id, name, description, issues, createAt, updateAt, version);
-    }
-
-    public void add(final Issue issue) {
-        this.issues.add(issue);
+            return new Project(id, name, description, createAt, updateAt, version);
     }
 
 }

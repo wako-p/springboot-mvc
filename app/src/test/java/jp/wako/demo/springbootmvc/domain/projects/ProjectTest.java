@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +13,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import jp.wako.demo.springbootmvc.domain.issues.Issue;
 import jp.wako.demo.springbootmvc.domain.shared.exception.DomainException;
 
 public class ProjectTest {
@@ -38,16 +36,6 @@ public class ProjectTest {
             // then:
             assertEquals(name, project.getName());
             assertEquals(description, project.getDescription());
-        }
-
-        @Test
-        @DisplayName("プロジェクトの課題は0件になっている。")
-        public void success2() {
-            // when:
-            var project = Project.create("ProjectA", "This is a test project.");
-
-            // then:
-            assertEquals(0, project.issues.size());
         }
 
         static Stream<Arguments> parameterForFailure1() {
@@ -88,7 +76,6 @@ public class ProjectTest {
                 1000,
                 "ProjectA",
                 "This is a test project.",
-                new ArrayList<>(),
                 LocalDateTime.of(2023, 9, 2, 18, 00, 00),
                 LocalDateTime.of(2023, 9, 2, 18, 00, 00),
                 1);
@@ -100,30 +87,6 @@ public class ProjectTest {
             assertEquals(LocalDateTime.of(2023, 9, 2, 18, 00).withNano(0), project.getCreatedAt());
             assertEquals(LocalDateTime.of(2023, 9, 2, 18, 00).withNano(0), project.getUpdatedAt());
             assertEquals(1, project.getVersion());
-        }
-
-    }
-
-    @Nested
-    public class AddTest {
-
-        @Test
-        @DisplayName("課題を追加することができる")
-        public void success1() {
-            // given:
-            var project = Project.create("ProjectA", "This is a test project.");
-
-            var issue1 = Issue.reconstruct(1000, 1000, "IssueA", "This is a test issue.", LocalDateTime.of(2023, 9, 2, 20, 10, 00), LocalDateTime.of(2023, 9, 2, 20, 10, 00), 1);
-            var issue2 = Issue.reconstruct(1001, 1000, "IssueB", "This is a test issue.", LocalDateTime.of(2023, 9, 2, 20, 20, 00), LocalDateTime.of(2023, 9, 2, 20, 20, 00), 1);
-            var issue3 = Issue.reconstruct(1002, 1000, "IssueC", "This is a test issue.", LocalDateTime.of(2023, 9, 2, 20, 30, 00), LocalDateTime.of(2023, 9, 2, 20, 30, 00), 1);
-
-            // when:
-            project.add(issue1);
-            project.add(issue2);
-            project.add(issue3);
-
-            // then:
-            assertEquals(3, project.issues.size());
         }
 
     }
