@@ -14,7 +14,6 @@ import jp.wako.demo.springbootmvc.infra.projects.dao.ProjectEntityConverter;
 import jp.wako.demo.springbootmvc.infra.projects.dao.ProjectEntityDao;
 import lombok.RequiredArgsConstructor;
 
-// TODO: @Overrideつける
 @Primary
 @RequiredArgsConstructor
 @Repository
@@ -25,6 +24,7 @@ public class ProjectRepository implements IProjectRepository {
 
     private final IssueEntityDao issueEntityDao;
 
+    @Override
     public List<Project> findAll() {
 
         var projects = this.projectEntityDao.selectAll()
@@ -42,6 +42,7 @@ public class ProjectRepository implements IProjectRepository {
         return projects;
     }
 
+    @Override
     public Integer save(final Project project) {
 
         if (project.getId() == null) {
@@ -60,6 +61,7 @@ public class ProjectRepository implements IProjectRepository {
 
     }
 
+    @Override
     public Optional<Project> findById(final Integer id) {
 
         var maybeProjectEntity = this.projectEntityDao.selectById(id);

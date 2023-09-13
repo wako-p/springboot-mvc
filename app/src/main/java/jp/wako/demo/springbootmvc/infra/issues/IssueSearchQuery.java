@@ -24,6 +24,7 @@ public class IssueSearchQuery implements IIssueSearchQuery {
     private final ProjectEntityDao projectEntityDao;
     private final IssueEntityDao issueEntityDao;
 
+    @Override
     public IssueSearchResponse execute(final IssueSearchRequest request) {
 
         var maybeProjectEntity = this.projectEntityDao.selectById(request.getProjectId());

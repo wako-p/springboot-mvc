@@ -21,6 +21,7 @@ public class IssueRepository implements IIssueRepository {
     private final IssueEntityDao dao;
     private final IssueEntityConverter converter;
 
+    @Override
     public Optional<Issue> findById(final Integer id) {
 
         var maybeIssueEntity = this.dao.selectById(id);
@@ -29,6 +30,7 @@ public class IssueRepository implements IIssueRepository {
         return maybeIssue;
     }
 
+    @Override
     public Integer save(final Issue issue) {
 
         var issueEntity = this.converter.toEntity(issue);
@@ -56,6 +58,7 @@ public class IssueRepository implements IIssueRepository {
 
     }
 
+    @Override
     public void delete(final Issue issue) {
         var issueEntity = this.converter.toEntity(issue);
         this.dao.delete(issueEntity);
