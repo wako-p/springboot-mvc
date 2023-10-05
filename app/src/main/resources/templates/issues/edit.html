@@ -1,17 +1,17 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{common/head::head(title='XXX', scripts=~{}, links=~{})}"></head>
+<head th:replace="~{common/head::head(title=${editVM.project.name}, scripts=~{}, links=~{})}"></head>
 <body>
 
     <!-- Header -->
-    <header th:replace="~{common/header::header(title='XXX')}"></header>
+    <header th:replace="~{common/header::header(title=${editVM.project.name})}"></header>
 
     <!-- Content -->
     <div class="container">
         <div class="row justify-content-center">
             <div class="w-50">
                 <div class="row my-3">
-                    <form th:object="${issueEditVM}" th:action="@{/projects/{projectId}/issues/{id}(projectId=*{projectId}, id=*{id})}" th:method="put">
+                    <form th:object="${editVM}" th:action="@{/projects/{projectId}/issues/{issueId}(projectId=*{project.id}, issueId=*{issue.id})}" th:method="put">
                         <div
                             class="alert alert-danger mt-5"
                             role="alert"
@@ -19,15 +19,15 @@
                             th:text="${alertMessage}"></div>
                         <div class="form-group mb-3">
                             <label for="title" class="form-label">Title</label>
-                            <input type="text" class="form-control mb-1" th:field="*{title}" placeholder="Enter a title" />
-                            <div class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+                            <input type="text" class="form-control mb-1" th:field="*{issue.title}" placeholder="Enter a title" />
+                            <div class="text-danger" th:if="${#fields.hasErrors('issue.title')}" th:errors="*{issue.title}"></div>
                         </div>
                         <div class="form-group mb-3">
                             <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control" th:field="*{description}" rows="4" placeholder="Leave a description"></textarea>
+                            <textarea class="form-control" th:field="*{issue.description}" rows="4" placeholder="Leave a description"></textarea>
                         </div>
                         <div>
-                            <input type="hidden" th:field="*{id}">
+                            <!-- <input type="hidden" th:field="*{issue.id}"> -->
                         </div>
                         <div class="form-group d-flex">
                             <button
@@ -35,7 +35,7 @@
                                 type="submit">Update</button>
                             <a
                                 class="btn btn-outline-primary"
-                                th:href="@{/projects/{projectId}/issues/{id}(projectId=*{projectId}, id=*{id})}">Cancel</a>
+                                th:href="@{/projects/{projectId}/issues/{issueId}(projectId=*{project.id}, issueId=*{issue.id})}">Cancel</a>
                         </div>
                     </form>
                 </div>

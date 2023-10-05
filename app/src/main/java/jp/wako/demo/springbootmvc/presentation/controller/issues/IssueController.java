@@ -15,12 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.wako.demo.springbootmvc.infra.shared.exception.PersistenceException;
-import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueCreateVM;
-import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueEditVM;
-import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueIndexVM;
-import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueVM;
-import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueViewVM;
-import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.ProjectVM;
+import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.detail.DetailVM;
+import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.edit.EditIssueVM;
+import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.edit.EditProjectVM;
+import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.edit.EditVM;
+import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.create.IssueCreateVM;
+import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.detail.DetailIssueVM;
+import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.detail.DetailProjectVM;
+import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.index.IndexIssueVM;
+import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.index.IndexProjectVM;
+import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.index.IndexVM;
 import jp.wako.demo.springbootmvc.usecase.issues.create.IssueCreateRequest;
 import jp.wako.demo.springbootmvc.usecase.issues.create.IssueCreateUseCase;
 import jp.wako.demo.springbootmvc.usecase.issues.delete.IssueDeleteRequest;
@@ -44,24 +48,24 @@ public class IssueController {
     private final IssueUpdateUseCase issueUpdateUseCase;
     private final IssueDeleteUseCase issueDeleteUseCase;
 
-    @ModelAttribute("issueIndexVM")
-    public IssueIndexVM createIssueIndexVM() {
-        return new IssueIndexVM();
+    @ModelAttribute("indexVM")
+    public IndexVM createIndexVM() {
+        return new IndexVM();
     }
 
     @GetMapping("/issues")
     public String index(
         @PathVariable final Integer projectId,
-        @ModelAttribute("issueIndexVM") final IssueIndexVM vm) {
+        @ModelAttribute("indexVM") final IndexVM vm) {
 
         // TODO: UseCaseException補足する
         var request = new IssueSearchRequest(projectId);
         var response = this.issueSearchQuery.execute(request);
 
-        var project = ProjectVM.createFrom(response.getProject());
+        var project = IndexProjectVM.createFrom(response.getProject());
         var issues = response.getIssues()
             .stream()
-            .map(IssueVM::createFrom)
+            .map(IndexIssueVM::createFrom)
             .collect(Collectors.toList());
 
         vm.setProject(project);
@@ -99,48 +103,54 @@ public class IssueController {
         return "redirect:/projects/" + projectId + "/issues/" + response.getId();
     }
 
-    @ModelAttribute("issueViewVM")
-    private IssueViewVM createIssueViewVM() {
-        return new IssueViewVM();
+    @ModelAttribute("detailVM")
+    private DetailVM createDetailVM() {
+        return new DetailVM();
     }
 
     @GetMapping("/issues/{id}")
-    public String view(
+    public String detail(
         @PathVariable final Integer projectId,
         @PathVariable final Integer id,
-        @ModelAttribute("issueViewVM") final IssueViewVM vm) {
+        @ModelAttribute("detailVM") final DetailVM vm) {
 
-        var request = new IssueGetRequest(id);
+        var request = new IssueGetRequest(projectId, id);
         var response = this.issueGetUseCase.execute(request);
-        var issue = response.getIssue();
 
-        vm.setId(issue.getId());
-        vm.setProjectId(issue.getProjectId());
-        vm.setTitle(issue.getTitle());
-        vm.setDescription(issue.getDescription());
+        var projectDto = response.getProject();
+        var issueDto = response.getIssue();
 
-        return "/issues/view";
+        var projectVM = DetailProjectVM.createFrom(projectDto);
+        var issueVM = DetailIssueVM.createFrom(issueDto);
+
+        vm.setProject(projectVM);
+        vm.setIssue(issueVM);
+
+        return "/issues/detail";
     }
 
-    @ModelAttribute("issueEditVM")
-    private IssueEditVM createIssueEditVM() {
-        return new IssueEditVM();
+    @ModelAttribute("editVM")
+    private EditVM creatEditVM() {
+        return new EditVM();
     }
 
     @GetMapping("/issues/{id}/edit")
     public String edit(
         @PathVariable final Integer projectId,
         @PathVariable final Integer id,
-        @ModelAttribute("issueEditVM") final IssueEditVM vm) {
+        @ModelAttribute("editVM") final EditVM vm) {
 
-        var request = new IssueGetRequest(id);
+        var request = new IssueGetRequest(projectId, id);
         var response = this.issueGetUseCase.execute(request);
-        var issue = response.getIssue();
 
-        vm.setId(issue.getId());
-        vm.setProjectId(issue.getProjectId());
-        vm.setTitle(issue.getTitle());
-        vm.setDescription(issue.getDescription());
+        var projectDto = response.getProject();
+        var issueDto = response.getIssue();
+
+        var projectVM = EditProjectVM.createFrom(projectDto);
+        var issueVM = EditIssueVM.createFrom(issueDto);
+
+        vm.setProject(projectVM);
+        vm.setIssue(issueVM);
 
         return "/issues/edit";
     }
@@ -149,16 +159,22 @@ public class IssueController {
     public String update(
         @PathVariable final Integer projectId,
         @PathVariable final Integer id,
-        @ModelAttribute("issueEditVM") @Validated final IssueEditVM vm,
+        @ModelAttribute("editVM") @Validated final EditVM vm,
         final BindingResult bindingResult,
         final RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
+            // TODO: バリデーションエラーのあとに[Cancel]ボタンクリックすると400エラーになる
             return "/issues/edit";
         }
 
         try {
-            var request = new IssueUpdateRequest(id, vm.getTitle(), vm.getDescription());
+            // TODO: projectIdもリクエストに含める
+            var request = new IssueUpdateRequest(
+                id,
+                vm.getIssue().getTitle(),
+                vm.getIssue().getDescription());
+
             var response = this.issueUpdateUseCase.execute(request);
 
             return "redirect:/projects/" + projectId + "/issues/" + response.getId();

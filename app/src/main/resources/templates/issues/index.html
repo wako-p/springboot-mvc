@@ -1,19 +1,19 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{common/head::head(title=${issueIndexVM.project.name}, scripts=~{}, links=~{})}"></head>
+<head th:replace="~{common/head::head(title=${indexVM.project.name}, scripts=~{}, links=~{})}"></head>
 <body>
 
     <!-- Header -->
-    <header th:replace="~{common/header::header(title=${issueIndexVM.project.name})}"></header>
+    <header th:replace="~{common/header::header(title=${indexVM.project.name})}"></header>
 
     <!-- Content -->
     <div class="container">
         <div class="row justify-content-center">
-            <div class="w-75">
+            <div class="w-75" th:object="${indexVM}">
                 <div class="d-flex justify-content-end mt-3">
                     <a
                         class="btn btn-primary"
-                        th:href="@{/projects/{projectId}/issues/create(projectId=${issueIndexVM.project.id})}">New Issue</a>
+                        th:href="@{/projects/{projectId}/issues/create(projectId=*{project.id})}">New Issue</a>
                 </div>
                 <table class="table">
                     <thead>
@@ -24,12 +24,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="issue : ${issueIndexVM.issues}">
+                        <tr th:each="issue : *{issues}">
                             <th scope="row" th:text="${issue.id}"></th>
                             <td>
                                 <a
                                     th:text="${issue.title}"
-                                    th:href="@{/projects/{projectId}/issues/{id}(projectId=${issue.projectId}, id=${issue.id})}"></a>
+                                    th:href="@{/projects/{projectId}/issues/{issueId}(projectId=*{project.id}, issueId=${issue.id})}"></a>
                             </td>
                             <td th:text="${issue.description}"></td>
                         </tr>

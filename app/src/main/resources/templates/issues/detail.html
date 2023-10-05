@@ -1,32 +1,32 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{common/head::head(title='XXX', scripts=~{}, links=~{})}"></head>
+<head th:replace="~{common/head::head(title=${detailVM.project.name}, scripts=~{}, links=~{})}"></head>
 <body>
 
     <!-- Header -->
-    <header th:replace="~{common/header::header(title='XXX')}"></header>
+    <header th:replace="~{common/header::header(title=${detailVM.project.name})}"></header>
 
     <!-- Content -->
     <div class="container">
         <div class="row justify-content-center">
             <div class="w-50">
                 <div class="row my-3">
-                    <div th:object="${issueViewVM}">
+                    <div th:object="${detailVM}">
                         <div class="mb-3">
                             <p class="mb-2">Title</p>
-                            <p class="mb-1" th:text="*{title}"></p>
+                            <p class="mb-1" th:text="*{issue.title}"></p>
                         </div>
                         <div class="mb-3">
                             <p class="mb-2">Description</p>
-                            <p class="mb-1" th:utext="*{getDescription()}"><p>
+                            <p class="mb-1" th:utext="*{issue.description}"><p>
                         </div>
                         <div class="d-flex">
                             <a
                                 class="btn btn-primary me-2"
-                                th:href="@{/projects/{projectId}/issues/{id}/edit(projectId=*{projectId}, id=*{id})}">Edit</button>
+                                th:href="@{/projects/{projectId}/issues/{issueId}/edit(projectId=*{project.id}, issueId=*{issue.id})}">Edit</button>
                             <a
                                 class="btn btn-outline-primary"
-                                th:href="@{/projects/{projectId}/issues(projectId=*{projectId})}">Return</a>
+                                th:href="@{/projects/{projectId}/issues(projectId=*{project.id})}">Return</a>
                         </div>
                     </div>
                 </div>
