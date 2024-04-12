@@ -2,8 +2,10 @@ package jp.wako.demo.springbootmvc.infra.issues;
 
 import java.util.Optional;
 
+import org.seasar.doma.jdbc.UniqueConstraintException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.dao.QueryTimeoutException;
 import org.springframework.stereotype.Repository;
 
 import jp.wako.demo.springbootmvc.domain.issues.Issue;
@@ -35,27 +37,25 @@ public class IssueRepository implements IIssueRepository {
 
         var issueEntity = this.converter.toEntity(issue);
 
-        if (issue.getId() == null) {
-
-            var result = this.dao.insert(issueEntity);
-            var insertedIssueEntity = result.getEntity();
-
-            var insertedIssue = this.converter.toDomain(insertedIssueEntity);
-            return insertedIssue.getId();
-        }
-
         try {
-            var result = this.dao.update(issueEntity);
-            var updatedIssueEntity = result.getEntity();
-
-            var updatedIssue = this.converter.toDomain(updatedIssueEntity);
-            return updatedIssue.getId();
-
-        } catch (OptimisticLockingFailureException exception) {
-            // NOTE: アプリケーション独自の楽観ロック例外作成してスローした方がよさげ？
-            throw new PersistenceException("Update failed. It has already been updated. Please try again.", exception);
+            // 新規
+            if (issueEntity.getId() == null) {
+                var result = this.dao.insert(issueEntity);
+                var insertedIssue = this.converter.toDomain(result.getEntity());
+                return insertedIssue.getId();
+            // 更新
+            } else {
+                var result = this.dao.update(issueEntity);
+                var updatedIssue = this.converter.toDomain(result.getEntity());
+                return updatedIssue.getId();
+            }
+        } catch (OptimisticLockingFailureException ex) {
+            throw new PersistenceException("Save failed. It has already been updated. Please try again.", ex);
+        } catch (UniqueConstraintException ex) {
+            throw new PersistenceException("Save failed. Unique constraint violation.", ex);
+        } catch (QueryTimeoutException ex) {
+            throw new PersistenceException("Save failed. Query timeout.", ex);
         }
-
     }
 
     @Override

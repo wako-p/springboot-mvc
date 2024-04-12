@@ -7,6 +7,7 @@ import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 import org.seasar.doma.Sql;
+import org.seasar.doma.Update;
 import org.seasar.doma.boot.ConfigAutowireable;
 import org.seasar.doma.jdbc.Result;
 
@@ -34,5 +35,8 @@ public interface ProjectEntityDao {
 
     @Insert
     Result<ProjectEntity> insert(final ProjectEntity project);
+
+    @Update
+    Result<ProjectEntity> update(final ProjectEntity project);
 
 }

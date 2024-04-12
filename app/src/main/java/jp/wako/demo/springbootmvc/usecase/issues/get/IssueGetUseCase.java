@@ -16,6 +16,7 @@ public class IssueGetUseCase {
 
     public IssueGetResponse execute(final IssueGetRequest request) {
 
+        // TODO: これいらなくね？
         var maybeProject = this.projectRepository.findById(request.getProjectId());
         var foundProject = maybeProject
             .orElseThrow(() -> new UseCaseException("Project not found."));
