@@ -130,7 +130,7 @@ public class IssueController {
     }
 
     @ModelAttribute("editVM")
-    private EditVM creatEditVM() {
+    private EditVM createEditVM() {
         return new EditVM();
     }
 
@@ -157,33 +157,29 @@ public class IssueController {
 
     @PutMapping("/issues/{id}")
     public String update(
-        @PathVariable final Integer projectId,
-        @PathVariable final Integer id,
         @ModelAttribute("editVM") @Validated final EditVM vm,
         final BindingResult bindingResult,
         final RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            // TODO: バリデーションエラーのあとに[Cancel]ボタンクリックすると400エラーになる
             return "/issues/edit";
         }
 
         try {
-            // TODO: projectIdもリクエストに含める
+            // TODO: projectIdもリクエストに含める？
             var request = new IssueUpdateRequest(
-                id,
+                vm.getIssue().getId(),
                 vm.getIssue().getTitle(),
                 vm.getIssue().getDescription());
 
             var response = this.issueUpdateUseCase.execute(request);
 
-            return "redirect:/projects/" + projectId + "/issues/" + response.getId();
+            return "redirect:/projects/" + vm.getProject().getId() + "/issues/" + response.getId();
 
         } catch (PersistenceException exception) {
             // NOTE: 楽観ロックに失敗したらもっかい編集画面を表示させる
             redirectAttributes.addFlashAttribute("alertMessage", exception.getMessage());
-
-            return "redirect:/projects/" + projectId + "/issues/" + id + "/edit";
+            return "redirect:/projects/" + vm.getProject().getId() + "/issues/" + vm.getIssue().getId() + "/edit";
         }
 
     }
