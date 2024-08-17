@@ -4,16 +4,13 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public final class IssueCreateVM {
-
-    private Integer projectId;
+public final class CreateIssueVM {
 
     @NotBlank(message = "Please enter a title for the issue")
     private String title;
     private String description;
 
-    public IssueCreateVM() {
-        this.projectId = 0;
+    public CreateIssueVM() {
         this.title = "";
         this.description = "";
     }

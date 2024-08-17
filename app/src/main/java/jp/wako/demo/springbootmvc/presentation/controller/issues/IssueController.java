@@ -19,7 +19,7 @@ import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.detai
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.edit.EditIssueVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.edit.EditProjectVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.edit.EditVM;
-import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.create.IssueCreateVM;
+import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.create.CreateVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.detail.DetailIssueVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.detail.DetailProjectVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.index.IndexIssueVM;
@@ -74,30 +74,30 @@ public class IssueController {
         return "/issues/index";
     }
 
-    @ModelAttribute("issueCreateVM")
-    private IssueCreateVM createIssueCreateVM() {
-        return new IssueCreateVM();
+    @ModelAttribute("createVM")
+    private CreateVM createCreateVM() {
+        return new CreateVM();
     }
 
     @GetMapping("/issues/create")
     public String create(
         @PathVariable final Integer projectId,
-        @ModelAttribute("issueCreateVM") final IssueCreateVM vm) {
-        vm.setProjectId(projectId);
+        @ModelAttribute("createVM") final CreateVM vm) {
+        vm.getProject().setId(projectId);
         return "/issues/create";
     }
 
     @PostMapping("/issues")
     public String create(
         @PathVariable final Integer projectId,
-        @ModelAttribute("issueCreateVM") @Validated final IssueCreateVM vm,
+        @ModelAttribute("createVM") @Validated final CreateVM vm,
         final BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return "/issues/create";
         }
 
-        var request = new IssueCreateRequest(projectId, vm.getTitle(), vm.getDescription());
+        var request = new IssueCreateRequest(projectId, vm.getIssue().getTitle(), vm.getIssue().getDescription());
         var response = this.issueCreateUseCase.execute(request);
 
         return "redirect:/projects/" + projectId + "/issues/" + response.getId();
