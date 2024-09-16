@@ -16,8 +16,6 @@ import jp.wako.demo.springbootmvc.infra.shared.exception.PersistenceException;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueCreateVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueDetailVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueEditVM;
-import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.Issue;
-import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.Project;
 import jp.wako.demo.springbootmvc.usecase.issues.create.IssueCreateRequest;
 import jp.wako.demo.springbootmvc.usecase.issues.create.IssueCreateUseCase;
 import jp.wako.demo.springbootmvc.usecase.issues.delete.IssueDeleteRequest;
@@ -38,15 +36,15 @@ public class IssueDetailsController {
     private final IssueUpdateUseCase issueUpdateUseCase;
     private final IssueDeleteUseCase issueDeleteUseCase;
 
-    @ModelAttribute("createVM")
-    private IssueCreateVM createCreateVM() {
+    @ModelAttribute("issueCreateVM")
+    private IssueCreateVM createIssueCreateVM() {
         return new IssueCreateVM();
     }
 
     @GetMapping("/issues/create")
     public String create(
         @PathVariable final Long projectId,
-        @ModelAttribute("createVM") final IssueCreateVM vm) {
+        @ModelAttribute("issueCreateVM") final IssueCreateVM vm) {
         vm.getProject().setId(projectId.toString());
         return "/issues/create";
     }
@@ -54,8 +52,10 @@ public class IssueDetailsController {
     @PostMapping("/issues")
     public String create(
         @PathVariable final Long projectId,
-        @ModelAttribute("createVM") @Validated final IssueCreateVM vm,
+        @ModelAttribute("issueCreateVM") @Validated final IssueCreateVM vm,
         final BindingResult bindingResult) {
+
+        // TODO: projectIdが数値に変換できるかどうかを判定する
 
         if (bindingResult.hasErrors()) {
             return "/issues/create";
@@ -67,78 +67,70 @@ public class IssueDetailsController {
         return "redirect:/projects/" + response.getProjectId() + "/issues/" + response.getId();
     }
 
-    @ModelAttribute("detailVM")
-    private IssueDetailVM createDetailVM() {
+    @ModelAttribute("issueDetailVM")
+    private IssueDetailVM createIssueDetailVM() {
         return new IssueDetailVM();
     }
 
-    @GetMapping("/issues/{id}")
+    @GetMapping("/issues/{issueId}")
     public String detail(
         @PathVariable final Long projectId,
-        @PathVariable final Long id,
-        @ModelAttribute("detailVM") final IssueDetailVM vm) {
+        @PathVariable final Long issueId,
+        @ModelAttribute("issueDetailVM") final IssueDetailVM vm) {
 
-        var request = new IssueGetRequest(projectId, id);
+        // TODO: projectIdが数値に変換できるかどうかを判定する
+
+        var request = new IssueGetRequest(projectId, issueId);
         var response = this.issueGetUseCase.execute(request);
 
-        var projectDto = response.getProject();
-        var issueDto = response.getIssue();
-
-        var projectVM = Project.createFrom(projectDto);
-        var issueVM = Issue.createFrom(issueDto);
-
-        vm.setProject(projectVM);
-        vm.setIssue(issueVM);
+        vm.loadFrom(response);
 
         return "/issues/detail";
     }
 
-    @ModelAttribute("editVM")
-    private IssueEditVM createEditVM() {
+    @ModelAttribute("issueEditVM")
+    private IssueEditVM createIssueEditVM() {
         return new IssueEditVM();
     }
 
-    @GetMapping("/issues/{id}/edit")
+    @GetMapping("/issues/{issueId}/edit")
     public String edit(
         @PathVariable final Long projectId,
-        @PathVariable final Long id,
-        @ModelAttribute("editVM") final IssueEditVM vm) {
+        @PathVariable final Long issueId,
+        @ModelAttribute("issueEditVM") final IssueEditVM vm) {
 
-        var request = new IssueGetRequest(projectId, id);
+        // TODO: projectIdが数値に変換できるかどうかを判定する
+
+        var request = new IssueGetRequest(projectId, issueId);
         var response = this.issueGetUseCase.execute(request);
 
-        var projectDto = response.getProject();
-        var issueDto = response.getIssue();
-
-        var projectVM = Project.createFrom(projectDto);
-        var issueVM = Issue.createFrom(issueDto);
-
-        vm.setProject(projectVM);
-        vm.setIssue(issueVM);
+        vm.loadFrom(response);
 
         return "/issues/edit";
     }
 
-    @PutMapping("/issues/{id}")
+    @PutMapping("/issues/{issueId}")
     public String update(
-        @ModelAttribute("editVM") @Validated final IssueEditVM vm,
+        @ModelAttribute("issueEditVM") @Validated final IssueEditVM vm,
         final BindingResult bindingResult,
         final RedirectAttributes redirectAttributes) {
+
+        // TODO: projectIdが数値に変換できるかどうかを判定する
 
         if (bindingResult.hasErrors()) {
             return "/issues/edit";
         }
 
         try {
-            // TODO: projectIdもリクエストに含める？
             var request = new IssueUpdateRequest(
                 Long.parseLong(vm.getIssue().getId()),
+                Long.parseLong(vm.getProject().getId()),
                 vm.getIssue().getTitle(),
                 vm.getIssue().getDescription());
 
             var response = this.issueUpdateUseCase.execute(request);
 
-            return "redirect:/projects/" + vm.getProject().getId() + "/issues/" + response.getId();
+            return "redirect:/projects/" + response.getProjectId() + "/issues/" + response.getId();
 
         } catch (PersistenceException exception) {
             // NOTE: 楽観ロックに失敗したらもっかい編集画面を表示させる
@@ -148,12 +140,14 @@ public class IssueDetailsController {
 
     }
 
-    @DeleteMapping("/issues/{id}")
+    @DeleteMapping("/issues/{issueId}")
     public String delete(
         @PathVariable final Long projectId,
-        @PathVariable final Long id) {
+        @PathVariable final Long issueId) {
 
-        var request = new IssueDeleteRequest(id);
+        // TODO: projectIdが数値に変換できるかどうかを判定する
+
+        var request = new IssueDeleteRequest(issueId);
         this.issueDeleteUseCase.execute(request);
 
         return "redirect:/issues";

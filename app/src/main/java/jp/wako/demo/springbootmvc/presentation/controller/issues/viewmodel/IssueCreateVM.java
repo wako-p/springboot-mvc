@@ -15,6 +15,4 @@ public final class IssueCreateVM {
         this.project = new Project("", "");
         this.issue = new Issue("", "", "");
     }
-
-
 }
