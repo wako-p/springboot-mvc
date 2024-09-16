@@ -5,7 +5,7 @@ import jp.wako.demo.springbootmvc.usecase.issues.get.IssueDto;
 import lombok.Data;
 
 @Data
-public final class IssueVM {
+public final class Issue {
 
     private String id;
 
@@ -13,7 +13,7 @@ public final class IssueVM {
     private String title;
     private String description;
 
-    public IssueVM(
+    public Issue(
         final String id,
         final String title,
         final String description
@@ -23,9 +23,9 @@ public final class IssueVM {
         this.description = description;
     }
 
-    public static IssueVM createFrom(final IssueDto dto) {
+    public static Issue createFrom(final IssueDto dto) {
 
-        var vm = new IssueVM(
+        var vm = new Issue(
             dto.getId().toString(),
             dto.getTitle(),
             dto.getDescription());
@@ -33,8 +33,8 @@ public final class IssueVM {
         return vm;
     }
 
-    public static IssueVM createFrom(final jp.wako.demo.springbootmvc.usecase.issues.search.IssueDto dto) {
-        var vm = new IssueVM(
+    public static Issue createFrom(final jp.wako.demo.springbootmvc.usecase.issues.search.IssueDto dto) {
+        var vm = new Issue(
             dto.getId().toString(),
             dto.getTitle(),
             dto.getDescription());
