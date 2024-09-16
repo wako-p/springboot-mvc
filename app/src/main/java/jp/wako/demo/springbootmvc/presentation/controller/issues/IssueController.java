@@ -15,14 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.wako.demo.springbootmvc.infra.shared.exception.PersistenceException;
-import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.detail.DetailVM;
-import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.edit.EditIssueVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.edit.EditProjectVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.edit.EditVM;
+import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.create.CreateVM;
-import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.detail.DetailIssueVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.detail.DetailProjectVM;
-import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.index.IndexIssueVM;
+import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.detail.DetailVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.index.IndexProjectVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.index.IndexVM;
 import jp.wako.demo.springbootmvc.usecase.issues.create.IssueCreateRequest;
@@ -65,7 +63,7 @@ public class IssueController {
         var project = IndexProjectVM.createFrom(response.getProject());
         var issues = response.getIssues()
             .stream()
-            .map(IndexIssueVM::createFrom)
+            .map(IssueVM::createFrom)
             .collect(Collectors.toList());
 
         vm.setProject(project);
@@ -121,7 +119,7 @@ public class IssueController {
         var issueDto = response.getIssue();
 
         var projectVM = DetailProjectVM.createFrom(projectDto);
-        var issueVM = DetailIssueVM.createFrom(issueDto);
+        var issueVM = IssueVM.createFrom(issueDto);
 
         vm.setProject(projectVM);
         vm.setIssue(issueVM);
@@ -147,7 +145,7 @@ public class IssueController {
         var issueDto = response.getIssue();
 
         var projectVM = EditProjectVM.createFrom(projectDto);
-        var issueVM = EditIssueVM.createFrom(issueDto);
+        var issueVM = IssueVM.createFrom(issueDto);
 
         vm.setProject(projectVM);
         vm.setIssue(issueVM);
@@ -168,7 +166,7 @@ public class IssueController {
         try {
             // TODO: projectIdもリクエストに含める？
             var request = new IssueUpdateRequest(
-                vm.getIssue().getId(),
+                Integer.parseInt(vm.getIssue().getId()),
                 vm.getIssue().getTitle(),
                 vm.getIssue().getDescription());
 
