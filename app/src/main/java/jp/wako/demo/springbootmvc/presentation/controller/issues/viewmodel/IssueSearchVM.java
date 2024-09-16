@@ -6,12 +6,12 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public final class IndexVM {
+public final class IssueSearchVM {
 
     private Project project;
     private List<Issue> issues;
 
-    public IndexVM() {
+    public IssueSearchVM() {
         this.project = new Project("", "");
         this.issues = new ArrayList<>();
     }

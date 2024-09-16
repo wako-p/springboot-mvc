@@ -4,14 +4,14 @@ import jakarta.validation.Valid;
 import lombok.Data;
 
 @Data
-public final class CreateVM {
+public final class IssueEditVM {
 
     private Project project;
 
     @Valid
     private Issue issue;
 
-    public CreateVM() {
+    public IssueEditVM() {
         this.project = new Project("", "");
         this.issue = new Issue("", "", "");
     }

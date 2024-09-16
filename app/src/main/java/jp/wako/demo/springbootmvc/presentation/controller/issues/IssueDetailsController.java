@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.wako.demo.springbootmvc.infra.shared.exception.PersistenceException;
-import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.CreateVM;
-import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.DetailVM;
-import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.EditVM;
+import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueCreateVM;
+import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueDetailVM;
+import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueEditVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.Issue;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.Project;
 import jp.wako.demo.springbootmvc.usecase.issues.create.IssueCreateRequest;
@@ -39,14 +39,14 @@ public class IssueDetailsController {
     private final IssueDeleteUseCase issueDeleteUseCase;
 
     @ModelAttribute("createVM")
-    private CreateVM createCreateVM() {
-        return new CreateVM();
+    private IssueCreateVM createCreateVM() {
+        return new IssueCreateVM();
     }
 
     @GetMapping("/issues/create")
     public String create(
         @PathVariable final Integer projectId,
-        @ModelAttribute("createVM") final CreateVM vm) {
+        @ModelAttribute("createVM") final IssueCreateVM vm) {
         vm.getProject().setId(projectId.toString());
         return "/issues/create";
     }
@@ -54,7 +54,7 @@ public class IssueDetailsController {
     @PostMapping("/issues")
     public String create(
         @PathVariable final Integer projectId,
-        @ModelAttribute("createVM") @Validated final CreateVM vm,
+        @ModelAttribute("createVM") @Validated final IssueCreateVM vm,
         final BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
@@ -68,15 +68,15 @@ public class IssueDetailsController {
     }
 
     @ModelAttribute("detailVM")
-    private DetailVM createDetailVM() {
-        return new DetailVM();
+    private IssueDetailVM createDetailVM() {
+        return new IssueDetailVM();
     }
 
     @GetMapping("/issues/{id}")
     public String detail(
         @PathVariable final Integer projectId,
         @PathVariable final Integer id,
-        @ModelAttribute("detailVM") final DetailVM vm) {
+        @ModelAttribute("detailVM") final IssueDetailVM vm) {
 
         var request = new IssueGetRequest(projectId, id);
         var response = this.issueGetUseCase.execute(request);
@@ -94,15 +94,15 @@ public class IssueDetailsController {
     }
 
     @ModelAttribute("editVM")
-    private EditVM createEditVM() {
-        return new EditVM();
+    private IssueEditVM createEditVM() {
+        return new IssueEditVM();
     }
 
     @GetMapping("/issues/{id}/edit")
     public String edit(
         @PathVariable final Integer projectId,
         @PathVariable final Integer id,
-        @ModelAttribute("editVM") final EditVM vm) {
+        @ModelAttribute("editVM") final IssueEditVM vm) {
 
         var request = new IssueGetRequest(projectId, id);
         var response = this.issueGetUseCase.execute(request);
@@ -121,7 +121,7 @@ public class IssueDetailsController {
 
     @PutMapping("/issues/{id}")
     public String update(
-        @ModelAttribute("editVM") @Validated final EditVM vm,
+        @ModelAttribute("editVM") @Validated final IssueEditVM vm,
         final BindingResult bindingResult,
         final RedirectAttributes redirectAttributes) {
 
