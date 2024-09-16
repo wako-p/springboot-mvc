@@ -5,12 +5,12 @@ import lombok.Data;
 @Data
 public final class ProjectViewVM {
 
-    private Integer id;
+    private String id;
     private String name;
     private String description;
 
     public ProjectViewVM() {
-        this.id = 0;
+        this.id = "";
         this.name = "";
         this.description = "";
     }

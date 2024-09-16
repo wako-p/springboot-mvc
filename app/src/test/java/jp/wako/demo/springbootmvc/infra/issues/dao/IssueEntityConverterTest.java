@@ -21,25 +21,25 @@ public class IssueEntityConverterTest {
             // given:
             var converter = new IssueEntityConverter();
             var entity = new IssueEntity(
-                1000,
-                1000,
+                1000L,
+                1000L,
                 "Issue1",
                 "This is a test issue.",
                 LocalDateTime.of(2023, 9, 3, 14, 00, 00),
                 LocalDateTime.of(2023, 9, 3, 14, 00, 00),
-                1);
+                1L);
 
             // when:
             var domain = converter.toDomain(entity);
 
             // then:
-            assertEquals(1000, domain.getId());
-            assertEquals(1000, domain.getProjectId());
+            assertEquals(1000L, domain.getId());
+            assertEquals(1000L, domain.getProjectId());
             assertEquals("Issue1", domain.getTitle());
             assertEquals("This is a test issue.", domain.getDescription());
             assertEquals(LocalDateTime.of(2023, 9, 3, 14, 00, 00), domain.getCreatedAt());
             assertEquals(LocalDateTime.of(2023, 9, 3, 14, 00, 00), domain.getUpdatedAt());
-            assertEquals(1, domain.getVersion());
+            assertEquals(1L, domain.getVersion());
         }
 
     }
@@ -53,25 +53,25 @@ public class IssueEntityConverterTest {
             // given:
             var converter = new IssueEntityConverter();
             var domain = Issue.reconstruct(
-                1000,
-                1000,
+                1000L,
+                1000L,
                 "Issue1",
                 "This is a test issue.",
                 LocalDateTime.of(2023, 9, 3, 14, 00, 00),
                 LocalDateTime.of(2023, 9, 3, 14, 00, 00),
-                1);
+                1L);
 
             // when:
             var entity = converter.toEntity(domain);
 
             // then:
-            assertEquals(1000, entity.getId());
-            assertEquals(1000, entity.getProjectId());
+            assertEquals(1000L, entity.getId());
+            assertEquals(1000L, entity.getProjectId());
             assertEquals("Issue1", entity.getTitle());
             assertEquals("This is a test issue.", entity.getDescription());
             assertEquals(LocalDateTime.of(2023, 9, 3, 14, 00, 00), entity.getCreatedAt());
             assertEquals(LocalDateTime.of(2023, 9, 3, 14, 00, 00), entity.getUpdatedAt());
-            assertEquals(1, entity.getVersion());
+            assertEquals(1L, entity.getVersion());
         }
 
     }

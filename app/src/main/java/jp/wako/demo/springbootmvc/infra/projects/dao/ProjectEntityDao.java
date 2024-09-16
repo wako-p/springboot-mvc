@@ -31,7 +31,7 @@ public interface ProjectEntityDao {
             from projects
             where id = /* id */0
             """)
-    Optional<ProjectEntity> selectById(final Integer id);
+    Optional<ProjectEntity> selectById(final Long id);
 
     @Insert
     Result<ProjectEntity> insert(final ProjectEntity project);

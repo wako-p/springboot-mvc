@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public final class IssueSearchCondition {
-    private final Integer projectId;
+    private final Long projectId;
     private final String title;
     private final Sort sort;
 }

@@ -23,19 +23,19 @@ public final class IssueEntity extends ImmutableEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(sequence = "issues_id_seq")
-    private final Integer id;
-    private final Integer projectId;
+    private final Long id;
+    private final Long projectId;
     private final String title;
     private final String description;
 
     public IssueEntity(
-        final Integer id,
-        final Integer projectId,
+        final Long id,
+        final Long projectId,
         final String title,
         final String description,
         final LocalDateTime createdAt,
         final LocalDateTime updatedAt,
-        final Integer version) {
+        final Long version) {
             super(createdAt, updatedAt, version);
             this.id = id;
             this.projectId = projectId;

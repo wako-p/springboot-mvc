@@ -21,15 +21,15 @@ public class IssueSearchController {
 
     private final IIssueSearchQuery issueSearchQuery;
 
-    @ModelAttribute("indexVM")
+    @ModelAttribute("issueSearchVM")
     public IssueSearchVM createIndexVM() {
         return new IssueSearchVM();
     }
 
     @GetMapping("/issues")
     public String index(
-        @PathVariable final Integer projectId,
-        @ModelAttribute("indexVM") final IssueSearchVM vm) {
+        @PathVariable final Long projectId,
+        @ModelAttribute("issueSearchVM") final IssueSearchVM vm) {
 
         // TODO: UseCaseException補足する
         var request = new IssueSearchRequest(projectId);
@@ -44,7 +44,7 @@ public class IssueSearchController {
         vm.setProject(project);
         vm.setIssues(issues);
 
-        return "/issues/index";
+        return "/issues/search";
     }
 
 }

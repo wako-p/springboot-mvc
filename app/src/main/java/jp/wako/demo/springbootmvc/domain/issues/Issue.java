@@ -12,18 +12,18 @@ import lombok.Getter;
 @Getter
 public final class Issue extends Entity {
 
-    private Integer projectId;
+    private Long projectId;
     private String title;
     private String description;
 
     private Issue(
-        final Integer id,
-        final Integer projectId,
+        final Long id,
+        final Long projectId,
         final String title,
         final String description,
         final LocalDateTime createdAt,
         final LocalDateTime updatedAt,
-        final Integer version) {
+        final Long version) {
             super(id, createdAt, updatedAt, version);
             this.projectId = projectId;
             this.title = title;
@@ -31,7 +31,7 @@ public final class Issue extends Entity {
     }
 
     public static Issue create(
-        final Integer projectId,
+        final Long projectId,
         final String title,
         final String description) {
 
@@ -54,10 +54,10 @@ public final class Issue extends Entity {
             description,
             LocalDateTime.now().withNano(0),
             LocalDateTime.now().withNano(0),
-            1);
+            1L);
     }
 
-    private static boolean isValidProjectId(final Integer projectId) {
+    private static boolean isValidProjectId(final Long projectId) {
         if (projectId == null) {
             return false;
         }
@@ -82,13 +82,13 @@ public final class Issue extends Entity {
      * インフラ層で課題を復元するためのファクトリメソッド
      */
     public static Issue reconstruct(
-        final Integer id,
-        final Integer projectId,
+        final Long id,
+        final Long projectId,
         final String title,
         final String description,
         final LocalDateTime createdAt,
         final LocalDateTime updatedAt,
-        final Integer version) {
+        final Long version) {
         return new Issue(id, projectId, title, description, createdAt, updatedAt, version);
     }
 

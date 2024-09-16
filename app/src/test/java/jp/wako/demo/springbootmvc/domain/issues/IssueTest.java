@@ -25,7 +25,7 @@ public class IssueTest {
         @DisplayName("引数にプロジェクトIDとタイトル、説明を指定して生成することができ、その値が属性として使用される。")
         public void success1() {
             // when:
-            var issue = Issue.create(1000, "Issue1", "This is a test issue.");
+            var issue = Issue.create(1000L, "Issue1", "This is a test issue.");
 
             // then:
             assertEquals(1000, issue.getProjectId());
@@ -43,17 +43,17 @@ public class IssueTest {
             mock.when(LocalDateTime::now).thenReturn(datetime);
 
             // when:
-            var issue = Issue.create(1000, "Issue1", "This is a test issue.");
+            var issue = Issue.create(1000L, "Issue1", "This is a test issue.");
             mock.close();
 
             // then:
             assertEquals(null, issue.getId());
-            assertEquals(1000, issue.getProjectId());
+            assertEquals(1000L, issue.getProjectId());
             assertEquals("Issue1", issue.getTitle());
             assertEquals("This is a test issue.", issue.getDescription());
             assertEquals(datetime, issue.getCreatedAt());
             assertEquals(datetime, issue.getUpdatedAt());
-            assertEquals(1, issue.getVersion());
+            assertEquals(1L, issue.getVersion());
         }
 
         @Test
@@ -67,14 +67,14 @@ public class IssueTest {
 
         static Stream<Arguments> parameterForFailure2() {
             return Stream.of(
-                Arguments.of(1000, null, "This is a test issue."),
-                Arguments.of(1000, "", "This is a test issue."));
+                Arguments.of(1000L, null, "This is a test issue."),
+                Arguments.of(1000L, "", "This is a test issue."));
         }
 
         @ParameterizedTest
         @MethodSource("parameterForFailure2")
         @DisplayName("引数に指定したタイトルがnullまたは空文字の場合は例外がスローされる。")
-        public void failure2(final Integer projectId,final String title, final String description) {
+        public void failure2(final Long projectId,final String title, final String description) {
             // when/then:
             assertThrows(DomainException.class, () -> {
                 Issue.create(projectId, title, description);
@@ -86,7 +86,7 @@ public class IssueTest {
         public void failure3() {
             // when/then:
             assertThrows(DomainException.class, () -> {
-                Issue.create(1000, "Issue1", null);
+                Issue.create(1000L, "Issue1", null);
             });
         }
 
@@ -99,22 +99,22 @@ public class IssueTest {
         public void success1() {
             // when:
             var issue = Issue.reconstruct(
-                1000,
-                1000,
+                1000L,
+                1000L,
                 "Issue1",
                 "This is a test issue.",
                 LocalDateTime.of(2023, 07, 23, 10, 00, 00),
                 LocalDateTime.of(2023, 07, 23, 10, 00, 00),
-                1);
+                1L);
 
             // then:
-            assertEquals(1000, issue.getId());
-            assertEquals(1000, issue.getProjectId());
+            assertEquals(1000L, issue.getId());
+            assertEquals(1000L, issue.getProjectId());
             assertEquals("Issue1", issue.getTitle());
             assertEquals("This is a test issue.", issue.getDescription());
             assertEquals(LocalDateTime.of(2023, 07, 23, 10, 00, 00), issue.getCreatedAt());
             assertEquals(LocalDateTime.of(2023, 07, 23, 10, 00, 00), issue.getUpdatedAt());
-            assertEquals(1, issue.getVersion());
+            assertEquals(1L, issue.getVersion());
         }
     }
 
@@ -131,13 +131,13 @@ public class IssueTest {
             mock.when(LocalDateTime::now).thenReturn(datetime);
 
             var issue = Issue.reconstruct(
-                1000,
-                1000,
+                1000L,
+                1000L,
                 "Issue1",
                 "This is a test issue.",
                 LocalDateTime.of(2023, 07, 23, 10, 00, 00),
                 LocalDateTime.of(2023, 07, 23, 10, 00, 00),
-                1);
+                1L);
 
             // when:
             issue.update("Updated issue1", "This is a updated test issue.");
@@ -161,13 +161,13 @@ public class IssueTest {
         public void failure1(final String title, final String description) {
             // given:
             var issue = Issue.reconstruct(
-                1000,
-                1000,
+                1000L,
+                1000L,
                 "Issue1",
                 "This is a test issue.",
                 LocalDateTime.of(2023, 07, 23, 10, 00, 00),
                 LocalDateTime.of(2023, 07, 23, 10, 00, 00),
-                1);
+                1L);
 
             // when/then:
             assertThrows(DomainException.class, () -> {
@@ -180,13 +180,13 @@ public class IssueTest {
         public void failure1() {
             // given:
             var issue = Issue.reconstruct(
-                1000,
-                1000,
+                1000L,
+                1000L,
                 "Issue1",
                 "This is a test issue.",
                 LocalDateTime.of(2023, 07, 23, 10, 00, 00),
                 LocalDateTime.of(2023, 07, 23, 10, 00, 00),
-                1);
+                1L);
 
             // when/then:
             assertThrows(DomainException.class, () -> {

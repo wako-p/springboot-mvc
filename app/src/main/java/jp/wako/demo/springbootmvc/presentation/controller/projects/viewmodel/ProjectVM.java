@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class ProjectVM {
-    private Integer id;
+    private Long id;
     private String name;
     private String description;
     private LocalDateTime createdAt;

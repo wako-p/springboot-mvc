@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class ProjectCreateResponse {
-    private final Integer id;
+    private final Long id;
 }

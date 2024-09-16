@@ -37,7 +37,7 @@ public class ProjectRepository implements IProjectRepository {
     }
 
     @Override
-    public Integer save(final Project project) {
+    public Long save(final Project project) {
 
         var projectEntity = this.projectEntityConverter.toEntity(project);
 
@@ -63,7 +63,7 @@ public class ProjectRepository implements IProjectRepository {
     }
 
     @Override
-    public Optional<Project> findById(final Integer id) {
+    public Optional<Project> findById(final Long id) {
         var maybeProjectEntity = this.projectEntityDao.selectById(id);
         var maybeProject = maybeProjectEntity
             .map(this.projectEntityConverter::toDomain);

@@ -5,6 +5,6 @@ import java.util.Optional;
 
 public interface IProjectRepository {
     List<Project> findAll();
-    Integer save(final Project project);
-    Optional<Project> findById(final Integer id);
+    Long save(final Project project);
+    Optional<Project> findById(final Long id);
 }

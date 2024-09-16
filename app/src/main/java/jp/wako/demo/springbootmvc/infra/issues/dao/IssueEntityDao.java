@@ -45,7 +45,7 @@ public interface IssueEntityDao {
             from issues
             where id = /* id */0
             """)
-    Optional<IssueEntity> selectById(final Integer id);
+    Optional<IssueEntity> selectById(final Long id);
 
     @Select
     @Sql("""
@@ -53,7 +53,7 @@ public interface IssueEntityDao {
             from issues
             where project_id = /* projectId */0
             """)
-    List<IssueEntity> selectByProjectId(final Integer projectId);
+    List<IssueEntity> selectByProjectId(final Long projectId);
 
     @Insert
     Result<IssueEntity> insert(final IssueEntity issue);

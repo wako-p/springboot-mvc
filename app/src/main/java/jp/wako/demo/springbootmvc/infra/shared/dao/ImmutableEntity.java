@@ -16,5 +16,5 @@ public abstract class ImmutableEntity {
     private final LocalDateTime updatedAt;
 
     @Version
-    private final Integer version;
+    private final Long version;
 }

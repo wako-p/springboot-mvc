@@ -48,14 +48,14 @@ public class IssueRepositoryTest {
             assertEquals("This is a test issue.", foundIssue.getDescription());
             assertEquals(LocalDateTime.of(2023, 8, 13, 17, 30, 00), foundIssue.getCreatedAt());
             assertEquals(LocalDateTime.of(2023, 8, 13, 17, 30, 00), foundIssue.getUpdatedAt());
-            assertEquals(1, foundIssue.getVersion());
+            assertEquals(1L, foundIssue.getVersion());
         }
 
         @Test
         @DisplayName("渡したIDの課題が存在しない場合は空のOptionalを返す。")
         public void failure1() {
             // when:
-            var maybeIssue = this.repository.findById(1);
+            var maybeIssue = this.repository.findById(1L);
 
             // then:
             assertTrue(maybeIssue.isEmpty());

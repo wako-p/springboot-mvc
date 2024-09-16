@@ -23,18 +23,18 @@ public final class ProjectEntity extends ImmutableEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(sequence = "projects_id_seq")
-    private final Integer id;
+    private final Long id;
 
     private final String name;
     private final String description;
 
     public ProjectEntity(
-        final Integer id,
+        final Long id,
         final String name,
         final String description,
         final LocalDateTime createdAt,
         final LocalDateTime updatedAt,
-        final Integer version) {
+        final Long version) {
             super(createdAt, updatedAt, version);
             this.id = id;
             this.name = name;

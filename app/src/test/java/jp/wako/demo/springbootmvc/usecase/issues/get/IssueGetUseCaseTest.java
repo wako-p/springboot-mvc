@@ -2,7 +2,7 @@ package jp.wako.demo.springbootmvc.usecase.issues.get;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -41,26 +41,26 @@ public class IssueGetUseCaseTest {
         private IssueGetUseCase usecase;
 
         @Captor
-        private ArgumentCaptor<Integer> issueIdCaptor;
+        private ArgumentCaptor<Long> issueIdCaptor;
 
         @Test
         @DisplayName("DTOを渡すと、そのDTOに含まれるIDの課題が取得され、DTOに詰め替えて返される。")
         public void success1() {
             // given:
-            when(this.projectRepository.findById(anyInt()))
+            when(this.projectRepository.findById(anyLong()))
                 .thenReturn(Optional.of(Project.reconstruct(
-                    1000, 
+                    1000L, 
                     "ProjectA", 
                     "This is a test project.",
                     LocalDateTime.now().withNano(0),
                     LocalDateTime.now().withNano(0),
-                    1)));
+                    1L)));
 
-            when(this.issueRepository.findById(anyInt()))
-                .thenReturn(Optional.of(TestIssueFactory.create(1000)));
+            when(this.issueRepository.findById(anyLong()))
+                .thenReturn(Optional.of(TestIssueFactory.create(1000L)));
 
             // when:
-            var request = new IssueGetRequest(1000, 1000);
+            var request = new IssueGetRequest(1000L, 1000L);
             var actual = this.usecase.execute(request);
 
             // then:
@@ -70,8 +70,8 @@ public class IssueGetUseCaseTest {
             assertEquals(1000, capturedIssueId);
 
             // 取得した課題をDTOに詰め替えて返している
-            var projectDto = new ProjectDto(1000, "ProjectA");
-            var issueDto = new IssueDto(1000, "Issue1", "This is a test issue.");
+            var projectDto = new ProjectDto(1000L, "ProjectA");
+            var issueDto = new IssueDto(1000L, "Issue1", "This is a test issue.");
             var expected = new IssueGetResponse(projectDto, issueDto);
             assertEquals(expected, actual);
         }
@@ -82,20 +82,20 @@ public class IssueGetUseCaseTest {
         @DisplayName("DTOに含まれるIDの課題が存在しない場合は例外がスローされる。")
         public void failure1() {
             // given:
-            when(this.projectRepository.findById(anyInt()))
+            when(this.projectRepository.findById(anyLong()))
                 .thenReturn(Optional.of(Project.reconstruct(
-                    1000, 
+                    1000L, 
                     "ProjectA", 
                     "This is a test project.",
                     LocalDateTime.now().withNano(0),
                     LocalDateTime.now().withNano(0),
-                    1)));
+                    1L)));
 
-            when(this.issueRepository.findById(anyInt()))
+            when(this.issueRepository.findById(anyLong()))
                 .thenReturn(Optional.empty());
 
             // when/then:
-            var request = new IssueGetRequest(1000, 1000);
+            var request = new IssueGetRequest(1000L, 1000L);
             assertThrows(UseCaseException.class, () -> {
                 this.usecase.execute(request);
             });

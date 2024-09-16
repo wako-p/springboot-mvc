@@ -2,7 +2,7 @@ package jp.wako.demo.springbootmvc.usecase.issues.update;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -36,7 +36,7 @@ public class IssueUpdateUseCaseTest {
         private IssueUpdateUseCase usecase;
 
         @Captor
-        private ArgumentCaptor<Integer> issueIdCaptor;
+        private ArgumentCaptor<Long> issueIdCaptor;
 
         @Captor
         private ArgumentCaptor<Issue> issueCaptor;
@@ -45,29 +45,29 @@ public class IssueUpdateUseCaseTest {
         @DisplayName("DTOを渡すと、そのDTOに含まれるIDの課題が取得されている。")
         public void success1() {
             // given:
-            when(this.repository.findById(anyInt()))
-                .thenReturn(Optional.of(TestIssueFactory.create(1000)));
+            when(this.repository.findById(anyLong()))
+                .thenReturn(Optional.of(TestIssueFactory.create(1000L)));
 
             // when:
-            var request = new IssueUpdateRequest(1000, "Issue1", "This is a test issue.");
+            var request = new IssueUpdateRequest(1000L, "Issue1", "This is a test issue.");
             this.usecase.execute(request);
 
             // then:
             // 渡されたDTOに含まれるIDの課題を取得している
             verify(this.repository).findById(issueIdCaptor.capture());
             var capturedIssueId = issueIdCaptor.getValue();
-            assertEquals(1000, capturedIssueId);
+            assertEquals(1000L, capturedIssueId);
         }
 
         @Test
         @DisplayName("DTOを渡すと、そのDTOに含まれるタイトルと説明で更新された課題が保存される。")
         public void success2() {
             // given:
-            when(this.repository.findById(anyInt()))
-                .thenReturn(Optional.of(TestIssueFactory.create(1000)));
+            when(this.repository.findById(anyLong()))
+                .thenReturn(Optional.of(TestIssueFactory.create(1000L)));
 
             // when:
-            var request = new IssueUpdateRequest(1000, "Issue1", "This is a test issue.");
+            var request = new IssueUpdateRequest(1000L, "Issue1", "This is a test issue.");
             this.usecase.execute(request);
 
             // then:
@@ -75,7 +75,7 @@ public class IssueUpdateUseCaseTest {
             verify(this.repository).save(issueCaptor.capture());
             var capturedIssue = issueCaptor.getValue();
 
-            assertEquals(1000, capturedIssue.getId());
+            assertEquals(1000L, capturedIssue.getId());
             assertEquals("Issue1", capturedIssue.getTitle());
             assertEquals("This is a test issue.", capturedIssue.getDescription());
         }
@@ -84,11 +84,11 @@ public class IssueUpdateUseCaseTest {
         @DisplayName("DTOに含まれるIDの課題が存在しない場合は例外がスローされる。")
         public void failure1() {
             // given:
-            when(this.repository.findById(anyInt()))
+            when(this.repository.findById(anyLong()))
                 .thenReturn(Optional.empty());
 
             // when/then:
-            var request = new IssueUpdateRequest(1000, "Issue1", "This is a test issue.");
+            var request = new IssueUpdateRequest(1000L, "Issue1", "This is a test issue.");
             assertThrows(UseCaseException.class, () -> {
                 this.usecase.execute(request);
             });

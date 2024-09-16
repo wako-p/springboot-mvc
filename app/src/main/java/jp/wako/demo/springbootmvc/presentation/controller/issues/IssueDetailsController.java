@@ -45,7 +45,7 @@ public class IssueDetailsController {
 
     @GetMapping("/issues/create")
     public String create(
-        @PathVariable final Integer projectId,
+        @PathVariable final Long projectId,
         @ModelAttribute("createVM") final IssueCreateVM vm) {
         vm.getProject().setId(projectId.toString());
         return "/issues/create";
@@ -53,7 +53,7 @@ public class IssueDetailsController {
 
     @PostMapping("/issues")
     public String create(
-        @PathVariable final Integer projectId,
+        @PathVariable final Long projectId,
         @ModelAttribute("createVM") @Validated final IssueCreateVM vm,
         final BindingResult bindingResult) {
 
@@ -74,8 +74,8 @@ public class IssueDetailsController {
 
     @GetMapping("/issues/{id}")
     public String detail(
-        @PathVariable final Integer projectId,
-        @PathVariable final Integer id,
+        @PathVariable final Long projectId,
+        @PathVariable final Long id,
         @ModelAttribute("detailVM") final IssueDetailVM vm) {
 
         var request = new IssueGetRequest(projectId, id);
@@ -100,8 +100,8 @@ public class IssueDetailsController {
 
     @GetMapping("/issues/{id}/edit")
     public String edit(
-        @PathVariable final Integer projectId,
-        @PathVariable final Integer id,
+        @PathVariable final Long projectId,
+        @PathVariable final Long id,
         @ModelAttribute("editVM") final IssueEditVM vm) {
 
         var request = new IssueGetRequest(projectId, id);
@@ -132,7 +132,7 @@ public class IssueDetailsController {
         try {
             // TODO: projectIdもリクエストに含める？
             var request = new IssueUpdateRequest(
-                Integer.parseInt(vm.getIssue().getId()),
+                Long.parseLong(vm.getIssue().getId()),
                 vm.getIssue().getTitle(),
                 vm.getIssue().getDescription());
 
@@ -150,8 +150,8 @@ public class IssueDetailsController {
 
     @DeleteMapping("/issues/{id}")
     public String delete(
-        @PathVariable final Integer projectId,
-        @PathVariable final Integer id) {
+        @PathVariable final Long projectId,
+        @PathVariable final Long id) {
 
         var request = new IssueDeleteRequest(id);
         this.issueDeleteUseCase.execute(request);

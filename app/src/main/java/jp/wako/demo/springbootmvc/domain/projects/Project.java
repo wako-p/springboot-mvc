@@ -13,12 +13,12 @@ public final class Project extends Entity {
     private String description;
 
     private Project(
-        final Integer id,
+        final Long id,
         final String name,
         final String description,
         final LocalDateTime createdAt,
         final LocalDateTime updatedAt,
-        final Integer version) {
+        final Long version) {
             super(id, createdAt, updatedAt, version);
             this.name = name;
             this.description = description;
@@ -40,7 +40,7 @@ public final class Project extends Entity {
             description,
             LocalDateTime.now().withNano(0),
             LocalDateTime.now().withNano(0),
-            1);
+            1L);
     }
 
     private static boolean isValidName(final String name) {
@@ -61,12 +61,12 @@ public final class Project extends Entity {
      * インフラ層でプロジェクトを復元するためのファクトリメソッド
      */
     public static Project reconstruct(
-        final Integer id,
+        final Long id,
         final String name,
         final String description,
         final LocalDateTime createAt,
         final LocalDateTime updateAt,
-        final Integer version) {
+        final Long version) {
             return new Project(id, name, description, createAt, updateAt, version);
     }
 

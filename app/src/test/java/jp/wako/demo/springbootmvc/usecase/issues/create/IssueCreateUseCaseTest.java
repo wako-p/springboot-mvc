@@ -35,7 +35,7 @@ public class IssueCreateUseCaseTest {
         @DisplayName("DTOを渡すと、そのDTOに含まれるタイトルと説明を使用して、新規作成された課題が保存される。")
         public void success1() {
             // when:
-            var request = new IssueCreateRequest(1000, "Issue1", "This is a test issue.");
+            var request = new IssueCreateRequest(1000L, "Issue1", "This is a test issue.");
             this.usecase.execute(request);
 
             // then:
@@ -44,7 +44,7 @@ public class IssueCreateUseCaseTest {
             var capturedIssue = issueCaptor.getValue();
 
             // DTOに含まれるタイトルと説明を使用して課題が新規作成されている
-            assertEquals(1000, capturedIssue.getProjectId());
+            assertEquals(1000L, capturedIssue.getProjectId());
             assertEquals("Issue1", capturedIssue.getTitle());
             assertEquals("This is a test issue.", capturedIssue.getDescription());
         }

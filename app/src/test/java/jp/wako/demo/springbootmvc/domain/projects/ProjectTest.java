@@ -73,20 +73,20 @@ public class ProjectTest {
         public void success1() {
             // when:
             var project = Project.reconstruct(
-                1000,
+                1000L,
                 "ProjectA",
                 "This is a test project.",
                 LocalDateTime.of(2023, 9, 2, 18, 00, 00),
                 LocalDateTime.of(2023, 9, 2, 18, 00, 00),
-                1);
+                1L);
 
             // then:
-            assertEquals(1000, project.getId());
+            assertEquals(1000L, project.getId());
             assertEquals("ProjectA", project.getName());
             assertEquals("This is a test project.", project.getDescription());
             assertEquals(LocalDateTime.of(2023, 9, 2, 18, 00).withNano(0), project.getCreatedAt());
             assertEquals(LocalDateTime.of(2023, 9, 2, 18, 00).withNano(0), project.getUpdatedAt());
-            assertEquals(1, project.getVersion());
+            assertEquals(1L, project.getVersion());
         }
 
     }

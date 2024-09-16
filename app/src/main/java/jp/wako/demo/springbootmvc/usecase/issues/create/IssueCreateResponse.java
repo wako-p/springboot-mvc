@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public final class IssueCreateResponse {
-    private final Integer id;
+    private final Long id;
 }

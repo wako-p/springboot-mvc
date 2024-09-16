@@ -86,7 +86,6 @@ public class ProjectController {
         final RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            // model.addAttribute("alertMessage", "test");
             return "/projects/create";
         }
 
@@ -110,7 +109,7 @@ public class ProjectController {
 
     @GetMapping("/{id}/view")
     public String view(
-        @PathVariable Integer id,
+        @PathVariable Long id,
         @ModelAttribute("projectViewVM") final ProjectViewVM vm) {
 
         // TODO: プロジェクトが存在しなかったときの処理かく
@@ -118,7 +117,7 @@ public class ProjectController {
         var response = this.projectGetUseCase.execute(request);
 
         var project = response.getProject();
-        vm.setId(project.getId());
+        vm.setId(project.getId().toString());
         vm.setName(project.getName());
         vm.setDescription(project.getDescription());
 

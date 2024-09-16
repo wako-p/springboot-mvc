@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public final class IssueGetRequest {
-    private final Integer projectId;
-    private final Integer id;
+    private final Long projectId;
+    private final Long id;
 }
