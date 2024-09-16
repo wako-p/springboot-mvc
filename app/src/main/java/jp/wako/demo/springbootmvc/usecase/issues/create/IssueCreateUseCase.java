@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import jp.wako.demo.springbootmvc.domain.issues.Issue;
+import jp.wako.demo.springbootmvc.usecase.shared.exception.UseCaseException;
 import jp.wako.demo.springbootmvc.domain.issues.IIssueRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -21,9 +22,17 @@ public class IssueCreateUseCase {
             request.getTitle(),
             request.getDescription());
 
-        var createdIssueId = this.repository.save(issue);
+        var savedIssueId = this.repository.save(issue);
 
-        return new IssueCreateResponse(createdIssueId);
+        var maybeIssue = this.repository.findById(savedIssueId);
+        var foundIssue = maybeIssue
+            .orElseThrow(() -> new UseCaseException("Saved issue not found."));
+
+        return new IssueCreateResponse(
+            foundIssue.getId(),
+            foundIssue.getProjectId(),
+            foundIssue.getTitle(),
+            foundIssue.getDescription());
     }
 
 }

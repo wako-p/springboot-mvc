@@ -64,7 +64,7 @@ public class IssueDetailsController {
         var request = new IssueCreateRequest(projectId, vm.getIssue().getTitle(), vm.getIssue().getDescription());
         var response = this.issueCreateUseCase.execute(request);
 
-        return "redirect:/projects/" + projectId + "/issues/" + response.getId();
+        return "redirect:/projects/" + response.getProjectId() + "/issues/" + response.getId();
     }
 
     @ModelAttribute("detailVM")
