@@ -1,7 +1,6 @@
 package jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel;
 
 import jakarta.validation.Valid;
-import jp.wako.demo.springbootmvc.usecase.issues.create.IssueCreateRequest;
 import lombok.Data;
 
 @Data
