@@ -1,16 +1,17 @@
 package jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.detail;
 
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueVM;
+import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.ProjectVM;
 import lombok.Data;
 
 @Data
 public final class DetailVM {
 
-    private DetailProjectVM project;
+    private ProjectVM project;
     private IssueVM issue;
 
     public DetailVM() {
-        this.project = new DetailProjectVM(0, "");
+        this.project = new ProjectVM("", "");
         this.issue = new IssueVM("", "", "");
     }
 

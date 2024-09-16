@@ -15,13 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.wako.demo.springbootmvc.infra.shared.exception.PersistenceException;
-import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.edit.EditProjectVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.edit.EditVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueVM;
+import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.ProjectVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.create.CreateVM;
-import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.detail.DetailProjectVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.detail.DetailVM;
-import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.index.IndexProjectVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.index.IndexVM;
 import jp.wako.demo.springbootmvc.usecase.issues.create.IssueCreateRequest;
 import jp.wako.demo.springbootmvc.usecase.issues.create.IssueCreateUseCase;
@@ -60,7 +58,7 @@ public class IssueController {
         var request = new IssueSearchRequest(projectId);
         var response = this.issueSearchQuery.execute(request);
 
-        var project = IndexProjectVM.createFrom(response.getProject());
+        var project = ProjectVM.createFrom(response.getProject());
         var issues = response.getIssues()
             .stream()
             .map(IssueVM::createFrom)
@@ -81,7 +79,7 @@ public class IssueController {
     public String create(
         @PathVariable final Integer projectId,
         @ModelAttribute("createVM") final CreateVM vm) {
-        vm.getProject().setId(projectId);
+        vm.getProject().setId(projectId.toString());
         return "/issues/create";
     }
 
@@ -118,7 +116,7 @@ public class IssueController {
         var projectDto = response.getProject();
         var issueDto = response.getIssue();
 
-        var projectVM = DetailProjectVM.createFrom(projectDto);
+        var projectVM = ProjectVM.createFrom(projectDto);
         var issueVM = IssueVM.createFrom(issueDto);
 
         vm.setProject(projectVM);
@@ -144,7 +142,7 @@ public class IssueController {
         var projectDto = response.getProject();
         var issueDto = response.getIssue();
 
-        var projectVM = EditProjectVM.createFrom(projectDto);
+        var projectVM = ProjectVM.createFrom(projectDto);
         var issueVM = IssueVM.createFrom(issueDto);
 
         vm.setProject(projectVM);

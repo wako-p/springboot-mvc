@@ -8,12 +8,20 @@ import lombok.Data;
 @AllArgsConstructor
 public final class ProjectVM {
 
-    private Integer id;
+    private String id;
     private String name;
 
     public static ProjectVM createFrom(final ProjectDto dto) {
-        var vm = new ProjectVM(dto.getId(), dto.getName());
+        var vm = new ProjectVM(
+            dto.getId().toString(),
+            dto.getName());
+        return vm;
+    }
+
+    public static ProjectVM createFrom(final jp.wako.demo.springbootmvc.usecase.issues.search.ProjectDto dto) {
+        var vm = new ProjectVM(
+            dto.getId().toString(),
+            dto.getName());
         return vm;
     }
 }
-
