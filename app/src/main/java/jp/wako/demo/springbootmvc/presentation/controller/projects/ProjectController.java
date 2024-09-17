@@ -20,8 +20,8 @@ import jp.wako.demo.springbootmvc.presentation.controller.projects.viewmodel.Pro
 import jp.wako.demo.springbootmvc.presentation.controller.projects.viewmodel.ProjectViewVM;
 import jp.wako.demo.springbootmvc.usecase.projects.create.ProjectCreateRequest;
 import jp.wako.demo.springbootmvc.usecase.projects.create.ProjectCreateUseCase;
-import jp.wako.demo.springbootmvc.usecase.projects.get.ProjectGetRequest;
-import jp.wako.demo.springbootmvc.usecase.projects.get.ProjectGetUseCase;
+import jp.wako.demo.springbootmvc.usecase.projects.fetch.ProjectFetchRequest;
+import jp.wako.demo.springbootmvc.usecase.projects.fetch.ProjectFetchUseCase;
 import jp.wako.demo.springbootmvc.usecase.projects.getall.ProjectGetAllRequest;
 import jp.wako.demo.springbootmvc.usecase.projects.getall.ProjectGetAllUseCase;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ public class ProjectController {
 
     private final ProjectGetAllUseCase projectGetAllUseCase;
     private final ProjectCreateUseCase projectCreateUseCase;
-    private final ProjectGetUseCase projectGetUseCase;
+    private final ProjectFetchUseCase projectGetUseCase;
 
     @ModelAttribute("projectIndexVM")
     public ProjectIndexVM createProjectIndexVM() {
@@ -113,7 +113,7 @@ public class ProjectController {
         @ModelAttribute("projectViewVM") final ProjectViewVM vm) {
 
         // TODO: プロジェクトが存在しなかったときの処理かく
-        var request = new ProjectGetRequest(id);
+        var request = new ProjectFetchRequest(id);
         var response = this.projectGetUseCase.execute(request);
 
         var project = response.getProject();

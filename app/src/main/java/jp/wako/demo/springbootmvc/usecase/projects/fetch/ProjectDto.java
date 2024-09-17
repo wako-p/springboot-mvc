@@ -1,4 +1,4 @@
-package jp.wako.demo.springbootmvc.usecase.projects.get;
+package jp.wako.demo.springbootmvc.usecase.projects.fetch;
 
 import lombok.Data;
 
