@@ -1,6 +1,6 @@
 package jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel;
 
-import jp.wako.demo.springbootmvc.usecase.issues.fetch.ProjectDto;
+import jp.wako.demo.springbootmvc.usecase.projects.fetch.ProjectFetchResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -11,17 +11,10 @@ public final class Project {
     private String id;
     private String name;
 
-    public static Project createFrom(final ProjectDto dto) {
-        var vm = new Project(
-            dto.getId().toString(),
-            dto.getName());
-        return vm;
+    public static Project create(final ProjectFetchResponse response) {
+        return new Project(
+            response.getProject().getId().toString(),
+            response.getProject().getName());
     }
 
-    public static Project createFrom(final jp.wako.demo.springbootmvc.usecase.issues.search.ProjectDto dto) {
-        var vm = new Project(
-            dto.getId().toString(),
-            dto.getName());
-        return vm;
-    }
 }

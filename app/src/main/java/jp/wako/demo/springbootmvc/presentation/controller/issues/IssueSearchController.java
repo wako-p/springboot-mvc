@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueSearchVM;
 import jp.wako.demo.springbootmvc.usecase.issues.search.IIssueSearchQuery;
 import jp.wako.demo.springbootmvc.usecase.issues.search.IssueSearchRequest;
+import jp.wako.demo.springbootmvc.usecase.projects.fetch.ProjectFetchRequest;
+import jp.wako.demo.springbootmvc.usecase.projects.fetch.ProjectFetchUseCase;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -16,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class IssueSearchController {
 
     private final IIssueSearchQuery issueSearchQuery;
+    private final ProjectFetchUseCase projectFetchUseCase;
 
     @ModelAttribute("issueSearchVM")
     public IssueSearchVM createIssueSearchVM() {
@@ -27,13 +30,17 @@ public class IssueSearchController {
         @PathVariable final Long projectId,
         @ModelAttribute("issueSearchVM") final IssueSearchVM vm) {
 
-        // TODO: UseCaseException補足する
-        var request = new IssueSearchRequest(projectId);
-        var response = this.issueSearchQuery.execute(request);
+            // TODO: projectIdの型をStringにする
+            // TODO: projectIdが数値に変換できるかどうかを判定する
 
-        vm.loadFrom(response);
+            var projectFetchRequest = new ProjectFetchRequest(projectId);
+            var projectFetchResponse = this.projectFetchUseCase.execute(projectFetchRequest);
 
-        return "/issues/search";
+            var issueSearchRequest = new IssueSearchRequest(projectId);
+            var issueSearchResponse = this.issueSearchQuery.execute(issueSearchRequest);
+
+            vm.loadFrom(projectFetchResponse, issueSearchResponse);
+            return "/issues/search";
     }
 
 }

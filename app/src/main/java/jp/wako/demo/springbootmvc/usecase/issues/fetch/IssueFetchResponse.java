@@ -4,6 +4,8 @@ import lombok.Data;
 
 @Data
 public final class IssueFetchResponse {
-    private final ProjectDto project;
-    private final IssueDto issue;
+    private final Long id;
+    private final Long projectId;
+    private final String title;
+    private final String description;
 }

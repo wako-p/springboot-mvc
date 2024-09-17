@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import jp.wako.demo.springbootmvc.domain.issues.IIssueRepository;
-import jp.wako.demo.springbootmvc.domain.projects.IProjectRepository;
 import jp.wako.demo.springbootmvc.usecase.shared.exception.UseCaseException;
 import lombok.RequiredArgsConstructor;
 
@@ -12,15 +11,10 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class IssueUpdateUseCase {
 
-    private final IProjectRepository projectRepository;
     private final IIssueRepository repository;
 
     @Transactional
-    public IssueUpdateResponse execute(IssueUpdateRequest request) {
-
-        var maybeProject = this.projectRepository.findById(request.getProjectId());
-        maybeProject
-            .orElseThrow(() -> new UseCaseException("Project not found."));
+    public IssueUpdateResponse execute(final IssueUpdateRequest request) {
 
         var maybeIssue = this.repository.findById(request.getId());
         var foundIssue = maybeIssue

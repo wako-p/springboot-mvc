@@ -24,6 +24,8 @@ import jp.wako.demo.springbootmvc.usecase.issues.fetch.IssueFetchRequest;
 import jp.wako.demo.springbootmvc.usecase.issues.fetch.IssueFetchUseCase;
 import jp.wako.demo.springbootmvc.usecase.issues.update.IssueUpdateRequest;
 import jp.wako.demo.springbootmvc.usecase.issues.update.IssueUpdateUseCase;
+import jp.wako.demo.springbootmvc.usecase.projects.fetch.ProjectFetchRequest;
+import jp.wako.demo.springbootmvc.usecase.projects.fetch.ProjectFetchUseCase;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -31,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/projects/{projectId}")
 public class IssueDetailsController {
 
+    private final ProjectFetchUseCase projectFetchUseCase;
     private final IssueFetchUseCase issueFetchUseCase;
     private final IssueCreateUseCase issueCreateUseCase;
     private final IssueUpdateUseCase issueUpdateUseCase;
@@ -45,8 +48,15 @@ public class IssueDetailsController {
     public String create(
         @PathVariable final Long projectId,
         @ModelAttribute("issueCreateVM") final IssueCreateVM vm) {
-        vm.getProject().setId(projectId.toString());
-        return "/issues/create";
+
+            // TODO: projectIdの型をStringにする
+            // TODO: projectIdが数値に変換できるかどうかを判定する
+
+            var projectFetchRequest = new ProjectFetchRequest(projectId);
+            var projectFetchResponse = this.projectFetchUseCase.execute(projectFetchRequest);
+
+            vm.loadFrom(projectFetchResponse);
+            return "/issues/create";
     }
 
     @PostMapping("/issues")
@@ -55,16 +65,16 @@ public class IssueDetailsController {
         @ModelAttribute("issueCreateVM") @Validated final IssueCreateVM vm,
         final BindingResult bindingResult) {
 
-        // TODO: projectIdが数値に変換できるかどうかを判定する
+            // TODO: projectIdが数値に変換できるかどうかを判定する
 
-        if (bindingResult.hasErrors()) {
-            return "/issues/create";
-        }
+            if (bindingResult.hasErrors()) {
+                return "/issues/create";
+            }
 
-        var request = new IssueCreateRequest(projectId, vm.getIssue().getTitle(), vm.getIssue().getDescription());
-        var response = this.issueCreateUseCase.execute(request);
+            var issueCreateRequest = new IssueCreateRequest(projectId, vm.getIssue().getTitle(), vm.getIssue().getDescription());
+            var issueCreateResponse = this.issueCreateUseCase.execute(issueCreateRequest);
 
-        return "redirect:/projects/" + response.getProjectId() + "/issues/" + response.getId();
+            return "redirect:/projects/" + issueCreateResponse.getProjectId() + "/issues/" + issueCreateResponse.getId();
     }
 
     @ModelAttribute("issueDetailVM")
@@ -78,14 +88,17 @@ public class IssueDetailsController {
         @PathVariable final Long issueId,
         @ModelAttribute("issueDetailVM") final IssueDetailVM vm) {
 
-        // TODO: projectIdが数値に変換できるかどうかを判定する
+            // TODO: projectIdとissueIdの型をStringにする
+            // TODO: projectIdとissueIdが数値に変換できるかどうかを判定する
 
-        var request = new IssueFetchRequest(projectId, issueId);
-        var response = this.issueFetchUseCase.execute(request);
+            var projectFetchRequest = new ProjectFetchRequest(projectId);
+            var projectFetchResponse = this.projectFetchUseCase.execute(projectFetchRequest);
 
-        vm.loadFrom(response);
+            var issueFetchRequest = new IssueFetchRequest(issueId);
+            var issueFetchResponse = this.issueFetchUseCase.execute(issueFetchRequest);
 
-        return "/issues/detail";
+            vm.loadFrom(projectFetchResponse, issueFetchResponse);
+            return "/issues/detail";
     }
 
     @ModelAttribute("issueEditVM")
@@ -99,14 +112,17 @@ public class IssueDetailsController {
         @PathVariable final Long issueId,
         @ModelAttribute("issueEditVM") final IssueEditVM vm) {
 
-        // TODO: projectIdが数値に変換できるかどうかを判定する
+            // TODO: projectIdとissueIdの型をStringにする
+            // TODO: projectIdとissueIdが数値に変換できるかどうかを判定する
 
-        var request = new IssueFetchRequest(projectId, issueId);
-        var response = this.issueFetchUseCase.execute(request);
+            var projectFetchRequest = new ProjectFetchRequest(projectId);
+            var projectFetchResponse = this.projectFetchUseCase.execute(projectFetchRequest);
 
-        vm.loadFrom(response);
+            var issueFetchRequest = new IssueFetchRequest(issueId);
+            var issueFetchResponse = this.issueFetchUseCase.execute(issueFetchRequest);
 
-        return "/issues/edit";
+            vm.loadFrom(projectFetchResponse, issueFetchResponse);
+            return "/issues/edit";
     }
 
     @PutMapping("/issues/{issueId}")

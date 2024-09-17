@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import jp.wako.demo.springbootmvc.usecase.issues.search.IssueSearchResponse;
+import jp.wako.demo.springbootmvc.usecase.projects.fetch.ProjectFetchResponse;
 import lombok.Data;
 
 @Data
@@ -18,16 +19,14 @@ public final class IssueSearchVM {
         this.issues = new ArrayList<>();
     }
 
-    public void loadFrom(final IssueSearchResponse response) {
-    
-        var project = Project.createFrom(response.getProject());
-        var issues = response.getIssues()
-            .stream()
-            .map(Issue::createFrom)
-            .collect(Collectors.toList());
-
-        this.project = project;
-        this.issues = issues;
+    public void loadFrom(
+        final ProjectFetchResponse projectFetchResponse,
+        final IssueSearchResponse issueSearchResponse) {
+            this.project = Project.create(projectFetchResponse);
+            this.issues = issueSearchResponse.getIssues()
+                .stream()
+                .map(Issue::create)
+                .collect(Collectors.toList());
     }
 
 }

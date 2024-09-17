@@ -4,6 +4,5 @@ import lombok.Data;
 
 @Data
 public final class IssueFetchRequest {
-    private final Long projectId;
     private final Long id;
 }

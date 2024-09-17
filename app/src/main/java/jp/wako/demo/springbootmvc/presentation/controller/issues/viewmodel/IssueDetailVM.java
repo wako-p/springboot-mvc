@@ -1,6 +1,7 @@
 package jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel;
 
 import jp.wako.demo.springbootmvc.usecase.issues.fetch.IssueFetchResponse;
+import jp.wako.demo.springbootmvc.usecase.projects.fetch.ProjectFetchResponse;
 import lombok.Data;
 
 @Data
@@ -11,12 +12,14 @@ public final class IssueDetailVM {
 
     public IssueDetailVM() {
         this.project = new Project("", "");
-        this.issue = new Issue("", "", "");
+        this.issue = new Issue("", "", "", "");
     }
 
-    public void loadFrom(final IssueFetchResponse response) {
-        this.project = Project.createFrom(response.getProject());
-        this.issue = Issue.createFrom(response.getIssue());
+    public void loadFrom(
+        final ProjectFetchResponse projectFetchResponse,
+        final IssueFetchResponse issueFetchResponse) {
+            this.project = Project.create(projectFetchResponse);
+            this.issue = Issue.create(issueFetchResponse);
     }
 
     public String getDescription() {
