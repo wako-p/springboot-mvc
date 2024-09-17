@@ -1,7 +1,7 @@
 package jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel;
 
 import jakarta.validation.constraints.NotEmpty;
-import jp.wako.demo.springbootmvc.usecase.issues.get.IssueDto;
+import jp.wako.demo.springbootmvc.usecase.issues.fetch.IssueDto;
 import lombok.Data;
 
 @Data

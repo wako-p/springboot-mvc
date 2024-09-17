@@ -20,8 +20,8 @@ import jp.wako.demo.springbootmvc.usecase.issues.create.IssueCreateRequest;
 import jp.wako.demo.springbootmvc.usecase.issues.create.IssueCreateUseCase;
 import jp.wako.demo.springbootmvc.usecase.issues.delete.IssueDeleteRequest;
 import jp.wako.demo.springbootmvc.usecase.issues.delete.IssueDeleteUseCase;
-import jp.wako.demo.springbootmvc.usecase.issues.get.IssueGetRequest;
-import jp.wako.demo.springbootmvc.usecase.issues.get.IssueGetUseCase;
+import jp.wako.demo.springbootmvc.usecase.issues.fetch.IssueFetchRequest;
+import jp.wako.demo.springbootmvc.usecase.issues.fetch.IssueFetchUseCase;
 import jp.wako.demo.springbootmvc.usecase.issues.update.IssueUpdateRequest;
 import jp.wako.demo.springbootmvc.usecase.issues.update.IssueUpdateUseCase;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/projects/{projectId}")
 public class IssueDetailsController {
 
-    private final IssueGetUseCase issueGetUseCase;
+    private final IssueFetchUseCase issueFetchUseCase;
     private final IssueCreateUseCase issueCreateUseCase;
     private final IssueUpdateUseCase issueUpdateUseCase;
     private final IssueDeleteUseCase issueDeleteUseCase;
@@ -80,8 +80,8 @@ public class IssueDetailsController {
 
         // TODO: projectIdが数値に変換できるかどうかを判定する
 
-        var request = new IssueGetRequest(projectId, issueId);
-        var response = this.issueGetUseCase.execute(request);
+        var request = new IssueFetchRequest(projectId, issueId);
+        var response = this.issueFetchUseCase.execute(request);
 
         vm.loadFrom(response);
 
@@ -101,8 +101,8 @@ public class IssueDetailsController {
 
         // TODO: projectIdが数値に変換できるかどうかを判定する
 
-        var request = new IssueGetRequest(projectId, issueId);
-        var response = this.issueGetUseCase.execute(request);
+        var request = new IssueFetchRequest(projectId, issueId);
+        var response = this.issueFetchUseCase.execute(request);
 
         vm.loadFrom(response);
 

@@ -1,4 +1,4 @@
-package jp.wako.demo.springbootmvc.usecase.issues.get;
+package jp.wako.demo.springbootmvc.usecase.issues.fetch;
 
 import org.springframework.stereotype.Service;
 
@@ -9,12 +9,12 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class IssueGetUseCase {
+public class IssueFetchUseCase {
 
     private final IProjectRepository projectRepository;
     private final IIssueRepository issueRepository;
 
-    public IssueGetResponse execute(final IssueGetRequest request) {
+    public IssueFetchResponse execute(final IssueFetchRequest request) {
 
         var maybeProject = this.projectRepository.findById(request.getProjectId());
         var foundProject = maybeProject
@@ -33,6 +33,6 @@ public class IssueGetUseCase {
             foundIssue.getTitle(),
             foundIssue.getDescription());
 
-        return new IssueGetResponse(foundProjectDto, foundIssueDto);
+        return new IssueFetchResponse(foundProjectDto, foundIssueDto);
     }
 }

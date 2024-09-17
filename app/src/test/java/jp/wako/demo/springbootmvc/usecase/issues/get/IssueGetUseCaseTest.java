@@ -23,6 +23,11 @@ import jp.wako.demo.springbootmvc.domain.issues.IIssueRepository;
 import jp.wako.demo.springbootmvc.domain.projects.IProjectRepository;
 import jp.wako.demo.springbootmvc.domain.projects.Project;
 import jp.wako.demo.springbootmvc.usecase.issues.TestIssueFactory;
+import jp.wako.demo.springbootmvc.usecase.issues.fetch.IssueDto;
+import jp.wako.demo.springbootmvc.usecase.issues.fetch.IssueFetchRequest;
+import jp.wako.demo.springbootmvc.usecase.issues.fetch.IssueFetchResponse;
+import jp.wako.demo.springbootmvc.usecase.issues.fetch.IssueFetchUseCase;
+import jp.wako.demo.springbootmvc.usecase.issues.fetch.ProjectDto;
 import jp.wako.demo.springbootmvc.usecase.shared.exception.UseCaseException;
 
 public class IssueGetUseCaseTest {
@@ -38,7 +43,7 @@ public class IssueGetUseCaseTest {
         private IIssueRepository issueRepository;
 
         @InjectMocks
-        private IssueGetUseCase usecase;
+        private IssueFetchUseCase usecase;
 
         @Captor
         private ArgumentCaptor<Long> issueIdCaptor;
@@ -60,7 +65,7 @@ public class IssueGetUseCaseTest {
                 .thenReturn(Optional.of(TestIssueFactory.create(1000L)));
 
             // when:
-            var request = new IssueGetRequest(1000L, 1000L);
+            var request = new IssueFetchRequest(1000L, 1000L);
             var actual = this.usecase.execute(request);
 
             // then:
@@ -72,7 +77,7 @@ public class IssueGetUseCaseTest {
             // 取得した課題をDTOに詰め替えて返している
             var projectDto = new ProjectDto(1000L, "ProjectA");
             var issueDto = new IssueDto(1000L, "Issue1", "This is a test issue.");
-            var expected = new IssueGetResponse(projectDto, issueDto);
+            var expected = new IssueFetchResponse(projectDto, issueDto);
             assertEquals(expected, actual);
         }
 
@@ -95,7 +100,7 @@ public class IssueGetUseCaseTest {
                 .thenReturn(Optional.empty());
 
             // when/then:
-            var request = new IssueGetRequest(1000L, 1000L);
+            var request = new IssueFetchRequest(1000L, 1000L);
             assertThrows(UseCaseException.class, () -> {
                 this.usecase.execute(request);
             });

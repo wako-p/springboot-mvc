@@ -1,0 +1,9 @@
+package jp.wako.demo.springbootmvc.usecase.issues.fetch;
+
+import lombok.Data;
+
+@Data
+public final class IssueFetchRequest {
+    private final Long projectId;
+    private final Long id;
+}

@@ -1,6 +1,6 @@
 package jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel;
 
-import jp.wako.demo.springbootmvc.usecase.issues.get.ProjectDto;
+import jp.wako.demo.springbootmvc.usecase.issues.fetch.ProjectDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
