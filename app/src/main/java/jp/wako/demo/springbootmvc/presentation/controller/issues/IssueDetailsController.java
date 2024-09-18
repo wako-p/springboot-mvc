@@ -16,6 +16,8 @@ import jp.wako.demo.springbootmvc.infra.shared.exception.PersistenceException;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueCreateVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueDetailVM;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueEditVM;
+import jp.wako.demo.springbootmvc.presentation.shared.exception.ResourceNotFoundException;
+import jp.wako.demo.springbootmvc.presentation.shared.helper.LongHelper;
 import jp.wako.demo.springbootmvc.usecase.issues.create.IssueCreateRequest;
 import jp.wako.demo.springbootmvc.usecase.issues.create.IssueCreateUseCase;
 import jp.wako.demo.springbootmvc.usecase.issues.delete.IssueDeleteRequest;
@@ -46,13 +48,14 @@ public class IssueDetailsController {
 
     @GetMapping("/issues/create")
     public String create(
-        @PathVariable final Long projectId,
-        @ModelAttribute("issueCreateVM") final IssueCreateVM vm) {
+        final @PathVariable String projectId,
+        final @ModelAttribute("issueCreateVM") IssueCreateVM vm) {
 
-            // TODO: projectIdの型をStringにする
-            // TODO: projectIdが数値に変換できるかどうかを判定する
+            if (LongHelper.unconvertible(projectId)) {
+                throw new ResourceNotFoundException();
+            }
 
-            var projectFetchRequest = new ProjectFetchRequest(projectId);
+            var projectFetchRequest = new ProjectFetchRequest(Long.parseLong(projectId));
             var projectFetchResponse = this.projectFetchUseCase.execute(projectFetchRequest);
 
             vm.loadFrom(projectFetchResponse);
@@ -61,17 +64,20 @@ public class IssueDetailsController {
 
     @PostMapping("/issues")
     public String create(
-        @PathVariable final Long projectId,
-        @ModelAttribute("issueCreateVM") @Validated final IssueCreateVM vm,
+        final @PathVariable String projectId,
+        final @ModelAttribute("issueCreateVM") @Validated IssueCreateVM vm,
         final BindingResult bindingResult) {
 
-            // TODO: projectIdが数値に変換できるかどうかを判定する
+            if (LongHelper.unconvertible(projectId)) {
+                throw new ResourceNotFoundException();
+            }
 
             if (bindingResult.hasErrors()) {
                 return "/issues/create";
             }
 
-            var issueCreateRequest = new IssueCreateRequest(projectId, vm.getIssue().getTitle(), vm.getIssue().getDescription());
+            var issueCreateRequest = new IssueCreateRequest(
+                Long.parseLong(projectId), vm.getIssue().getTitle(), vm.getIssue().getDescription());
             var issueCreateResponse = this.issueCreateUseCase.execute(issueCreateRequest);
 
             return "redirect:/projects/" + issueCreateResponse.getProjectId() + "/issues/" + issueCreateResponse.getId();
@@ -84,17 +90,18 @@ public class IssueDetailsController {
 
     @GetMapping("/issues/{issueId}")
     public String detail(
-        @PathVariable final Long projectId,
-        @PathVariable final Long issueId,
-        @ModelAttribute("issueDetailVM") final IssueDetailVM vm) {
+        final @PathVariable String projectId,
+        final @PathVariable String issueId,
+        final @ModelAttribute("issueDetailVM") IssueDetailVM vm) {
 
-            // TODO: projectIdとissueIdの型をStringにする
-            // TODO: projectIdとissueIdが数値に変換できるかどうかを判定する
+            if (LongHelper.unconvertible(projectId) || LongHelper.unconvertible(issueId)) {
+                throw new ResourceNotFoundException();
+            }
 
-            var projectFetchRequest = new ProjectFetchRequest(projectId);
+            var projectFetchRequest = new ProjectFetchRequest(Long.parseLong(projectId));
             var projectFetchResponse = this.projectFetchUseCase.execute(projectFetchRequest);
 
-            var issueFetchRequest = new IssueFetchRequest(issueId);
+            var issueFetchRequest = new IssueFetchRequest(Long.parseLong(issueId));
             var issueFetchResponse = this.issueFetchUseCase.execute(issueFetchRequest);
 
             vm.loadFrom(projectFetchResponse, issueFetchResponse);
@@ -108,17 +115,18 @@ public class IssueDetailsController {
 
     @GetMapping("/issues/{issueId}/edit")
     public String edit(
-        @PathVariable final Long projectId,
-        @PathVariable final Long issueId,
-        @ModelAttribute("issueEditVM") final IssueEditVM vm) {
+        final @PathVariable String projectId,
+        final @PathVariable String issueId,
+        final @ModelAttribute("issueEditVM") IssueEditVM vm) {
 
-            // TODO: projectIdとissueIdの型をStringにする
-            // TODO: projectIdとissueIdが数値に変換できるかどうかを判定する
+            if (LongHelper.unconvertible(projectId) || LongHelper.unconvertible(issueId)) {
+                throw new ResourceNotFoundException();
+            }
 
-            var projectFetchRequest = new ProjectFetchRequest(projectId);
+            var projectFetchRequest = new ProjectFetchRequest(Long.parseLong(projectId));
             var projectFetchResponse = this.projectFetchUseCase.execute(projectFetchRequest);
 
-            var issueFetchRequest = new IssueFetchRequest(issueId);
+            var issueFetchRequest = new IssueFetchRequest(Long.parseLong(issueId));
             var issueFetchResponse = this.issueFetchUseCase.execute(issueFetchRequest);
 
             vm.loadFrom(projectFetchResponse, issueFetchResponse);
@@ -127,46 +135,52 @@ public class IssueDetailsController {
 
     @PutMapping("/issues/{issueId}")
     public String update(
-        @ModelAttribute("issueEditVM") @Validated final IssueEditVM vm,
+        final @PathVariable String projectId,
+        final @PathVariable String issueId,
+        final @ModelAttribute("issueEditVM") @Validated IssueEditVM vm,
         final BindingResult bindingResult,
         final RedirectAttributes redirectAttributes) {
 
-        // TODO: projectIdが数値に変換できるかどうかを判定する
+            if (LongHelper.unconvertible(projectId) || LongHelper.unconvertible(issueId)) {
+                throw new ResourceNotFoundException();
+            }
 
-        if (bindingResult.hasErrors()) {
-            return "/issues/edit";
-        }
+            if (bindingResult.hasErrors()) {
+                return "/issues/edit";
+            }
 
-        try {
-            var request = new IssueUpdateRequest(
-                Long.parseLong(vm.getIssue().getId()),
-                Long.parseLong(vm.getProject().getId()),
-                vm.getIssue().getTitle(),
-                vm.getIssue().getDescription());
+            try {
+                var request = new IssueUpdateRequest(
+                    Long.parseLong(issueId),
+                    Long.parseLong(projectId),
+                    vm.getIssue().getTitle(),
+                    vm.getIssue().getDescription());
 
-            var response = this.issueUpdateUseCase.execute(request);
+                var response = this.issueUpdateUseCase.execute(request);
 
-            return "redirect:/projects/" + response.getProjectId() + "/issues/" + response.getId();
+                return "redirect:/projects/" + response.getProjectId() + "/issues/" + response.getId();
 
-        } catch (PersistenceException exception) {
-            // NOTE: 楽観ロックに失敗したらもっかい編集画面を表示させる
-            redirectAttributes.addFlashAttribute("alertMessage", exception.getMessage());
-            return "redirect:/projects/" + vm.getProject().getId() + "/issues/" + vm.getIssue().getId() + "/edit";
-        }
+            } catch (PersistenceException exception) {
+                // NOTE: 楽観ロックに失敗したらもっかい編集画面を表示させる
+                redirectAttributes.addFlashAttribute("alertMessage", exception.getMessage());
+                return "redirect:/projects/" + projectId + "/issues/" + issueId + "/edit";
+            }
 
     }
 
     @DeleteMapping("/issues/{issueId}")
     public String delete(
-        @PathVariable final Long projectId,
-        @PathVariable final Long issueId) {
+        final @PathVariable String projectId,
+        final @PathVariable String issueId) {
 
-        // TODO: projectIdが数値に変換できるかどうかを判定する
+            if (LongHelper.unconvertible(projectId) || LongHelper.unconvertible(issueId)) {
+                throw new ResourceNotFoundException();
+            }
 
-        var request = new IssueDeleteRequest(issueId);
-        this.issueDeleteUseCase.execute(request);
+            var request = new IssueDeleteRequest(Long.parseLong(issueId));
+            this.issueDeleteUseCase.execute(request);
 
-        return "redirect:/issues";
+            return "redirect:/issues";
     }
 
 }

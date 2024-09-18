@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueSearchVM;
+import jp.wako.demo.springbootmvc.presentation.shared.exception.ResourceNotFoundException;
+import jp.wako.demo.springbootmvc.presentation.shared.helper.LongHelper;
 import jp.wako.demo.springbootmvc.usecase.issues.search.IIssueSearchQuery;
 import jp.wako.demo.springbootmvc.usecase.issues.search.IssueSearchRequest;
 import jp.wako.demo.springbootmvc.usecase.projects.fetch.ProjectFetchRequest;
@@ -27,16 +29,17 @@ public class IssueSearchController {
 
     @GetMapping("/issues")
     public String index(
-        @PathVariable final Long projectId,
+        @PathVariable final String projectId,
         @ModelAttribute("issueSearchVM") final IssueSearchVM vm) {
 
-            // TODO: projectIdの型をStringにする
-            // TODO: projectIdが数値に変換できるかどうかを判定する
+            if (LongHelper.unconvertible(projectId)) {
+                throw new ResourceNotFoundException();
+            }
 
-            var projectFetchRequest = new ProjectFetchRequest(projectId);
+            var projectFetchRequest = new ProjectFetchRequest(Long.parseLong(projectId));
             var projectFetchResponse = this.projectFetchUseCase.execute(projectFetchRequest);
 
-            var issueSearchRequest = new IssueSearchRequest(projectId);
+            var issueSearchRequest = new IssueSearchRequest(Long.parseLong(projectId));
             var issueSearchResponse = this.issueSearchQuery.execute(issueSearchRequest);
 
             vm.loadFrom(projectFetchResponse, issueSearchResponse);

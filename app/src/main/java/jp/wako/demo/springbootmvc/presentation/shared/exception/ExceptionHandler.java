@@ -16,6 +16,12 @@ import jp.wako.demo.springbootmvc.usecase.shared.exception.UseCaseException;
 @ControllerAdvice
 public class ExceptionHandler {
 
+    @org.springframework.web.bind.annotation.ExceptionHandler(ResourceNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleBadRequestException(final Model model, final ResourceNotFoundException exception) {
+        return error(model, HttpStatus.NOT_FOUND, exception);
+    }
+
     @org.springframework.web.bind.annotation.ExceptionHandler(UseCaseException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleUseCaseException(final Model model, final UseCaseException exception) {
