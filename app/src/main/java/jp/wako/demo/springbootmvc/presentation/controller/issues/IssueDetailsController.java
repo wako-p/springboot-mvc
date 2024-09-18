@@ -66,7 +66,8 @@ public class IssueDetailsController {
     public String create(
         final @PathVariable String projectId,
         final @ModelAttribute("issueCreateVM") @Validated IssueCreateVM vm,
-        final BindingResult bindingResult) {
+        final BindingResult bindingResult,
+        final RedirectAttributes redirectAttributes) {
 
             if (LongHelper.unconvertible(projectId)) {
                 throw new ResourceNotFoundException();
@@ -76,11 +77,20 @@ public class IssueDetailsController {
                 return "/issues/create";
             }
 
-            var issueCreateRequest = new IssueCreateRequest(
-                Long.parseLong(projectId), vm.getIssue().getTitle(), vm.getIssue().getDescription());
-            var issueCreateResponse = this.issueCreateUseCase.execute(issueCreateRequest);
+            try {
+                var issueCreateRequest = new IssueCreateRequest(
+                    Long.parseLong(projectId),
+                    vm.getIssue().getTitle(),
+                    vm.getIssue().getDescription());
+    
+                var issueCreateResponse = this.issueCreateUseCase.execute(issueCreateRequest);
+    
+                return "redirect:/projects/" + issueCreateResponse.getProjectId() + "/issues/" + issueCreateResponse.getId();
 
-            return "redirect:/projects/" + issueCreateResponse.getProjectId() + "/issues/" + issueCreateResponse.getId();
+            } catch (PersistenceException exception) {
+                redirectAttributes.addFlashAttribute("alertMessage", exception.getMessage());
+                return "redirect:/projects/" + projectId + "/issues/create";
+            }
     }
 
     @ModelAttribute("issueDetailVM")
@@ -161,11 +171,9 @@ public class IssueDetailsController {
                 return "redirect:/projects/" + response.getProjectId() + "/issues/" + response.getId();
 
             } catch (PersistenceException exception) {
-                // NOTE: 楽観ロックに失敗したらもっかい編集画面を表示させる
                 redirectAttributes.addFlashAttribute("alertMessage", exception.getMessage());
                 return "redirect:/projects/" + projectId + "/issues/" + issueId + "/edit";
             }
-
     }
 
     @DeleteMapping("/issues/{issueId}")
