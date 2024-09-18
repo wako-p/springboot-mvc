@@ -37,14 +37,14 @@ public class IssueSearchQuery implements IIssueSearchQuery {
             })
             .orElseThrow(() ->  new UseCaseException(""));
 
-        var condition = new IssueSearchCondition(
+        var parameter = new IssueSearchParameter(
             request.getProjectId(),
             request.getTitle(),
             new Sort(
                 Column.parseBy(request.getSortColumn()),
                 Order.parseBy(request.getSortOrder())));
 
-        var foundIssueEntities = this.issueEntityDao.selectBy(condition);
+        var foundIssueEntities = this.issueEntityDao.selectBy(parameter);
         var foundIssueDtos = foundIssueEntities
             .stream()
             .map(entity -> {

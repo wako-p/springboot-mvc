@@ -11,7 +11,7 @@ import org.seasar.doma.Update;
 import org.seasar.doma.boot.ConfigAutowireable;
 import org.seasar.doma.jdbc.Result;
 
-import jp.wako.demo.springbootmvc.infra.issues.IssueSearchCondition;
+import jp.wako.demo.springbootmvc.infra.issues.IssueSearchParameter;
 
 // @ConfigAutowireableを付けておくと
 // Implを自動生成したときに@Repositoryを付加してくれるらしい
@@ -22,36 +22,43 @@ public interface IssueEntityDao {
 
     @Select
     @Sql("""
-            select *
+            select
+                *
             from
                 issues
             where
-                project_id = /* condition.projectId */0
-            /*%if condition.title != null && !condition.title.isEmpty() */
-                and title like /* @infix(condition.title) */'title'
+                project_id = /* parameter.projectId */1000
+            /*%if parameter.title != null && !parameter.title.isEmpty() */
+                and title like /* @infix(parameter.title) */'title'
             /*%end*/
             order by
-            /*%if condition.sort != null */
-                /*# " " + condition.sort.toString() */
+            /*%if parameter.sort != null */
+                /*# " " + parameter.sort.toString() */
             /*%else */
                 /*# "id asc" */
             /*%end */
-            """)
-    List<IssueEntity> selectBy(final IssueSearchCondition condition);
+        """)
+    List<IssueEntity> selectBy(final IssueSearchParameter parameter);
 
     @Select
     @Sql("""
-            select *
-            from issues
-            where id = /* id */0
+            select
+                *
+            from
+                issues
+            where
+                id = /* id */1000
             """)
     Optional<IssueEntity> selectById(final Long id);
 
     @Select
     @Sql("""
-            select *
-            from issues
-            where project_id = /* projectId */0
+            select
+                *
+            from
+                issues
+            where
+                project_id = /* projectId */1000
             """)
     List<IssueEntity> selectByProjectId(final Long projectId);
 

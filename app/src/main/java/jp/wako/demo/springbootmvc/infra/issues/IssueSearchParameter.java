@@ -4,7 +4,7 @@ import jp.wako.demo.springbootmvc.infra.issues.sort.Sort;
 import lombok.Data;
 
 @Data
-public final class IssueSearchCondition {
+public final class IssueSearchParameter {
     private final Long projectId;
     private final String title;
     private final Sort sort;

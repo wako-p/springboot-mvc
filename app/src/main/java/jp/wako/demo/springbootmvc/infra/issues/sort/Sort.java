@@ -7,6 +7,7 @@ public final class Sort {
     private final Column column;
     private final Order order;
 
+    // TODO: 列を複数指定できるようにする
     public Sort(final Column column, final Order order) {
         this.column = column;
         this.order = order;
