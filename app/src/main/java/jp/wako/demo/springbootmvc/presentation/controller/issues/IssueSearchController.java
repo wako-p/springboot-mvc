@@ -10,8 +10,6 @@ import jp.wako.demo.springbootmvc.presentation.shared.exception.ResourceNotFound
 import jp.wako.demo.springbootmvc.presentation.shared.helper.LongHelper;
 import jp.wako.demo.springbootmvc.usecase.issues.search.IIssueSearchQuery;
 import jp.wako.demo.springbootmvc.usecase.issues.search.IssueSearchRequest;
-import jp.wako.demo.springbootmvc.usecase.projects.fetch.ProjectFetchRequest;
-import jp.wako.demo.springbootmvc.usecase.projects.fetch.ProjectFetchUseCase;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -20,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 public class IssueSearchController {
 
     private final IIssueSearchQuery issueSearchQuery;
-    private final ProjectFetchUseCase projectFetchUseCase;
 
     @ModelAttribute("issueSearchVM")
     public IssueSearchVM createIssueSearchVM() {
@@ -36,13 +33,10 @@ public class IssueSearchController {
                 throw new ResourceNotFoundException();
             }
 
-            var projectFetchRequest = new ProjectFetchRequest(Long.parseLong(projectId));
-            var projectFetchResponse = this.projectFetchUseCase.execute(projectFetchRequest);
-
             var issueSearchRequest = new IssueSearchRequest(Long.parseLong(projectId));
             var issueSearchResponse = this.issueSearchQuery.execute(issueSearchRequest);
 
-            vm.loadFrom(projectFetchResponse, issueSearchResponse);
+            vm.loadFrom(issueSearchResponse);
             return "/issues/search";
     }
 
