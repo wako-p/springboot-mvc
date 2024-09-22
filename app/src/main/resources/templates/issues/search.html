@@ -35,7 +35,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="issue : *{results}">
+                        <tr th:each="issue : *{results.content}">
                             <th scope="row" th:text="${issue.id}"></th>
                             <td>
                                 <a th:text="${issue.title}" th:href="@{|/projects/${issue.projectId}/issues/${issue.id}|}"></a>
@@ -44,6 +44,33 @@
                         </tr>
                     </tbody>
                 </table>
+                <div th:object="${issueSearchVM}">
+                    <ul>
+                        <!-- 最初 -->
+                        <li style="display:inline;">
+                            <span th:if="*{results.first}">&lt;&lt;</span>
+                            <a
+                                th:if="*{!results.first}"
+                                th:href="@{|/projects/*{project.id}/issues/paging/*{results.number - 1}/*{results.size}|}">&lt;&lt;</a>
+                        </li>
+                        <!-- 次 -->
+                        <li th:each="i : *{#numbers.sequence(0, results.totalPages - 1)}" style="display:inline; margin-left:10px;">
+                            <span th:if="${i} == *{results.number}" th:text="${i + 1}"></span>
+                            <a
+                            th:if="${i} != *{results.number}"
+                                th:href="@{|/projects/*{project.id}/issues/paging/${i}/*{results.size}|}">
+                                <span th:text="${i+1}"></span>
+                            </a>
+                        </li>
+                        <!-- 最後 -->
+                        <li style="display:inline; margin-left:10px;">
+                            <span th:if="*{results.last}">&gt;&gt;</span>
+                            <a
+                                th:if="*{!results.last}"
+                                th:href="@{|/projects/*{project.id}/issues/paging/*{results.number + 1}/*{results.size}|}">&gt;&gt;</a>
+                        </li>
+                    </ul>
+                  </div>
             </div>
         </div>
     </div>
