@@ -12,9 +12,10 @@ import jp.wako.demo.springbootmvc.usecase.issues.search.IIssueSearchQuery;
 import jp.wako.demo.springbootmvc.usecase.issues.search.IssueSearchRequest;
 import lombok.RequiredArgsConstructor;
 
+
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/projects/{projectId}")
+@RequestMapping("/projects/{projectId}/issues")
 public class IssueSearchController {
 
     private final IIssueSearchQuery issueSearchQuery;
@@ -24,10 +25,10 @@ public class IssueSearchController {
         return new IssueSearchVM();
     }
 
-    @GetMapping("/issues")
+    @GetMapping({"", "/"})
     public String index(
-        @PathVariable final String projectId,
-        @ModelAttribute("issueSearchVM") final IssueSearchVM vm) {
+        final @PathVariable String projectId,
+        final @ModelAttribute("issueSearchVM") IssueSearchVM vm) {
 
             if (LongHelper.unconvertible(projectId)) {
                 throw new ResourceNotFoundException();
@@ -39,5 +40,22 @@ public class IssueSearchController {
             vm.loadFrom(issueSearchResponse);
             return "/issues/search";
     }
+
+    @GetMapping("/search")
+    public String search(
+        final @PathVariable String projectId,
+        final @ModelAttribute("issueSearchVM") IssueSearchVM vm) {
+
+            if (LongHelper.unconvertible(projectId)) {
+                throw new ResourceNotFoundException();
+            }
+
+            var issueSearchRequest = new IssueSearchRequest(Long.parseLong(projectId), vm.getParameter().getTitle());
+            var issueSearchResponse = this.issueSearchQuery.execute(issueSearchRequest);
+
+            vm.loadFrom(issueSearchResponse);
+            return "/issues/search";
+    }
+    
 
 }

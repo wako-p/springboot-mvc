@@ -11,18 +11,20 @@ import lombok.Data;
 public final class IssueSearchVM {
 
     private Project project;
-    private List<Issue> issues;
+    private IssueSearchParameter parameter;
+    private List<IssueSearchResult> results;
 
     public IssueSearchVM() {
         this.project = new Project("", "");
-        this.issues = new ArrayList<>();
+        this.parameter = new IssueSearchParameter("");
+        this.results = new ArrayList<>();
     }
 
     public void loadFrom(final IssueSearchResponse issueSearchResponse) {
             this.project = Project.create(issueSearchResponse.getProject());
-            this.issues = issueSearchResponse.getIssues()
+            this.results = issueSearchResponse.getIssues()
                 .stream()
-                .map(Issue::create)
+                .map(IssueSearchResult::create)
                 .collect(Collectors.toList());
     }
 
