@@ -21,10 +21,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-end">
-                        <a class="btn btn-primary" th:href="@{|/projects/*{project.id}/issues/create|}">New Issue</a>
-                    </div>
                 </form>
+
+                <div class="d-flex justify-content-end mb-2" th:object="${issueSearchVM}">
+                    <a class="btn btn-primary" th:href="@{|/projects/*{project.id}/issues/create|}">New Issue</a>
+                </div>
 
                 <table class="table" th:object="${issueSearchVM}">
                     <thead>
@@ -44,33 +45,30 @@
                         </tr>
                     </tbody>
                 </table>
-                <div th:object="${issueSearchVM}">
-                    <ul>
-                        <!-- 最初 -->
-                        <li style="display:inline;">
-                            <span th:if="*{results.first}">&lt;&lt;</span>
+
+                <nav aria-label="Page navigation example" th:object="${issueSearchVM}">
+                    <ul class="pagination mb-0">
+
+                        <!-- <li class="page-item">
+                            <span th:if="*{results.first}" class="page-link disabled">&lt;&lt;</span>
                             <a
                                 th:if="*{!results.first}"
-                                th:href="@{|/projects/*{project.id}/issues/paging/*{results.number - 1}/*{results.size}|}">&lt;&lt;</a>
-                        </li>
-                        <!-- 次 -->
-                        <li th:each="i : *{#numbers.sequence(0, results.totalPages - 1)}" style="display:inline; margin-left:10px;">
-                            <span th:if="${i} == *{results.number}" th:text="${i + 1}"></span>
+                                class="page-link"
+                                th:href="@{|/projects/*{project.id}/issues/paging/${index - 1}/*{results.size}|}">
+                                &laquo;</a>
+                        </li> -->
+
+                        <li class="page-item" th:each="index : *{#numbers.sequence(0, results.totalPages - 1)}">
+                            <span th:if="${index} == *{results.number}" class="page-link active" th:text="${index + 1}"></span>
                             <a
-                            th:if="${i} != *{results.number}"
-                                th:href="@{|/projects/*{project.id}/issues/paging/${i}/*{results.size}|}">
-                                <span th:text="${i+1}"></span>
+                                th:if="${index} != *{results.number}"
+                                th:href="@{|/projects/*{project.id}/issues/paging/${index}/*{results.size}|}">
+                                <span class="page-link" th:text="${index + 1}"></span>
                             </a>
                         </li>
-                        <!-- 最後 -->
-                        <li style="display:inline; margin-left:10px;">
-                            <span th:if="*{results.last}">&gt;&gt;</span>
-                            <a
-                                th:if="*{!results.last}"
-                                th:href="@{|/projects/*{project.id}/issues/paging/*{results.number + 1}/*{results.size}|}">&gt;&gt;</a>
-                        </li>
                     </ul>
-                  </div>
+                </nav>
+
             </div>
         </div>
     </div>
