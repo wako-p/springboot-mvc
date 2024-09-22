@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
 import jp.wako.demo.springbootmvc.presentation.controller.issues.viewmodel.IssueSearchVM;
 import jp.wako.demo.springbootmvc.presentation.shared.exception.ResourceNotFoundException;
 import jp.wako.demo.springbootmvc.presentation.shared.helper.LongHelper;
@@ -13,9 +15,11 @@ import jp.wako.demo.springbootmvc.usecase.issues.search.IssueSearchRequest;
 import lombok.RequiredArgsConstructor;
 
 
+
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/projects/{projectId}/issues")
+@SessionAttributes("issueSearchVM")
 public class IssueSearchController {
 
     private final IIssueSearchQuery issueSearchQuery;
@@ -34,10 +38,10 @@ public class IssueSearchController {
                 throw new ResourceNotFoundException();
             }
 
-            var issueSearchRequest = new IssueSearchRequest(Long.parseLong(projectId));
-            var issueSearchResponse = this.issueSearchQuery.execute(issueSearchRequest);
+            var request = new IssueSearchRequest(Long.parseLong(projectId));
+            var response = this.issueSearchQuery.execute(request);
 
-            vm.loadFrom(issueSearchResponse);
+            vm.loadFrom(response);
             return "/issues/search";
     }
 
@@ -50,12 +54,24 @@ public class IssueSearchController {
                 throw new ResourceNotFoundException();
             }
 
-            var issueSearchRequest = new IssueSearchRequest(Long.parseLong(projectId), vm.getParameter().getTitle());
-            var issueSearchResponse = this.issueSearchQuery.execute(issueSearchRequest);
+            var request = new IssueSearchRequest(Long.parseLong(projectId), vm.getParameter().getTitle());
+            var response = this.issueSearchQuery.execute(request);
 
-            vm.loadFrom(issueSearchResponse);
+            vm.loadFrom(response);
             return "/issues/search";
     }
-    
+
+    @GetMapping("/back")
+    public String back(
+        final @PathVariable String projectId,
+        final @ModelAttribute("issueSearchVM") IssueSearchVM vm) {
+
+            if (LongHelper.unconvertible(projectId)) {
+                throw new ResourceNotFoundException();
+            }
+
+            // sessionStatus.setComplete();
+            return "redirect:/projects/" + projectId + "/issues/search";
+    }
 
 }
