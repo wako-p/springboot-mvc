@@ -59,11 +59,15 @@
                         </li> -->
 
                         <li class="page-item" th:each="index : *{#numbers.sequence(0, results.totalPages - 1)}">
-                            <span th:if="${index} == *{results.number}" class="page-link active" th:text="${index + 1}"></span>
+                            <span
+                                class="page-link active"
+                                th:if="${index} == *{results.number}"
+                                th:text="${index + 1}"></span>
                             <a
+                                class="page-link" 
                                 th:if="${index} != *{results.number}"
-                                th:href="@{|/projects/*{project.id}/issues/paging/${index}/*{results.size}|}">
-                                <span class="page-link" th:text="${index + 1}"></span>
+                                th:href="@{|/projects/*{project.id}/issues/paging/${index}/*{results.size}|}"
+                                th:text="${index + 1}">
                             </a>
                         </li>
                     </ul>
