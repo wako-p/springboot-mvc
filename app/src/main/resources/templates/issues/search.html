@@ -46,17 +46,22 @@
                     </tbody>
                 </table>
 
-                <nav aria-label="Page navigation example" th:object="${issueSearchVM}">
-                    <ul class="pagination mb-0">
+                <nav th:object="${issueSearchVM}">
+                    <ul class="pagination pagination-sm mb-0">
 
-                        <!-- <li class="page-item">
-                            <span th:if="*{results.first}" class="page-link disabled">&lt;&lt;</span>
+                        <li class="page-item">
+                            <span
+                                class="page-link disabled"
+                                th:if="*{results.first}">
+                                &laquo;
+                            </span>
                             <a
-                                th:if="*{!results.first}"
                                 class="page-link"
-                                th:href="@{|/projects/*{project.id}/issues/paging/${index - 1}/*{results.size}|}">
-                                &laquo;</a>
-                        </li> -->
+                                th:if="*{!results.first}"
+                                th:href="@{|/projects/*{project.id}/issues/paging/*{results.number - 1}/*{results.size}|}">
+                                &laquo;
+                            </a>
+                        </li>
 
                         <li class="page-item" th:each="index : *{#numbers.sequence(0, results.totalPages - 1)}">
                             <span
@@ -67,9 +72,23 @@
                                 class="page-link" 
                                 th:if="${index} != *{results.number}"
                                 th:href="@{|/projects/*{project.id}/issues/paging/${index}/*{results.size}|}"
-                                th:text="${index + 1}">
+                                th:text="${index + 1}"></a>
+                        </li>
+
+                        <li class="page-item">
+                            <span
+                                class="page-link disabled"
+                                th:if="*{results.last}">
+                                &raquo;
+                            </span>
+                            <a
+                                class="page-link"
+                                th:if="*{!results.last}"
+                                th:href="@{|/projects/*{project.id}/issues/paging/*{results.number + 1}/*{results.size}|}">
+                                &raquo;
                             </a>
                         </li>
+
                     </ul>
                 </nav>
 
