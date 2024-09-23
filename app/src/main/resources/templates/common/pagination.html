@@ -1,0 +1,50 @@
+<nav xmlns:th="http://www.thymeleaf.org" th:fragment="pagination(pages, path)">
+    <ul class="pagination pagination-sm mb-0">
+
+        <li class="page-item">
+            <span
+                class="page-link disabled"
+                th:if="*{pages.first}">
+                &laquo;
+            </span>
+            <a
+                class="page-link"
+                th:if="*{!pages.first}"
+                th:href="@{|${path}/paging/*{pages.number - 1}/*{pages.size}|}">
+                &laquo;
+            </a>
+        </li>
+
+        <li
+            class="page-item"
+            th:each="index : *{#numbers.sequence(0, pages.totalPages - 1)}"
+            th:with="start = *{pages.last} ? *{pages.number} - 2 : *{pages.number} - 1, end = *{pages.first} ? *{pages.number} + 2 : *{pages.number} + 1">
+            <th:block th:if="${start} le ${index} and ${index} le ${end}">
+                <span
+                    class="page-link active"
+                    th:if="${index} == *{pages.number}"
+                    th:text="${index + 1}"></span>
+                <a
+                    class="page-link"
+                    th:if="${index} != *{pages.number}"
+                    th:href="@{|${path}/paging/${index}/*{pages.size}|}"
+                    th:text="${index + 1}"></a>
+            </th:block>
+        </li>
+
+        <li class="page-item">
+            <span
+                class="page-link disabled"
+                th:if="*{pages.last}">
+                &raquo;
+            </span>
+            <a
+                class="page-link"
+                th:if="*{!pages.last}"
+                th:href="@{|${path}/paging/*{pages.number + 1}/*{pages.size}|}">
+                &raquo;
+            </a>
+        </li>
+
+    </ul>
+</nav>

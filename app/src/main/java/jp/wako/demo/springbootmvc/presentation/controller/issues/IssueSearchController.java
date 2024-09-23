@@ -69,22 +69,20 @@ public class IssueSearchController {
             return "/issues/search";
     }
 
-    @GetMapping("paging/{page}/{size}")
+    @GetMapping("/paging/{page}/{size}")
     public String paging(
         final @PathVariable String projectId,
         final @PathVariable String page,
         final @PathVariable String size,
-        final @RequestParam MultiValueMap<String, String> param,
+        final @RequestParam MultiValueMap<String, String> requestParam,
         final RedirectAttributes redirectAttributes) {
 
-            param.set("page", page);
-            param.set("size", size);
+            requestParam.set("page", page);
+            requestParam.set("size", size);
 
-            redirectAttributes.addAllAttributes(param);
-
+            redirectAttributes.addAllAttributes(requestParam);
             return "redirect:/projects/" + projectId + "/issues/search";
     }
-    
 
     @GetMapping("/back")
     public String back(

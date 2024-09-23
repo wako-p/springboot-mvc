@@ -15,12 +15,12 @@ public final class IssueSearchVM {
 
     private Project project;
     private IssueSearchParameter parameter;
-    private Page<IssueSearchResult> results;
+    private Page<IssueSearchResult> pages;
 
     public IssueSearchVM() {
         this.project = new Project("", "");
         this.parameter = new IssueSearchParameter("");
-        this.results = new PageImpl<>(new ArrayList<>());
+        this.pages = new PageImpl<>(new ArrayList<>());
     }
 
     public void loadFrom(
@@ -37,7 +37,7 @@ public final class IssueSearchVM {
                 .map(IssueSearchResult::create)
                 .collect(Collectors.toList());
 
-            this.results =  new PageImpl<>(content, pageable, total);
+            this.pages =  new PageImpl<>(content, pageable, total);
     }
 
 }
