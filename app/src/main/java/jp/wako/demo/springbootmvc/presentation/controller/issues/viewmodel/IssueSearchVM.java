@@ -7,18 +7,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import jp.wako.demo.springbootmvc.presentation.shared.viewmodel.SearchableVM;
 import jp.wako.demo.springbootmvc.usecase.issues.search.IssueSearchResponse;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public final class IssueSearchVM {
+@EqualsAndHashCode(callSuper=false)
+public final class IssueSearchVM extends SearchableVM {
 
     private Project project;
     private IssueSearchParameter parameter;
     private Page<IssueSearchResult> pages;
-
-    private int page;
-    private int size;
 
     public IssueSearchVM() {
         this.project = new Project("", "");
