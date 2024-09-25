@@ -3,6 +3,7 @@ package jp.wako.demo.springbootmvc.presentation.controller.issues;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -74,26 +75,32 @@ public class IssueSearchController {
         final @PathVariable String projectId,
         final @PathVariable String page,
         final @PathVariable String size,
-        final @RequestParam MultiValueMap<String, String> requestParam,
+        final @RequestParam MultiValueMap<String, String> requestParameter,
         final RedirectAttributes redirectAttributes) {
 
-            requestParam.set("page", page);
-            requestParam.set("size", size);
+            requestParameter.set("page", page);
+            requestParameter.set("size", size);
 
-            redirectAttributes.addAllAttributes(requestParam);
+            redirectAttributes.addAllAttributes(requestParameter);
             return "redirect:/projects/" + projectId + "/issues/search";
     }
 
     @GetMapping("/back")
     public String back(
         final @PathVariable String projectId,
-        final @ModelAttribute("issueSearchVM") IssueSearchVM vm) {
+        final @ModelAttribute("issueSearchVM") IssueSearchVM vm,
+        final RedirectAttributes redirectAttributes) {
 
             if (LongHelper.unconvertible(projectId)) {
                 throw new ResourceNotFoundException();
             }
 
-            // sessionStatus.setComplete();
+            var requestParameter = new LinkedMultiValueMap<String, Object>() {{
+                set("page", vm.getPage());
+                set("size", vm.getSize());
+            }};
+
+            redirectAttributes.addAllAttributes(requestParameter);
             return "redirect:/projects/" + projectId + "/issues/search";
     }
 

@@ -17,10 +17,15 @@ public final class IssueSearchVM {
     private IssueSearchParameter parameter;
     private Page<IssueSearchResult> pages;
 
+    private int page;
+    private int size;
+
     public IssueSearchVM() {
         this.project = new Project("", "");
         this.parameter = new IssueSearchParameter("");
         this.pages = new PageImpl<>(new ArrayList<>());
+        this.page = 0;
+        this.size = 0;
     }
 
     public void loadFrom(
@@ -29,15 +34,18 @@ public final class IssueSearchVM {
 
             this.project = Project.create(issueSearchResponse.getProject());
 
+            this.page = pageable.getPageNumber();
+            this.size = pageable.getPageSize();
+
             var total = issueSearchResponse.getIssues().size();
             var content = issueSearchResponse.getIssues()
                 .stream()
-                .skip(pageable.getOffset())
-                .limit(pageable.getPageSize())
+                .skip(this.size * this.page)
+                .limit(this.size)
                 .map(IssueSearchResult::create)
                 .collect(Collectors.toList());
 
-            this.pages =  new PageImpl<>(content, pageable, total);
+            this.pages = new PageImpl<>(content, pageable, total);
     }
 
 }
