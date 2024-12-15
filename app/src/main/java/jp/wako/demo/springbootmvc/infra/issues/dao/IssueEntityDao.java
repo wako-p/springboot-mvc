@@ -23,21 +23,29 @@ public interface IssueEntityDao {
     @Select
     @Sql("""
             select
-                *
+                projects.id as project_id
+                , projects.name as project_name
+                , issues.id as issue_id
+                , issues.title as issue_title
+                , issues.description as issue_description
+                --, common columns 
             from
-                issues
+                projects
+                left join issues
+                    on project.id = issues.project_id
             where
-                project_id = /* parameter.projectId */1000
+                projects.id = /* parameter.projectId */1000
             /*%if parameter.title != null && !parameter.title.isEmpty() */
-                and title like /* @infix(parameter.title) */'title'
+                and issues.title like /* @infix(parameter.title) */'title'
             /*%end*/
             order by
             /*%if parameter.sort != null */
                 /*# " " + parameter.sort.toString() */
             /*%else */
-                /*# "id asc" */
+                /*# "isuues.id asc" */
             /*%end */
         """)
+    // TODO: 戻り値の型を変更する必要ありList<Map<String, Object>>
     List<IssueEntity> selectBy(final IssueSearchParameter parameter);
 
     @Select
